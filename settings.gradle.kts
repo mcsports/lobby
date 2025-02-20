@@ -12,4 +12,3 @@ plugins {
 }
 
 rootProject.name = "lobby"
-include("app")

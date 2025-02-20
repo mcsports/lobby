@@ -3,9 +3,14 @@
 
 [versions]
 guava = "33.3.1-jre"
+kotlin = "2.0.21"
+shadow = "8.3.3"
 
 [libraries]
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
+kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 
 [plugins]
-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version = "2.0.21" }
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }
