@@ -19,11 +19,18 @@ java {
 
 repositories {
     mavenCentral()
+    maven("https://repo.mcsports.club/releases")
+    maven("https://repo.papermc.io/repository/maven-public/")
 }
 
 dependencies {
     implementation(libs.kotlin.stdlib)
     testImplementation(libs.kotlin.test)
+
+    implementation("club.mcsports.generated:bindings:1.0-203d25e")
+    compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
+
+    implementation("org.jooq:jooq:3.20.1")
 }
 
 tasks {
