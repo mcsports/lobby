@@ -1,0 +1,5 @@
+name: mcsports-lobby
+version: '1.0'
+authors: [ 'mcsports', 'Jannik' ]
+api-version: '1.20'
+main: club.mcsports.lobby.Lobby
