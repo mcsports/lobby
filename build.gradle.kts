@@ -21,6 +21,7 @@ repositories {
     mavenCentral()
     maven("https://repo.mcsports.club/releases")
     maven("https://repo.papermc.io/repository/maven-public/")
+    maven("https://maven.noxcrew.com/public")
 }
 
 dependencies {
@@ -29,6 +30,7 @@ dependencies {
 
     implementation("club.mcsports.generated:bindings:1.0-203d25e")
     compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
+    implementation("com.noxcrew.interfaces:interfaces:1.4.0-SNAPSHOT")
 
     implementation("org.jooq:jooq:3.20.1")
 }
