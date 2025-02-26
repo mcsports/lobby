@@ -5,6 +5,8 @@
 guava = "33.3.1-jre"
 kotlin = "2.0.21"
 shadow = "8.3.3"
+paper-api = "1.21.4-R0.1-SNAPSHOT"
+paperweight = "2.0.0-beta.12"
 
 [libraries]
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
@@ -12,5 +14,6 @@ kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 
 [plugins]
+paperweight-userdev = { id = "io.papermc.paperweight.userdev", version.ref = "paperweight" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 shadow = { id = "com.gradleup.shadow", version.ref = "shadow" }

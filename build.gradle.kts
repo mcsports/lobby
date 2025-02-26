@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.shadow)
+    alias(libs.plugins.paperweight.userdev)
 }
 
 kotlin {
@@ -30,8 +31,8 @@ dependencies {
 
     implementation("club.mcsports.generated:bindings:1.0-203d25e")
     compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
-    implementation("com.noxcrew.interfaces:interfaces:1.4.0-SNAPSHOT")
-
+    implementation("com.noxcrew.interfaces:interfaces:1.3.2")
+    paperweight.paperDevBundle("1.21.4-R0.1-SNAPSHOT")
     implementation("org.jooq:jooq:3.20.1")
 }
 
@@ -40,5 +41,8 @@ tasks {
         mergeServiceFiles()
 
         archiveFileName = "${project.name}.jar"
+    }
+    assemble {
+        dependsOn(reobfJar)
     }
 }
