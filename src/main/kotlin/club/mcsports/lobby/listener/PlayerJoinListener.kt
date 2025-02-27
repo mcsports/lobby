@@ -1,7 +1,7 @@
 package club.mcsports.lobby.listener
 
 import club.mcsports.lobby.Lobby
-import club.mcsports.lobby.util.ItemComponents
+import club.mcsports.lobby.item.ItemComponents
 import com.noxcrew.interfaces.drawable.Drawable.Companion.drawable
 import com.noxcrew.interfaces.element.StaticElement
 import com.noxcrew.interfaces.interfaces.buildPlayerInterface
