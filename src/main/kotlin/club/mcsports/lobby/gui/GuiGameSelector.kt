@@ -47,6 +47,27 @@ class GuiGameSelector {
                 gameModeIndex++
             }
 
+            val lobby = StaticElement(
+                drawable(
+                    ItemComponents.LOBBY_SERVER.build().also { itemStack ->
+                        itemStack.editMeta { meta ->
+                            meta.displayName(meta.displayName()?.replaceText { config ->
+                                config.matchLiteral("<service_number>").replacement("1")
+                            })
+                        }
+                    })
+            ) {
+                CoroutineScope(Dispatchers.IO).launch {
+                    view.close(InventoryCloseEvent.Reason.PLAYER)
+                }
+            }
+
+            forEachInGridScissored(7, 7, 2, 6) { row, column ->
+                pane[row, column] = lobby
+                gameModeIndex++
+            }
+
+
         }
     }
 
