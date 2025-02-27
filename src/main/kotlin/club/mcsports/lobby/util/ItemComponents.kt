@@ -1,22 +1,22 @@
 package club.mcsports.lobby.util
 
 import club.mcsports.generated.PackBindings
+import club.mcsports.lobby.extension.miniMessage
 import io.github.solid.binder.api.PackModel
 import net.kyori.adventure.text.Component
-import net.kyori.adventure.text.minimessage.MiniMessage.miniMessage
 import org.bukkit.Bukkit
 import org.bukkit.Material
+import org.bukkit.NamespacedKey
 import org.bukkit.inventory.ItemStack
 
 enum class ItemComponents(val component: Component, val lore: List<Component> = emptyList(), val model: PackModel? = null, val material: Material = Material.PAPER) {
 
-    GAME_SELECTOR(miniMessage().deserialize("Game Selector"), material = Material.COMPASS),
-    GYM_BAG(miniMessage().deserialize("Gym Bag"), material = Material.CAULDRON),
-    PROFILE(miniMessage().deserialize("Profile"), material = Material.PLAYER_HEAD),
-    PARTY_INVITE(miniMessage().deserialize("Invite Player"), model = PackBindings.RESET_ITEM.model),
-    PARTY_MEMBER(miniMessage().deserialize("<player_name>"), material = Material.PLAYER_HEAD),
-    ARROW_LEFT(miniMessage().deserialize("Previous"), material = Material.ARROW),
-    ARROW_RIGHT(miniMessage().deserialize("Next"), material = Material.ARROW);
+    GAME_SELECTOR(miniMessage("Game Selector"), material = Material.COMPASS),
+    GYM_BAG(miniMessage("Gym Bag"), material = Material.CAULDRON),
+    PROFILE(miniMessage("Profile"), material = Material.PLAYER_HEAD),
+    PARTY_INVITE(miniMessage("Invite Player"), model = PackBindings.RESET_ITEM.model),
+    PARTY_MEMBER(miniMessage("<player_name>"), material = Material.PLAYER_HEAD),
+    ARROW_LEFT(miniMessage("Previous"), material = Material.ARROW);
 
     fun build(): ItemStack {
         val itemStack = ItemStack(this.material)
@@ -26,7 +26,7 @@ enum class ItemComponents(val component: Component, val lore: List<Component> = 
             meta.lore(this.lore)
 
             model?.let {
-                //meta.itemModel = NamespacedKey.fromString(it.key.toString())
+                meta.itemModel = NamespacedKey.fromString(it.key.toString())
                 Bukkit.getServer().broadcastMessage("Setting model for ${this.name} to ${it.key}")
 
                 it.predicates?.let { predicates ->
