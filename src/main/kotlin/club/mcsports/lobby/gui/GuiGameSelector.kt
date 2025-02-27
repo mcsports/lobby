@@ -1,5 +1,6 @@
 package club.mcsports.lobby.gui
 
+import club.mcsports.lobby.extension.forEachInGridScissored
 import club.mcsports.lobby.extension.miniMessage
 import club.mcsports.lobby.item.GameModeItemComponents
 import club.mcsports.lobby.item.ItemComponents
@@ -32,14 +33,14 @@ class GuiGameSelector {
             }
 
             var gameModeIndex = 0
-            club.mcsports.lobby.extension.forEachInGrid(3, 4, 2, 6) { row, column ->
+            forEachInGridScissored(3, 4, 2, 6) { row, column ->
                 if (gameModeDrawables.size < gameModeIndex) {
-                    return@forEachInGrid
+                    return@forEachInGridScissored
                 }
 
                 if (gameModeDrawables.size == gameModeIndex) {
                     pane[row, column] = closeButtonDrawable
-                    return@forEachInGrid
+                    return@forEachInGridScissored
                 }
 
                 pane[row, column] = gameModeDrawables[gameModeIndex]

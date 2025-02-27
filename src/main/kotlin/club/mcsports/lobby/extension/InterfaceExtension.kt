@@ -1,6 +1,6 @@
 package club.mcsports.lobby.extension
 
-fun forEachInGrid(
+fun forEachInGridScissored(
     startRow: Int,
     endRow: Int,
     startColumn: Int,
