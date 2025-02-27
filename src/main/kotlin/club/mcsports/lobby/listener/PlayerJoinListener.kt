@@ -2,12 +2,9 @@ package club.mcsports.lobby.listener
 
 import club.mcsports.lobby.Lobby
 import club.mcsports.lobby.util.ItemComponents
-import com.noxcrew.interfaces.InterfacesConstants
-import com.noxcrew.interfaces.InterfacesListeners
 import com.noxcrew.interfaces.drawable.Drawable.Companion.drawable
 import com.noxcrew.interfaces.element.StaticElement
 import com.noxcrew.interfaces.interfaces.buildPlayerInterface
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import org.bukkit.Bukkit
 import org.bukkit.Material
@@ -15,7 +12,6 @@ import org.bukkit.NamespacedKey
 import org.bukkit.entity.Player
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
-import org.bukkit.event.inventory.InventoryCloseEvent.Reason
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.SkullMeta
@@ -28,6 +24,8 @@ class PlayerJoinListener(private val plugin: Lobby) : Listener {
     @EventHandler
     fun handlePlayerJoin(event: PlayerJoinEvent) {
         val player = event.player
+        event.joinMessage(null)
+
         player.addPotionEffect(PotionEffect(PotionEffectType.HUNGER, -1, 0, true, false, true))
         Bukkit.getScheduler().runTaskAsynchronously(
             plugin,
@@ -45,6 +43,8 @@ class PlayerJoinListener(private val plugin: Lobby) : Listener {
         prioritiseBlockInteractions = true
         onlyCancelItemInteraction = true
         fillMenuWithAir = true
+
+        addPreprocessor { cancelled = true }
 
         withTransform { pane, _ ->
 
