@@ -20,6 +20,7 @@ enum class ItemComponents(val component: Component, val lore: List<Component> = 
     PARTY_INVITE(miniMessage("<white>Invite Player"), model = PackBindings.RESET_ITEM.model),
     PARTY_MEMBER(miniMessage("<white><player_name>"), material = Material.PLAYER_HEAD),
     CLOSE_MENU(miniMessage("<red>Close Menu"), material = Material.BARRIER),
+    LOBBY_SERVER(miniMessage("<color:#58cbed>Lobby <service_number>"), material = Material.FLOW_BANNER_PATTERN),
     ARROW_LEFT(miniMessage("<white>Previous"), material = Material.ARROW);
 
     fun build(): ItemStack {
