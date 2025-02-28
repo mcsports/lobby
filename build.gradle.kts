@@ -32,26 +32,31 @@ dependencies {
     testImplementation(libs.kotlin.test)
 
     implementation("club.mcsports.generated:bindings:1.0-4567519")
-    compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
     implementation("com.noxcrew.interfaces:interfaces:1.3.2")
     paperweight.paperDevBundle("1.21.4-R0.1-SNAPSHOT")
     implementation("org.jooq:jooq:3.20.1")
 
-    implementation("app.simplecloud.controller:controller-api:0.0.30-SNAPSHOT.cd66da3")
-    implementation("app.simplecloud.droplet.player:player-api:0.0.1-SNAPSHOT.0b3fea0")
+    implementation("app.simplecloud.controller:controller-api:0.0.30-dev.af836fb")
+    compileOnly("app.simplecloud.droplet.player:player-api:0.0.1-dev.d1b6e59")
 }
 
 tasks {
     shadowJar {
         mergeServiceFiles()
 
-        relocate("com", "app.simplecloud.external.com")
-        relocate("google", "app.simplecloud.external.google")
-        relocate("io", "app.simplecloud.external.io")
-        relocate("org", "app.simplecloud.external.org")
-        relocate("javax", "app.simplecloud.external.javax")
-        relocate("android", "app.simplecloud.external.android")
-        relocate("build.buf.gen.simplecloud", "app.simplecloud.buf")
+        relocate("com", "club.mcsports.external.com") {
+            exclude("com.destroystokyo/**")
+        }
+        relocate("google", "club.mcsports.external.google")
+
+        relocate("io", "club.mcsports.external.io") {
+            exclude("io.papermc/**")
+        }
+        relocate("org", "club.mcsports.external.org") {
+            exclude("org.bukkit/**")
+        }
+        relocate("android", "club.mcsports.external.android")
+        relocate("build.buf.gen.simplecloud", "club.mcsports.buf")
 
         archiveFileName = "${project.name}.jar"
     }
