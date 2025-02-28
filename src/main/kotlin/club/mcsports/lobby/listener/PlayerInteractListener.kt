@@ -10,9 +10,7 @@ import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.persistence.PersistentDataType
 
-class PlayerInteractListener : Listener {
-
-    private val gameSelector = GuiGameSelector()
+class PlayerInteractListener(private val gameSelector: GuiGameSelector) : Listener {
 
     @EventHandler
     fun handlePlayerInteract(event: PlayerInteractEvent) {
