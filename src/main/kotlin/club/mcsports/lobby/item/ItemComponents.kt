@@ -2,7 +2,7 @@ package club.mcsports.lobby.item
 
 import club.mcsports.generated.PackBindings
 import club.mcsports.lobby.extension.miniMessage
-import io.github.solid.binder.api.PackModel
+import io.github.solid.resourcepack.api.link.ModelLink
 import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
 import org.bukkit.Material
@@ -12,12 +12,17 @@ import org.bukkit.inventory.ItemStack
 /**
  * General item components used in the lobby
  */
-enum class ItemComponents(val component: Component, val lore: List<Component> = emptyList(), val model: PackModel? = null, val material: Material = Material.PAPER) {
+enum class ItemComponents(
+    val component: Component,
+    val lore: List<Component> = emptyList(),
+    val model: ModelLink? = null,
+    val material: Material = Material.PAPER
+) {
 
     GAME_SELECTOR(miniMessage("<white>Game Selector"), material = Material.COMPASS),
     GYM_BAG(miniMessage("<white>Gym Bag"), material = Material.CAULDRON),
     PROFILE(miniMessage("<white>Profile"), material = Material.PLAYER_HEAD),
-    PARTY_INVITE(miniMessage("<white>Invite Player"), model = PackBindings.RESET_ITEM.model),
+    PARTY_INVITE(miniMessage("<white>Invite Player"), model = PackBindings.INVITE_TO_PARTY_ITEM.model),
     PARTY_MEMBER(miniMessage("<white><player_name>"), material = Material.PLAYER_HEAD),
     CLOSE_MENU(miniMessage("<red>Close Menu"), material = Material.BARRIER),
     LOBBY_SERVER(miniMessage("<color:#58cbed>Lobby <service_number>"), material = Material.FLOW_BANNER_PATTERN),
@@ -31,11 +36,14 @@ enum class ItemComponents(val component: Component, val lore: List<Component> = 
             meta.lore(this.lore)
 
             model?.let {
-                meta.itemModel = NamespacedKey.fromString(it.key.toString())
-                Bukkit.getServer().broadcastMessage("Setting model for ${this.name} to ${it.key}")
+                it.itemModel?.let { itemModel ->
+                    meta.itemModel = NamespacedKey.fromString(itemModel.toString())
+                }
 
                 it.predicates?.let { predicates ->
-                    predicates.firstOrNull { itemPredicate -> itemPredicate.name() == "custom_model_data" }?.value().toString().toIntOrNull()?.let { customModelData ->  meta.setCustomModelData(customModelData) }
+                    predicates.filter { predicate -> predicate.key == "custom_model_data" }.toList()
+                        .firstOrNull()?.second.toString().toIntOrNull()
+                        ?.let { customModelData -> meta.setCustomModelData(customModelData) }
                 }
             }
         }

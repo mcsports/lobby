@@ -1,10 +1,8 @@
 package club.mcsports.lobby.item
 
-import club.mcsports.generated.PackBindings
 import club.mcsports.lobby.extension.miniMessage
-import io.github.solid.binder.api.PackModel
+import io.github.solid.resourcepack.api.link.ModelLink
 import net.kyori.adventure.text.Component
-import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.inventory.ItemStack
@@ -12,7 +10,12 @@ import org.bukkit.inventory.ItemStack
 /**
  * General item components used in the lobby
  */
-enum class GameModeItemComponents(val component: Component, val lore: List<Component> = emptyList(), val model: PackModel? = null, val material: Material = Material.PAPER) {
+enum class GameModeItemComponents(
+    val component: Component,
+    val lore: List<Component> = emptyList(),
+    val model: ModelLink? = null,
+    val material: Material = Material.PAPER
+) {
 
     POWER_GOLF(miniMessage("Power-Golf"), material = Material.FLOW_BANNER_PATTERN),
     GLIDE(miniMessage("Glide"), material = Material.FLOW_BANNER_PATTERN),
@@ -32,10 +35,14 @@ enum class GameModeItemComponents(val component: Component, val lore: List<Compo
             meta.lore(this.lore)
 
             model?.let {
-                meta.itemModel = NamespacedKey.fromString(it.key.toString())
+                it.itemModel?.let { itemModel ->
+                    meta.itemModel = NamespacedKey.fromString(itemModel.toString())
+                }
 
                 it.predicates?.let { predicates ->
-                    predicates.firstOrNull { itemPredicate -> itemPredicate.name() == "custom_model_data" }?.value().toString().toIntOrNull()?.let { customModelData ->  meta.setCustomModelData(customModelData) }
+                    predicates.filter { predicate -> predicate.key == "custom_model_data" }.toList()
+                        .firstOrNull()?.second.toString().toIntOrNull()
+                        ?.let { customModelData -> meta.setCustomModelData(customModelData) }
                 }
             }
         }

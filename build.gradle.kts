@@ -29,7 +29,7 @@ dependencies {
     implementation(libs.kotlin.stdlib)
     testImplementation(libs.kotlin.test)
 
-    implementation("club.mcsports.generated:bindings:1.0-203d25e")
+    implementation("club.mcsports.generated:bindings:1.0-36f6981")
     compileOnly("io.papermc.paper:paper-api:1.21.4-R0.1-SNAPSHOT")
     implementation("com.noxcrew.interfaces:interfaces:1.3.2")
     paperweight.paperDevBundle("1.21.4-R0.1-SNAPSHOT")
