@@ -37,8 +37,8 @@ dependencies {
     paperweight.paperDevBundle("1.21.4-R0.1-SNAPSHOT")
     implementation("org.jooq:jooq:3.20.1")
 
-    shadow("app.simplecloud.controller:controller-api:0.0.30-SNAPSHOT.cd66da3")
-    shadow("app.simplecloud.droplet.player:player-api:0.0.1-SNAPSHOT.0b3fea0")
+    implementation("app.simplecloud.controller:controller-api:0.0.30-SNAPSHOT.cd66da3")
+    implementation("app.simplecloud.droplet.player:player-api:0.0.1-SNAPSHOT.0b3fea0")
 }
 
 tasks {
