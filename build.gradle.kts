@@ -23,6 +23,8 @@ repositories {
     maven("https://repo.mcsports.club/releases")
     maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://maven.noxcrew.com/public")
+    maven("https://repo.simplecloud.app/snapshots")
+    maven("https://buf.build/gen/maven")
 }
 
 dependencies {
@@ -34,6 +36,9 @@ dependencies {
     implementation("com.noxcrew.interfaces:interfaces:1.3.2")
     paperweight.paperDevBundle("1.21.4-R0.1-SNAPSHOT")
     implementation("org.jooq:jooq:3.20.1")
+
+    compileOnly("app.simplecloud.controller:controller-api:0.0.30-SNAPSHOT.cd66da3")
+    compileOnly("app.simplecloud.droplet.player:player-api:0.0.1-SNAPSHOT.0b3fea0")
 }
 
 tasks {
