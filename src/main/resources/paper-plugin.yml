@@ -3,3 +3,10 @@ version: '1.0'
 authors: [ 'mcsports', 'Jannik' ]
 api-version: '1.21'
 main: club.mcsports.lobby.Lobby
+
+dependencies:
+  server:
+    SimpleCloud-Player:
+      load: BEFORE
+      required: true
+      join-classpath: true
