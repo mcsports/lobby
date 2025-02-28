@@ -16,12 +16,12 @@ enum class ItemComponents(
     val component: Component,
     val lore: List<Component> = emptyList(),
     val model: ModelLink? = null,
-    val material: Material = Material.PAPER,
+    val material: Material = Material.FLOW_BANNER_PATTERN,
 ) {
 
     GAME_SELECTOR(miniMessage("<white>Game Selector"), material = Material.COMPASS),
-    GYM_BAG(miniMessage("<white>Gym Bag"), material = Material.CAULDRON),
-    PROFILE(miniMessage("<white>Profile"), material = Material.PLAYER_HEAD),
+    GYM_BAG(miniMessage("<white>Gym Bag"), model = PackBindings.GYM_BAG_ITEM.model),
+    PROFILE(miniMessage("<white>Profile"), model = PackBindings.PROFILE_ITEM.model),
     PARTY_INVITE(miniMessage("<white>Invite Player"), model = PackBindings.INVITE_TO_PARTY_ITEM.model),
     PARTY_MEMBER(miniMessage("<white><player_name>"), material = Material.PLAYER_HEAD),
     CLOSE_MENU(miniMessage("<red>Close Menu"), material = Material.BARRIER),
@@ -31,7 +31,7 @@ enum class ItemComponents(
             Component.empty(),
             miniMessage("<dark_gray><strikethrough>${"-".repeat(15)}"),
             miniMessage("<white>Online: <color:#bee7fa><online_player_count>")
-        ), material = Material.FLOW_BANNER_PATTERN
+        ), model = PackBindings.LOBBY_ISLAND_ITEM.model
     ),
     LOBBY_SERVER_UNAVAILABLE(
         miniMessage("<color:#58cbed>${"Lobby <service_number>".toMiniFont()}"), lore = listOf(
@@ -39,9 +39,10 @@ enum class ItemComponents(
             Component.empty(),
             miniMessage("<dark_gray><strikethrough>${"-".repeat(15)}"),
             miniMessage("<white>Online: <color:#bee7fa><online_player_count>")
-        ), material = Material.FLOW_BANNER_PATTERN
+        ), model = PackBindings.CURRENT_LOBBY_ISLAND_ITEM.model
     ),
-    ARROW_LEFT(miniMessage("<white>Previous"), material = Material.ARROW);
+    ARROW_LEFT(miniMessage("<white>Previous"), model = PackBindings.CHEVRON_LEFT_ITEM.model),
+    ARROW_RIGHT(miniMessage("<white>Next"), model = PackBindings.CHEVRON_RIGHT_ITEM.model),;
 
     fun build(): ItemStack {
         val itemStack = ItemStack(this.material)
@@ -50,12 +51,12 @@ enum class ItemComponents(
             meta.displayName(this.component)
             meta.lore(this.lore)
 
-            model?.let {
-                it.itemModel?.let { itemModel ->
+            model?.let { model ->
+                model.itemModel?.let { itemModel ->
                     meta.itemModel = NamespacedKey.fromString(itemModel.toString())
                 }
 
-                it.predicates?.let { predicates ->
+                model.predicates?.let { predicates ->
                     predicates.filter { predicate -> predicate.key == "custom_model_data" }.toList()
                         .firstOrNull()?.second.toString().toIntOrNull()
                         ?.let { customModelData -> meta.setCustomModelData(customModelData) }
