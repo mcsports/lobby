@@ -51,6 +51,9 @@ class GuiGameSelector(
                 pane[row, column] = gameModeDrawables[index]
             }
 
+            /**
+             * Somewhere under this comment is the error in the code that causes the inventory to not open.
+             */
             val uuid = view.player.uniqueId
             val currentServer = controllerApi.getServers().getCurrentServer()
             val currentServerGroup = currentServer.group
@@ -74,7 +77,6 @@ class GuiGameSelector(
                         playerApi.connectPlayer(uuid, serverName)
                     }
                 }
-
             }
 
             forEachInGridScissoredIndexed(7, 7, 2, 6) { row, column, index ->
