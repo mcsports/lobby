@@ -26,23 +26,19 @@ enum class ItemComponents(
     PARTY_MEMBER(miniMessage("<white><player_name>"), material = Material.PLAYER_HEAD),
     CLOSE_MENU(miniMessage("<red>Close Menu"), material = Material.BARRIER),
     LOBBY_SERVER(
-        miniMessage("<color:#58cbed>Lobby <service_number>"), lore = listOf(
+        miniMessage("<color:#58cbed>${"Lobby".toMiniFont()} <service_number>"), lore = listOf(
             miniMessage("<gray><italic>${"Click to connect".toMiniFont()}"),
-            Component.empty(),
-            miniMessage("<dark_gray><strikethrough>${"-".repeat(15)}"),
             miniMessage("<white>Online: <color:#bee7fa><online_player_count>")
         ), model = PackBindings.LOBBY_ISLAND_ITEM.model
     ),
     LOBBY_SERVER_UNAVAILABLE(
-        miniMessage("<color:#58cbed>${"Lobby <service_number>".toMiniFont()}"), lore = listOf(
+        miniMessage("<color:#58cbed>${"Lobby".toMiniFont()} <service_number>"), lore = listOf(
             miniMessage("<red>${"Currently on this server".toMiniFont()}"),
-            Component.empty(),
-            miniMessage("<dark_gray><strikethrough>${"-".repeat(15)}"),
             miniMessage("<white>Online: <color:#bee7fa><online_player_count>")
         ), model = PackBindings.CURRENT_LOBBY_ISLAND_ITEM.model
     ),
     ARROW_LEFT(miniMessage("<white>Previous"), model = PackBindings.CHEVRON_LEFT_ITEM.model),
-    ARROW_RIGHT(miniMessage("<white>Next"), model = PackBindings.CHEVRON_RIGHT_ITEM.model),;
+    ARROW_RIGHT(miniMessage("<white>Next"), model = PackBindings.CHEVRON_RIGHT_ITEM.model), ;
 
     fun build(): ItemStack {
         val itemStack = ItemStack(this.material)
