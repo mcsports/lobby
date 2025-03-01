@@ -35,7 +35,19 @@ class GuiGameSelector(
             }
 
             val gameModeDrawables = GameModeItemComponents.entries.map {
-                StaticElement(drawable(it.build()))
+                StaticElement(drawable(
+
+                    it.build().also { itemStack ->
+                        itemStack.editMeta { meta ->
+                            meta.lore(meta.lore()?.map { lore ->
+                                lore.replaceText { config ->
+                                    config.matchLiteral("<online_player_count>").replacement((0..5).random().toString())
+                                }
+                            })
+                        }
+                    }
+
+                ))
             }
 
             forEachInGridScissoredIndexed(3, 4, 2, 6) { row, column, index ->
