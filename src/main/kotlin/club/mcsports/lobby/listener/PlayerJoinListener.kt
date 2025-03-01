@@ -36,7 +36,7 @@ class PlayerJoinListener(private val plugin: Lobby) : Listener {
             Runnable {
                 runBlocking {
                    inventories[player.uniqueId] ?: run {
-                       buildInterface(event.player).also { inventories[player.uniqueId] = it }
+                       buildInterface().also { inventories[player.uniqueId] = it }
                    }.open(player)
                 }
             }
@@ -44,7 +44,7 @@ class PlayerJoinListener(private val plugin: Lobby) : Listener {
     }
 
 
-    private fun buildInterface(player: Player) = buildPlayerInterface {
+    private fun buildInterface() = buildPlayerInterface {
         preventClickingEmptySlots = true
         prioritiseBlockInteractions = true
         onlyCancelItemInteraction = true
@@ -52,7 +52,7 @@ class PlayerJoinListener(private val plugin: Lobby) : Listener {
 
         addPreprocessor { cancelled = true }
 
-        withTransform { pane, _ ->
+        withTransform { pane, view ->
 
             val gameSelector = ItemComponents.GAME_SELECTOR.build()
             gameSelector.editMeta { meta ->
@@ -74,7 +74,7 @@ class PlayerJoinListener(private val plugin: Lobby) : Listener {
 
             val profile = ItemComponents.PROFILE.build()
             profile.editMeta(SkullMeta::class.java) { meta ->
-                meta.owningPlayer = player
+                meta.owningPlayer = view.player
                 meta.persistentDataContainer.set(
                     NamespacedKey("mcsports", "lobby/action"),
                     PersistentDataType.STRING,
