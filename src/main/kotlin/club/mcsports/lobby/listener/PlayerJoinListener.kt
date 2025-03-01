@@ -4,6 +4,7 @@ import club.mcsports.lobby.Lobby
 import club.mcsports.lobby.item.ItemComponents
 import com.noxcrew.interfaces.drawable.Drawable.Companion.drawable
 import com.noxcrew.interfaces.element.StaticElement
+import com.noxcrew.interfaces.interfaces.PlayerInterface
 import com.noxcrew.interfaces.interfaces.buildPlayerInterface
 import kotlinx.coroutines.runBlocking
 import org.bukkit.Bukkit
@@ -18,8 +19,11 @@ import org.bukkit.inventory.meta.SkullMeta
 import org.bukkit.persistence.PersistentDataType
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
+import java.util.*
 
 class PlayerJoinListener(private val plugin: Lobby) : Listener {
+
+    private val inventories = mutableMapOf<UUID, PlayerInterface>()
 
     @EventHandler
     fun handlePlayerJoin(event: PlayerJoinEvent) {
@@ -31,7 +35,9 @@ class PlayerJoinListener(private val plugin: Lobby) : Listener {
             plugin,
             Runnable {
                 runBlocking {
-                   buildInterface(event.player).open(player)
+                   inventories[player.uniqueId] ?: run {
+                       buildInterface(event.player).also { inventories[player.uniqueId] = it }
+                   }.open(player)
                 }
             }
         )
