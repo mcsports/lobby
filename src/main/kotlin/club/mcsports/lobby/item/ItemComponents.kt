@@ -33,7 +33,7 @@ enum class ItemComponents(
     ),
     LOBBY_SERVER_UNAVAILABLE(
         miniMessage("<color:#58cbed>${"Lobby".toMiniFont()} <service_number>"), lore = listOf(
-            miniMessage("<red>${"Currently on this server".toMiniFont()}"),
+            miniMessage("<red><italic>${"Currently on this server".toMiniFont()}"),
             miniMessage("<white>Online: <color:#bee7fa><online_player_count>")
         ), model = PackBindings.CURRENT_LOBBY_ISLAND_ITEM.model
     ),
