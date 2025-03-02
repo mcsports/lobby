@@ -1,7 +1,5 @@
 package club.mcsports.lobby
 
-import app.simplecloud.controller.api.ControllerApi
-import app.simplecloud.droplet.player.api.PlayerApi
 import club.mcsports.lobby.gui.GuiGameSelector
 import club.mcsports.lobby.listener.*
 import com.noxcrew.interfaces.InterfacesListeners
@@ -10,9 +8,7 @@ import org.bukkit.plugin.java.JavaPlugin
 
 class Lobby : JavaPlugin() {
 
-    private val controllerApi = ControllerApi.createCoroutineApi()
-    private val playerApi = PlayerApi.createCoroutineApi()
-    private val gameSelector = GuiGameSelector(controllerApi, playerApi)
+    private val gameSelector = GuiGameSelector()
 
     override fun onEnable() {
         InterfacesListeners.install(this)

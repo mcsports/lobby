@@ -1,7 +1,5 @@
 package club.mcsports.lobby.gui
 
-import app.simplecloud.controller.api.ControllerApi
-import app.simplecloud.droplet.player.api.PlayerApi
 import club.mcsports.lobby.extension.forEachInGridScissoredIndexed
 import club.mcsports.lobby.extension.miniMessage
 import club.mcsports.lobby.extension.toMiniFont
@@ -15,10 +13,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.bukkit.event.inventory.InventoryCloseEvent
 
-class GuiGameSelector(
-    controllerApi: ControllerApi.Coroutine,
-    playerApi: PlayerApi.Coroutine,
-) {
+class GuiGameSelector {
 
     val gui = buildCombinedInterface {
         allowClickingOwnInventoryIfClickingEmptySlotsIsPrevented = false
@@ -119,7 +114,6 @@ class GuiGameSelector(
 
                 pane[row, column] = lobbyServerDrawables[index]
             }
-
 
 
         }

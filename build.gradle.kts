@@ -36,28 +36,12 @@ dependencies {
     paperweight.paperDevBundle("1.21.4-R0.1-SNAPSHOT")
     implementation("org.jooq:jooq:3.20.1")
 
-    implementation("app.simplecloud.controller:controller-api:0.0.30-dev.af836fb")
-    compileOnly("app.simplecloud.droplet.player:player-api:0.0.1-dev.d1b6e59")
+    // implementation("app.simplecloud.controller:controller-api:0.0.30-dev.af836fb")
+    // compileOnly("app.simplecloud.droplet.player:player-api:0.0.1-dev.d1b6e59")
 }
 
 tasks {
     shadowJar {
-        mergeServiceFiles()
-
-        relocate("com", "club.mcsports.external.com") {
-            exclude("com.destroystokyo/**")
-        }
-        relocate("google", "club.mcsports.external.google")
-
-        relocate("io", "club.mcsports.external.io") {
-            exclude("io.papermc/**")
-        }
-        relocate("org", "club.mcsports.external.org") {
-            exclude("org.bukkit/**")
-        }
-        relocate("android", "club.mcsports.external.android")
-        relocate("build.buf.gen.simplecloud", "club.mcsports.buf")
-
         archiveFileName = "${project.name}.jar"
     }
     assemble {

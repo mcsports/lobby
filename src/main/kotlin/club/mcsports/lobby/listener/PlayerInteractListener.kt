@@ -1,8 +1,7 @@
 package club.mcsports.lobby.listener
 
 import club.mcsports.lobby.gui.GuiGameSelector
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
+import com.noxcrew.interfaces.InterfacesConstants
 import kotlinx.coroutines.launch
 import org.bukkit.NamespacedKey
 import org.bukkit.event.EventHandler
@@ -17,9 +16,9 @@ class PlayerInteractListener(private val gameSelector: GuiGameSelector) : Listen
         val meta = event.item?.itemMeta ?: return
 
         meta.persistentDataContainer.get(NamespacedKey("mcsports", "lobby/action"), PersistentDataType.STRING)?.let {
-            when(it) {
+            when (it) {
                 "open_game_selector" -> {
-                    CoroutineScope(Dispatchers.IO).launch {
+                    InterfacesConstants.SCOPE.launch {
                         gameSelector.gui.open(event.player)
                     }
                 }
