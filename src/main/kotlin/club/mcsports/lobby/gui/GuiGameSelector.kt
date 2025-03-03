@@ -18,18 +18,18 @@ class GuiGameSelector {
     val gui = buildCombinedInterface {
         allowClickingOwnInventoryIfClickingEmptySlotsIsPrevented = false
         preventClickingEmptySlots = true
-        initialTitle = miniMessage("<color:#58cbed>${"Game Selector".toMiniFont()}")
+        initialTitle = miniMessage("<white>⡝⡝⡝⡝⡝⡝⡝⡝⡝圝")
         rows = 6
 
         withTransform { pane, view ->
 
-            val closeButtonDrawable = StaticElement(drawable(ItemComponents.CLOSE_MENU.build())) {
+            pane[0, 8] = StaticElement(drawable(ItemComponents.CLOSE_MENU.build())) {
                 CoroutineScope(Dispatchers.IO).launch {
                     view.close(InventoryCloseEvent.Reason.PLAYER)
                 }
             }
 
-            val gameModeDrawables = GameModeItemComponents.entries.map {
+            val gameModeDrawables = GameModeItemComponents.entries.associateWith {
                 StaticElement(drawable(
 
                     it.build().also { itemStack ->
@@ -45,18 +45,13 @@ class GuiGameSelector {
                 ))
             }
 
-            forEachInGridScissoredIndexed(3, 4, 2, 6) { row, column, index ->
-                if (gameModeDrawables.size < index) {
-                    return@forEachInGridScissoredIndexed
-                }
-
-                if (gameModeDrawables.size == index) {
-                    pane[row, column] = closeButtonDrawable
-                    return@forEachInGridScissoredIndexed
-                }
-
-                pane[row, column] = gameModeDrawables[index]
-            }
+            pane[2, 2] = gameModeDrawables[GameModeItemComponents.MASTER_CHEFS]!!
+            pane[2, 6] = gameModeDrawables[GameModeItemComponents.POWER_GOLF]!!
+            pane[3, 4] = gameModeDrawables[GameModeItemComponents.POOL]!!
+            pane[4, 1] = gameModeDrawables[GameModeItemComponents.SPRINT]!!
+            pane[2, 6] = gameModeDrawables[GameModeItemComponents.POWER_GOLF]!!
+            pane[5, 3] = gameModeDrawables[GameModeItemComponents.GLIDE]!!
+            pane[5, 6] = gameModeDrawables[GameModeItemComponents.BOWLING]!!
 
             /*
             # As the SimpleCloud API is not fixed yet, the code remains commented out for now.
