@@ -13,7 +13,7 @@ enum class ItemComponents(
     private val component: ItemComponent,
 ) {
 
-    GAME_SELECTOR(ItemComponent(miniMessage("<white>Game Selector"), material = Material.COMPASS)),
+    GAME_SELECTOR(ItemComponent(miniMessage("<white>Game Selector"), model = PackBindings.CHECKERED_FLAG_ITEM.model)),
     GYM_BAG(ItemComponent(miniMessage("<white>Gym Bag"), model = PackBindings.GYM_BAG_ITEM.model)),
     PROFILE(ItemComponent(miniMessage("<white>Profile"), model = PackBindings.PROFILE_ITEM.model)),
     PARTY_INVITE(ItemComponent(miniMessage("<white>Invite Player"), model = PackBindings.INVITE_TO_PARTY_ITEM.model)),
