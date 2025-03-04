@@ -18,7 +18,7 @@ enum class ItemComponents(
     PROFILE(ItemComponent(miniMessage("<white>Profile"), model = PackBindings.PROFILE_ITEM.model)),
     PARTY_INVITE(ItemComponent(miniMessage("<white>Invite Player"), model = PackBindings.INVITE_TO_PARTY_ITEM.model)),
     PARTY_MEMBER(ItemComponent(miniMessage("<white><player_name>"), material = Material.PLAYER_HEAD)),
-    CLOSE_MENU(ItemComponent(miniMessage("<red>Close Menu"), material = Material.BARRIER)),
+    CLOSE_MENU(ItemComponent(miniMessage("<red>Close Menu"), model = PackBindings.CLOSE_BUTTON_ITEM.model)),
     LOBBY_SERVER(
         ItemComponent(
             miniMessage("<color:#58cbed>${"Lobby".toMiniFont()} <service_number>"), lore = listOf(

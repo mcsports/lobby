@@ -8,9 +8,16 @@ import org.bukkit.plugin.java.JavaPlugin
 
 class Lobby : JavaPlugin() {
 
+    //private val controllerApi = ControllerApi.createCoroutineApi()
+
+    //private val playerApi = PlayerApi.createCoroutineApi()
     private val gameSelector = GuiGameSelector()
 
     override fun onEnable() {
+        /*CoroutineScope(Dispatchers.IO).launch {
+            println(controllerApi.getGroups().getAllGroups())
+            //println(playerApi.getOnlinePlayers())
+        } */
         InterfacesListeners.install(this)
 
         with(Bukkit.getPluginManager()) {
