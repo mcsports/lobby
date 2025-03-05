@@ -41,8 +41,8 @@ enum class ItemComponents(
             miniMessage("Clubhouse"), lore = listOf(
                 miniMessage("<red><italic>${"Currently closed".toMiniFont()}"),
                 Component.empty(),
-                miniMessage("<color:#bee7fa>Drink, gamble, play pool, meet others - a"),
-                miniMessage("<color:#bee7fa>perfectly normal clubhouse."),
+                miniMessage("<color:#bee7fa>Drink, gamble, play pool, meet"),
+                miniMessage("<color:#bee7fa>others - a perfectly normal clubhouse."),
             ),
             model = PackBindings.CLUBHOUSE_ITEM.model
         )
