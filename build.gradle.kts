@@ -35,6 +35,7 @@ dependencies {
     implementation("com.noxcrew.interfaces:interfaces:1.3.2")
     paperweight.paperDevBundle("1.21.4-R0.1-SNAPSHOT")
     implementation("org.jooq:jooq:3.20.1")
+    implementation("fr.mrmicky:fastboard:2.1.3")
 
     // implementation("app.simplecloud.controller:controller-api:0.0.30-dev.af836fb")
     // compileOnly("app.simplecloud.droplet.player:player-api:0.0.1-dev.d1b6e59")

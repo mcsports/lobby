@@ -1,12 +1,17 @@
 package club.mcsports.lobby.listener
 
 import club.mcsports.lobby.Lobby
+import club.mcsports.lobby.extension.miniMessage
+import club.mcsports.lobby.extension.toMiniFont
 import club.mcsports.lobby.item.ItemComponents
+import club.mcsports.lobby.scoreboard.ScoreboardService
 import com.noxcrew.interfaces.drawable.Drawable.Companion.drawable
 import com.noxcrew.interfaces.element.StaticElement
 import com.noxcrew.interfaces.interfaces.buildPlayerInterface
 import com.noxcrew.interfaces.view.PlayerInterfaceView
+import fr.mrmicky.fastboard.adventure.FastBoard
 import kotlinx.coroutines.runBlocking
+import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
@@ -36,6 +41,14 @@ class PlayerJoinListener(private val plugin: Lobby) : Listener {
                 }
             }
         )
+
+        val scoreboard = ScoreboardService.scoreboardStorage[player.uniqueId] ?: FastBoard(player).also { ScoreboardService.scoreboardStorage[player.uniqueId] = it }
+        scoreboard.updateTitle(miniMessage("<color:#bee7fa>\uD83C\uDFC5 <color:#58cbed>${"mcsports".toMiniFont()} <color:#bee7fa>\uD83C\uDFC5"))
+        scoreboard.updateLines(
+            miniMessage(" ".repeat(18)),
+            miniMessage("<color:#bee7fa>Test Text!"),
+            Component.empty()
+        )
     }
 
     @EventHandler
@@ -54,7 +67,6 @@ class PlayerJoinListener(private val plugin: Lobby) : Listener {
             prioritiseBlockInteractions = true
             onlyCancelItemInteraction = true
             fillMenuWithAir = true
-
 
             withTransform { pane, view ->
 
@@ -91,7 +103,7 @@ class PlayerJoinListener(private val plugin: Lobby) : Listener {
                     meta.persistentDataContainer.set(
                         NamespacedKey("mcsports", "lobby/action"),
                         PersistentDataType.STRING,
-                        "open_"
+                        "open_party_invite"
                     )
                 }
 
