@@ -16,6 +16,7 @@ import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.event.EventHandler
+import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
@@ -27,10 +28,18 @@ import org.bukkit.potion.PotionEffectType
 
 class PlayerJoinListener(private val plugin: Lobby) : Listener {
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     fun handlePlayerJoin(event: PlayerJoinEvent) {
         val player = event.player
         event.joinMessage(null)
+
+        val scoreboard = ScoreboardService.scoreboardStorage[player.uniqueId] ?: FastBoard(player).also { ScoreboardService.scoreboardStorage[player.uniqueId] = it }
+        scoreboard.updateTitle(miniMessage("<color:#bee7fa>\uD83C\uDFC5 <color:#58cbed>${"mcsports".toMiniFont()} <color:#bee7fa>\uD83C\uDFC5"))
+        scoreboard.updateLines(
+            miniMessage(" ".repeat(18)),
+            miniMessage("<color:#bee7fa>Test Text!"),
+            Component.empty()
+        )
 
         player.addPotionEffect(PotionEffect(PotionEffectType.HUNGER, -1, 0, true, false, true))
         Bukkit.getScheduler().runTaskAsynchronously(
@@ -40,14 +49,6 @@ class PlayerJoinListener(private val plugin: Lobby) : Listener {
                     playerInterfaces[player.uniqueId.toString()] = playerInterface.open(player)
                 }
             }
-        )
-
-        val scoreboard = ScoreboardService.scoreboardStorage[player.uniqueId] ?: FastBoard(player).also { ScoreboardService.scoreboardStorage[player.uniqueId] = it }
-        scoreboard.updateTitle(miniMessage("<color:#bee7fa>\uD83C\uDFC5 <color:#58cbed>${"mcsports".toMiniFont()} <color:#bee7fa>\uD83C\uDFC5"))
-        scoreboard.updateLines(
-            miniMessage(" ".repeat(18)),
-            miniMessage("<color:#bee7fa>Test Text!"),
-            Component.empty()
         )
     }
 

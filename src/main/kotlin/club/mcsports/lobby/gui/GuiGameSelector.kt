@@ -81,7 +81,7 @@ class GuiGameSelector {
                 }
             } */
 
-            val lobbyServerDrawables = (1..5).map { numericalId ->
+            val lobbyServerDrawables = (1..3).map { numericalId ->
                 StaticElement(drawable((if (numericalId == 1) ItemComponents.LOBBY_SERVER_UNAVAILABLE.build() else ItemComponents.LOBBY_SERVER.build()).also { itemStack ->
                     itemStack.editMeta { meta ->
                         meta.displayName(meta.displayName()?.replaceText { config ->
@@ -102,7 +102,7 @@ class GuiGameSelector {
                 }
             }
 
-            forEachInGridScissoredIndexed(7, 7, 2, 6) { row, column, index ->
+            forEachInGridScissoredIndexed(7, 7, 1, 3) { row, column, index ->
                 if (lobbyServerDrawables.size <= index) {
                     return@forEachInGridScissoredIndexed
                 }
