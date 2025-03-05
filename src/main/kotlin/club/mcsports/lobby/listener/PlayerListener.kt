@@ -7,6 +7,7 @@ import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.entity.EntityPickupItemEvent
 import org.bukkit.event.entity.FoodLevelChangeEvent
+import org.bukkit.event.player.PlayerRecipeDiscoverEvent
 
 class PlayerListener : Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -22,5 +23,10 @@ class PlayerListener : Listener {
     @EventHandler
     fun onDamage(event: EntityDamageEvent) {
         if (event.entity is Player) event.isCancelled = true
+    }
+
+    @EventHandler
+    fun onRecipeUnlock(event: PlayerRecipeDiscoverEvent) {
+        event.isCancelled = true
     }
 }
