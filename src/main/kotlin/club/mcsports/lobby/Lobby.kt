@@ -1,5 +1,7 @@
 package club.mcsports.lobby
 
+import club.mcsports.lobby.command.SetupCommand
+import club.mcsports.lobby.config.ConfigFactory
 import club.mcsports.lobby.gui.GuiGameSelector
 import club.mcsports.lobby.listener.*
 import com.noxcrew.interfaces.InterfacesListeners
@@ -12,6 +14,7 @@ class Lobby : JavaPlugin() {
 
     //private val playerApi = PlayerApi.createCoroutineApi()
     private val gameSelector = GuiGameSelector()
+    private val config = ConfigFactory.loadOrCreate(dataFolder.toPath())
 
     override fun onEnable() {
         /*CoroutineScope(Dispatchers.IO).launch {
@@ -27,6 +30,8 @@ class Lobby : JavaPlugin() {
             registerEvents(WorldDestroyListener(), this@Lobby)
             registerEvents(PlayerInteractListener(gameSelector), this@Lobby)
         }
+
+        registerCommand("setup", SetupCommand(dataFolder.toPath(), config))
     }
 
     override fun onDisable() {
