@@ -37,6 +37,9 @@ dependencies {
     implementation("org.jooq:jooq:3.20.1")
     implementation("fr.mrmicky:fastboard:2.1.3")
 
+    implementation("org.spongepowered:configurate-yaml:4.0.0")
+    implementation("org.spongepowered:configurate-extra-kotlin:4.1.2")
+
     // implementation("app.simplecloud.controller:controller-api:0.0.30-dev.af836fb")
     // compileOnly("app.simplecloud.droplet.player:player-api:0.0.1-dev.d1b6e59")
 }
