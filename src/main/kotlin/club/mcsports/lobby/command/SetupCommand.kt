@@ -1,13 +1,15 @@
 package club.mcsports.lobby.command
 
 import club.mcsports.lobby.config.Config
+import club.mcsports.lobby.config.ConfigFactory
 import club.mcsports.lobby.extension.miniMessage
 import club.mcsports.lobby.location.SpawnPoint
 import io.papermc.paper.command.brigadier.BasicCommand
 import io.papermc.paper.command.brigadier.CommandSourceStack
 import org.bukkit.entity.Player
+import java.nio.file.Path
 
-class SetupCommand(val config: Config) : BasicCommand {
+class SetupCommand(val dataDirectory: Path, val config: Config) : BasicCommand {
     override fun execute(commandSourceStack: CommandSourceStack, args: Array<String>) {
         val sender = commandSourceStack.sender
 
@@ -32,7 +34,7 @@ class SetupCommand(val config: Config) : BasicCommand {
             val spawnPoint = SpawnPoint.valueOf(args[1])
 
             config.spawnPoints[spawnPoint] = player.location
-            //TODO: Save Config!
+            ConfigFactory.save(dataDirectory, config)
             player.sendMessage(miniMessage("<green>Successfully set the spawn point <white>${args[1]}"))
         }catch (e: Exception) {
             player.sendMessage(miniMessage("<red>An error occurred while setting up the location:"))
