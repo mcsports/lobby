@@ -102,19 +102,6 @@ enum class GameModeItemComponents(
         )
     ),
 
-    POOL(
-        ItemComponent(
-            miniMessage("Pool"), lore = listOf(
-                miniMessage("<red><italic>${"Currently closed".toMiniFont()}"),
-                miniMessage("<white>Online: <color:#bee7fa><online_player_count>"),
-                Component.empty(),
-                miniMessage("<color:#bee7fa>Lorem ipsum dolor sit amet,"),
-                miniMessage("<color:#bee7fa>consectetur adipiscing elit."),
-            ),
-            model = PackBindings.POOL_ICON_ITEM.model
-        )
-    ),
-
     DODGEBALL(
         ItemComponent(
             miniMessage("Dodgeball"), lore = listOf(

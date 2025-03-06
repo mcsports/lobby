@@ -31,7 +31,7 @@ dependencies {
     implementation(libs.kotlin.stdlib)
     testImplementation(libs.kotlin.test)
 
-    implementation("club.mcsports.generated:bindings:1.0-52286ab")
+    implementation("club.mcsports.generated:bindings:1.0-f0882ec")
     implementation("com.noxcrew.interfaces:interfaces:1.3.2")
     paperweight.paperDevBundle("1.21.4-R0.1-SNAPSHOT")
     implementation("org.jooq:jooq:3.20.1")

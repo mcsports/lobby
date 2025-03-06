@@ -47,11 +47,12 @@ class GuiGameSelector {
 
             pane[2, 2] = gameModeDrawables[GameModeItemComponents.MASTER_CHEFS]!!
             pane[2, 6] = gameModeDrawables[GameModeItemComponents.POWER_GOLF]!!
-            pane[3, 4] = gameModeDrawables[GameModeItemComponents.POOL]!!
             pane[4, 1] = gameModeDrawables[GameModeItemComponents.SPRINT]!!
             pane[2, 6] = gameModeDrawables[GameModeItemComponents.POWER_GOLF]!!
             pane[5, 3] = gameModeDrawables[GameModeItemComponents.GLIDE]!!
             pane[5, 6] = gameModeDrawables[GameModeItemComponents.BOWLING]!!
+
+            pane[3, 4] = StaticElement(drawable(ItemComponents.CLUB_HOUSE.build()))
 
             /*
             # As the SimpleCloud API is not fixed yet, the code remains commented out for now.
@@ -109,6 +110,8 @@ class GuiGameSelector {
 
                 pane[row, column] = lobbyServerDrawables[index]
             }
+
+            pane[7, 5] = StaticElement(drawable(ItemComponents.POOL.build()))
 
 
         }
