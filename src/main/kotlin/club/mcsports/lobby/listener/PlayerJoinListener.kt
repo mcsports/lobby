@@ -1,9 +1,11 @@
 package club.mcsports.lobby.listener
 
 import club.mcsports.lobby.Lobby
+import club.mcsports.lobby.config.Config
 import club.mcsports.lobby.extension.miniMessage
 import club.mcsports.lobby.extension.toMiniFont
 import club.mcsports.lobby.item.ItemComponents
+import club.mcsports.lobby.location.SpawnPoint
 import club.mcsports.lobby.scoreboard.ScoreboardService
 import com.noxcrew.interfaces.drawable.Drawable.Companion.drawable
 import com.noxcrew.interfaces.element.StaticElement
@@ -26,7 +28,7 @@ import org.bukkit.persistence.PersistentDataType
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 
-class PlayerJoinListener(private val plugin: Lobby) : Listener {
+class PlayerJoinListener(private val plugin: Lobby, private val config: Config) : Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     fun handlePlayerJoin(event: PlayerJoinEvent) {
@@ -50,6 +52,8 @@ class PlayerJoinListener(private val plugin: Lobby) : Listener {
                 }
             }
         )
+
+        player.teleport(config.spawnPoints[SpawnPoint.CLUBHOUSE] ?: Bukkit.getWorlds().first().spawnLocation)
     }
 
     @EventHandler
