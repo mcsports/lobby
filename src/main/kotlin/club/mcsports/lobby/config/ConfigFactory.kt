@@ -12,24 +12,26 @@ import java.nio.file.Path
 
 object ConfigFactory {
 
-    fun loadOrCreate(dataDirectory: Path): Config {
-        val path = dataDirectory.resolve("config.yml")
-        val loader = YamlConfigurationLoader.builder()
-            .path(path)
-            .nodeStyle(NodeStyle.BLOCK)
-            .defaultOptions { options ->
-                options.serializers {
-                    it.registerAnnotatedObjects(objectMapperFactory()).build()
-                    it.register(Location::class.java, LocationSerializer())
-                }
+    val loader = YamlConfigurationLoader.builder()
+        .nodeStyle(NodeStyle.BLOCK)
+        .defaultOptions { options ->
+            options.serializers {
+                it.registerAnnotatedObjects(objectMapperFactory()).build()
+                it.register(Location::class.java, LocationSerializer())
             }
-            .build()
-
-        if (!Files.exists(path)) {
-            return create(path, loader)
         }
 
-        val configurationNode = loader.load()
+    fun loadOrCreate(dataDirectory: Path): Config {
+        val path = dataDirectory.resolve("config.yml")
+        loader.path(path)
+
+        val builtLoader = loader.build()
+
+        if (!Files.exists(path)) {
+            return create(path, builtLoader)
+        }
+
+        val configurationNode = builtLoader.load()
         return configurationNode.get() ?: throw IllegalStateException("Config could not be loaded")
     }
 
@@ -46,6 +48,17 @@ object ConfigFactory {
         }
 
         return config
+    }
+
+    fun save(dataDirectory: Path, config: Config) {
+        val path = dataDirectory.resolve("config.yml")
+        loader.path(path)
+
+        val builtLoader = loader.build()
+
+        val configurationNode = builtLoader.load()
+        config.toNode(configurationNode)
+        builtLoader.save(configurationNode)
     }
 
 }
