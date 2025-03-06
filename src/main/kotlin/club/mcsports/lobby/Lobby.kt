@@ -24,7 +24,7 @@ class Lobby : JavaPlugin() {
         InterfacesListeners.install(this)
 
         with(Bukkit.getPluginManager()) {
-            registerEvents(PlayerJoinListener(this@Lobby), this@Lobby)
+            registerEvents(PlayerJoinListener(this@Lobby, config), this@Lobby)
             registerEvents(PlayerQuitListener(), this@Lobby)
             registerEvents(PlayerListener(), this@Lobby)
             registerEvents(WorldDestroyListener(), this@Lobby)
