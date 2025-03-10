@@ -1,23 +1,29 @@
 package club.mcsports.lobby
 
+import app.simplecloud.controller.api.ControllerApi
+import app.simplecloud.droplet.player.api.PlayerApi
 import club.mcsports.lobby.gui.GuiGameSelector
 import club.mcsports.lobby.listener.*
 import com.noxcrew.interfaces.InterfacesListeners
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 
 class Lobby : JavaPlugin() {
 
-    //private val controllerApi = ControllerApi.createCoroutineApi()
+    private val controllerApi = ControllerApi.createCoroutineApi()
 
-    //private val playerApi = PlayerApi.createCoroutineApi()
-    private val gameSelector = GuiGameSelector()
+    private val playerApi = PlayerApi.createCoroutineApi()
+    private val gameSelector = GuiGameSelector(playerApi, controllerApi)
 
     override fun onEnable() {
-        /*CoroutineScope(Dispatchers.IO).launch {
+        println(System.getenv("CONTROLLER_SECRET"))
+        CoroutineScope(Dispatchers.IO).launch {
             println(controllerApi.getGroups().getAllGroups())
-            //println(playerApi.getOnlinePlayers())
-        } */
+            println(playerApi.getOnlinePlayers())
+        }
         InterfacesListeners.install(this)
 
         with(Bukkit.getPluginManager()) {

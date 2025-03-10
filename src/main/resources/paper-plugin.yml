@@ -6,7 +6,11 @@ main: club.mcsports.lobby.Lobby
 
 dependencies:
   server:
-    SimpleCloud-Player:
+    simplecloud-api:
       load: BEFORE
       required: true
       join-classpath: true
+    SimpleCloud-Player:
+      load: BEFORE
+      required: true
+      join-classpath: false

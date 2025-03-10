@@ -36,14 +36,17 @@ dependencies {
     paperweight.paperDevBundle("1.21.4-R0.1-SNAPSHOT")
     implementation("org.jooq:jooq:3.20.1")
     implementation("fr.mrmicky:fastboard:2.1.3")
-
-    // implementation("app.simplecloud.controller:controller-api:0.0.30-dev.af836fb")
-    // compileOnly("app.simplecloud.droplet.player:player-api:0.0.1-dev.d1b6e59")
+    compileOnly("app.simplecloud.controller:controller-api:0.0.30-dev.e6c9f03")
+    compileOnly("app.simplecloud.droplet.player:player-api:0.0.1-dev.d1b6e59")
 }
 
 tasks {
     shadowJar {
         mergeServiceFiles()
+        dependencies {
+            exclude(dependency("org.jetbrains.kotlin:kotlin-stdlib"))
+            exclude(dependency("org.jetbrains.kotlinx:kotlinx-coroutines-core"))
+        }
         archiveFileName = "${project.name}.jar"
     }
     assemble {
