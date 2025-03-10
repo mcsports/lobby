@@ -1,9 +1,11 @@
 package club.mcsports.lobby.listener
 
 import club.mcsports.lobby.Lobby
+import club.mcsports.lobby.config.Config
 import club.mcsports.lobby.extension.miniMessage
 import club.mcsports.lobby.extension.toMiniFont
 import club.mcsports.lobby.item.ItemComponents
+import club.mcsports.lobby.location.SpawnPoint
 import club.mcsports.lobby.scoreboard.ScoreboardService
 import com.noxcrew.interfaces.drawable.Drawable.Companion.drawable
 import com.noxcrew.interfaces.element.StaticElement
@@ -16,6 +18,7 @@ import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.event.EventHandler
+import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
@@ -25,12 +28,20 @@ import org.bukkit.persistence.PersistentDataType
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 
-class PlayerJoinListener(private val plugin: Lobby) : Listener {
+class PlayerJoinListener(private val plugin: Lobby, private val config: Config) : Listener {
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     fun handlePlayerJoin(event: PlayerJoinEvent) {
         val player = event.player
         event.joinMessage(null)
+
+        val scoreboard = ScoreboardService.scoreboardStorage[player.uniqueId] ?: FastBoard(player).also { ScoreboardService.scoreboardStorage[player.uniqueId] = it }
+        scoreboard.updateTitle(miniMessage("<color:#bee7fa>\uD83C\uDFC5 <color:#58cbed>${"mcsports".toMiniFont()} <color:#bee7fa>\uD83C\uDFC5"))
+        scoreboard.updateLines(
+            miniMessage(" ".repeat(18)),
+            miniMessage("<color:#bee7fa>Test Text!"),
+            Component.empty()
+        )
 
         player.addPotionEffect(PotionEffect(PotionEffectType.HUNGER, -1, 0, true, false, true))
         Bukkit.getScheduler().runTaskAsynchronously(
@@ -42,13 +53,7 @@ class PlayerJoinListener(private val plugin: Lobby) : Listener {
             }
         )
 
-        val scoreboard = ScoreboardService.scoreboardStorage[player.uniqueId] ?: FastBoard(player).also { ScoreboardService.scoreboardStorage[player.uniqueId] = it }
-        scoreboard.updateTitle(miniMessage("<color:#bee7fa>\uD83C\uDFC5 <color:#58cbed>${"mcsports".toMiniFont()} <color:#bee7fa>\uD83C\uDFC5"))
-        scoreboard.updateLines(
-            miniMessage(" ".repeat(18)),
-            miniMessage("<color:#bee7fa>Test Text!"),
-            Component.empty()
-        )
+        player.teleport(config.spawnPoints[SpawnPoint.CLUBHOUSE] ?: Bukkit.getWorlds().first().spawnLocation)
     }
 
     @EventHandler
