@@ -4,6 +4,12 @@ authors: [ 'mcsports', 'Jannik' ]
 api-version: '1.21'
 main: club.mcsports.lobby.Lobby
 
+libraries:
+  - "org.spongepowered:configurate-yaml:4.1.2"
+  - "org.spongepowered:configurate-extra-kotlin:4.1.2"
+  - "org.jetbrains.kotlin:org.jetbrains.kotlin:kotlin-stdlib:2.0.20"
+  - "org.jetbrains.kotlin:org.jetbrains.kotlin:kotlin-reflect:2.0.20"
+
 dependencies:
   server:
     simplecloud-api:

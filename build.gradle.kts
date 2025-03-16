@@ -1,4 +1,5 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.ir.objcinterop.externalObjCClassFqName
 
 plugins {
     alias(libs.plugins.kotlin.jvm)
@@ -28,30 +29,26 @@ repositories {
 }
 
 dependencies {
-    implementation(libs.kotlin.stdlib)
+    compileOnly(libs.kotlin.stdlib)
     testImplementation(libs.kotlin.test)
 
-    implementation("club.mcsports.generated:bindings:1.0-f0882ec")
+    implementation("club.mcsports.generated:bindings:1.0-f0882ec") {
+        exclude(group = "org.spongepowered")
+    }
     implementation("com.noxcrew.interfaces:interfaces:1.3.2")
     paperweight.paperDevBundle("1.21.4-R0.1-SNAPSHOT")
     implementation("org.jooq:jooq:3.20.1")
     implementation("fr.mrmicky:fastboard:2.1.3")
-
     compileOnly("app.simplecloud.controller:controller-api:0.0.30-dev.e6c9f03")
     compileOnly("app.simplecloud.droplet.player:player-api:0.0.1-dev.d1b6e59")
-
-    implementation("org.spongepowered:configurate-yaml:4.0.0")
-    implementation("org.spongepowered:configurate-extra-kotlin:4.1.2")
 
 }
 
 tasks {
     shadowJar {
         mergeServiceFiles()
-        dependencies {
-            exclude(dependency("org.jetbrains.kotlin:kotlin-stdlib"))
-            exclude(dependency("org.jetbrains.kotlinx:kotlinx-coroutines-core"))
-        }
+        exclude("kotlin/**")
+        exclude("kotlinx/**")
         archiveFileName = "${project.name}.jar"
     }
     assemble {

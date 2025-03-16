@@ -1,9 +1,9 @@
 package club.mcsports.lobby
 
-import club.mcsports.lobby.command.SetupCommand
-import club.mcsports.lobby.config.ConfigFactory
 import app.simplecloud.controller.api.ControllerApi
 import app.simplecloud.droplet.player.api.PlayerApi
+import club.mcsports.lobby.command.SetupCommand
+import club.mcsports.lobby.config.ConfigFactory
 import club.mcsports.lobby.gui.GuiGameSelector
 import club.mcsports.lobby.listener.*
 import com.noxcrew.interfaces.InterfacesListeners
@@ -23,7 +23,7 @@ class Lobby : JavaPlugin() {
         InterfacesListeners.install(this)
 
         with(Bukkit.getPluginManager()) {
-            registerEvents(PlayerJoinListener(this@Lobby), this@Lobby)
+            registerEvents(PlayerJoinListener(this@Lobby, config), this@Lobby)
             registerEvents(PlayerQuitListener(), this@Lobby)
             registerEvents(PlayerListener(), this@Lobby)
             registerEvents(WorldDestroyListener(), this@Lobby)
