@@ -7,12 +7,12 @@ import club.mcsports.lobby.extension.toMiniFont
 import club.mcsports.lobby.item.ItemComponents
 import club.mcsports.lobby.location.SpawnPoint
 import club.mcsports.lobby.scoreboard.ScoreboardService
+import club.mcsports.lobby.util.Party
 import com.noxcrew.interfaces.drawable.Drawable.Companion.drawable
 import com.noxcrew.interfaces.element.StaticElement
 import com.noxcrew.interfaces.interfaces.buildPlayerInterface
 import com.noxcrew.interfaces.view.PlayerInterfaceView
 import fr.mrmicky.fastboard.adventure.FastBoard
-import kotlinx.coroutines.runBlocking
 import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
 import org.bukkit.Material
@@ -27,6 +27,7 @@ import org.bukkit.inventory.meta.SkullMeta
 import org.bukkit.persistence.PersistentDataType
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
+import java.util.*
 
 class PlayerJoinListener(private val plugin: Lobby, private val config: Config) : Listener {
 
@@ -43,15 +44,17 @@ class PlayerJoinListener(private val plugin: Lobby, private val config: Config) 
             Component.empty()
         )
 
+        exampleParty.openPage(player.uniqueId, 0)
+
         player.addPotionEffect(PotionEffect(PotionEffectType.HUNGER, -1, 0, true, false, true))
-        Bukkit.getScheduler().runTaskAsynchronously(
-            plugin,
-            Runnable {
-                runBlocking {
-                    playerInterfaces[player.uniqueId.toString()] = playerInterface.open(player)
-                }
-            }
-        )
+//        Bukkit.getScheduler().runTaskAsynchronously(
+//            plugin,
+//            Runnable {
+//                runBlocking {
+//                    playerInterfaces[player.uniqueId.toString()] = playerInterface.open(player)
+//                }
+//            }
+//        )
 
         player.teleport(config.spawnPoints[SpawnPoint.CLUBHOUSE] ?: Bukkit.getWorlds().first().spawnLocation)
     }
@@ -62,6 +65,14 @@ class PlayerJoinListener(private val plugin: Lobby, private val config: Config) 
     }
 
     companion object {
+
+        val exampleParty = Party().also {
+            for (i in 0 until 7) {
+                it.entries.add(UUID.randomUUID())
+            }
+
+            it.createPagination()
+        }
 
         @JvmStatic
         private val playerInterfaces = mutableMapOf<String, PlayerInterfaceView>()

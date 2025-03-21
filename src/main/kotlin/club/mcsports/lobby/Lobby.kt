@@ -27,7 +27,7 @@ class Lobby : JavaPlugin() {
             registerEvents(PlayerQuitListener(), this@Lobby)
             registerEvents(PlayerListener(), this@Lobby)
             registerEvents(WorldDestroyListener(), this@Lobby)
-            registerEvents(PlayerInteractListener(gameSelector), this@Lobby)
+            registerEvents(PlayerInteractListener(gameSelector, PlayerJoinListener.exampleParty), this@Lobby)
         }
         registerCommand("setup", SetupCommand(dataFolder.toPath(), config))
     }
