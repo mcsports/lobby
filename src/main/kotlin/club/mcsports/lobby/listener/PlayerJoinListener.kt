@@ -23,7 +23,6 @@ import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.inventory.ItemStack
-import org.bukkit.inventory.meta.SkullMeta
 import org.bukkit.persistence.PersistentDataType
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
@@ -36,7 +35,8 @@ class PlayerJoinListener(private val plugin: Lobby, private val config: Config) 
         val player = event.player
         event.joinMessage(null)
 
-        val scoreboard = ScoreboardService.scoreboardStorage[player.uniqueId] ?: FastBoard(player).also { ScoreboardService.scoreboardStorage[player.uniqueId] = it }
+        val scoreboard = ScoreboardService.scoreboardStorage[player.uniqueId]
+            ?: FastBoard(player).also { ScoreboardService.scoreboardStorage[player.uniqueId] = it }
         scoreboard.updateTitle(miniMessage("<color:#bee7fa>\uD83C\uDFC5 <color:#58cbed>${"mcsports".toMiniFont()} <color:#bee7fa>\uD83C\uDFC5"))
         scoreboard.updateLines(
             miniMessage(" ".repeat(18)),
@@ -51,17 +51,17 @@ class PlayerJoinListener(private val plugin: Lobby, private val config: Config) 
 //            plugin,
 //            Runnable {
 //                runBlocking {
-//                    playerInterfaces[player.uniqueId.toString()] = playerInterface.open(player)
+//                    playerInterfaces[player.uniqueId] = playerInterface.open(player)
+//                    exampleParty.openPage(player.uniqueId, 0)
 //                }
 //            }
 //        )
-
         player.teleport(config.spawnPoints[SpawnPoint.CLUBHOUSE] ?: Bukkit.getWorlds().first().spawnLocation)
     }
 
     @EventHandler
     fun onQuit(event: PlayerQuitEvent) {
-        playerInterfaces.remove(event.player.uniqueId.toString())
+        playerInterfaces.remove(event.player.uniqueId)
     }
 
     companion object {
@@ -75,7 +75,7 @@ class PlayerJoinListener(private val plugin: Lobby, private val config: Config) 
         }
 
         @JvmStatic
-        private val playerInterfaces = mutableMapOf<String, PlayerInterfaceView>()
+        val playerInterfaces = mutableMapOf<UUID, PlayerInterfaceView>()
 
         @JvmStatic
         private val playerInterface = buildPlayerInterface {
@@ -105,8 +105,7 @@ class PlayerJoinListener(private val plugin: Lobby, private val config: Config) 
                 }
 
                 val profile = ItemComponents.PROFILE.build()
-                profile.editMeta(SkullMeta::class.java) { meta ->
-                    meta.owningPlayer = view.player
+                profile.editMeta { meta ->
                     meta.persistentDataContainer.set(
                         NamespacedKey("mcsports", "lobby/action"),
                         PersistentDataType.STRING,
