@@ -25,12 +25,10 @@ class PlayerInteractListener(private val gameSelector: GuiGameSelector, private 
                 }
 
                 "open_next_party_page" -> {
-                    println("next page!")
                     party.openNextPage(event.player.uniqueId)
                 }
 
                 "open_previous_party_page" -> {
-                    println("prev page!")
                     party.openPreviousPage(event.player.uniqueId)
                 }
 
