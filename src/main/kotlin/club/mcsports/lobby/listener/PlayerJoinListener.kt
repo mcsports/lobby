@@ -7,12 +7,16 @@ import club.mcsports.lobby.extension.toMiniFont
 import club.mcsports.lobby.item.ItemComponents
 import club.mcsports.lobby.location.SpawnPoint
 import club.mcsports.lobby.scoreboard.ScoreboardService
+import club.mcsports.lobby.transform.PartyPaginationTransformation
 import club.mcsports.lobby.util.Party
 import com.noxcrew.interfaces.drawable.Drawable.Companion.drawable
 import com.noxcrew.interfaces.element.StaticElement
+import com.noxcrew.interfaces.grid.GridPoint
 import com.noxcrew.interfaces.interfaces.buildPlayerInterface
+import com.noxcrew.interfaces.transform.builtin.PaginationButton
 import com.noxcrew.interfaces.view.PlayerInterfaceView
 import fr.mrmicky.fastboard.adventure.FastBoard
+import kotlinx.coroutines.runBlocking
 import net.kyori.adventure.text.Component
 import org.bukkit.Bukkit
 import org.bukkit.Material
@@ -20,6 +24,7 @@ import org.bukkit.NamespacedKey
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
+import org.bukkit.event.inventory.ClickType
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.inventory.ItemStack
@@ -47,15 +52,15 @@ class PlayerJoinListener(private val plugin: Lobby, private val config: Config) 
         exampleParty.openPage(player.uniqueId, 0)
 
         player.addPotionEffect(PotionEffect(PotionEffectType.HUNGER, -1, 0, true, false, true))
-//        Bukkit.getScheduler().runTaskAsynchronously(
-//            plugin,
-//            Runnable {
-//                runBlocking {
-//                    playerInterfaces[player.uniqueId] = playerInterface.open(player)
-//                    exampleParty.openPage(player.uniqueId, 0)
-//                }
-//            }
-//        )
+        Bukkit.getScheduler().runTaskAsynchronously(
+            plugin,
+            Runnable {
+                runBlocking {
+                    playerInterfaces[player.uniqueId] = playerInterface.open(player)
+                    exampleParty.openPage(player.uniqueId, 0)
+                }
+            }
+        )
         player.teleport(config.spawnPoints[SpawnPoint.CLUBHOUSE] ?: Bukkit.getWorlds().first().spawnLocation)
     }
 
@@ -70,8 +75,6 @@ class PlayerJoinListener(private val plugin: Lobby, private val config: Config) 
             for (i in 0 until 7) {
                 it.entries.add(UUID.randomUUID())
             }
-
-            it.createPagination()
         }
 
         @JvmStatic
@@ -84,7 +87,28 @@ class PlayerJoinListener(private val plugin: Lobby, private val config: Config) 
             onlyCancelItemInteraction = true
             fillMenuWithAir = true
 
-            withTransform { pane, view ->
+            val itemPrev = ItemComponents.ARROW_LEFT.build()
+            itemPrev.editMeta { meta ->
+                meta.persistentDataContainer.set(
+                    NamespacedKey("mcsports", "lobby/action"),
+                    PersistentDataType.STRING,
+                    "prev_party_arrow"
+                )
+            }
+            val itemNext = ItemComponents.ARROW_LEFT.build()
+            itemPrev.editMeta { meta ->
+                meta.persistentDataContainer.set(
+                    NamespacedKey("mcsports", "lobby/action"),
+                    PersistentDataType.STRING,
+                    "next_party_arrow"
+                )
+            }
+            val previous = drawable(itemPrev)
+            val next = drawable(itemNext)
+            val previousButton = PaginationButton(GridPoint.at(3, 5), previous, mapOf(ClickType.LEFT to -1))
+            val nextButton = PaginationButton(GridPoint.at(3, 8), next, mapOf(ClickType.LEFT to 1))
+            addTransform(PartyPaginationTransformation(exampleParty, previousButton, nextButton))
+            withTransform { pane, _ ->
 
                 val gameSelector = ItemComponents.GAME_SELECTOR.build()
                 gameSelector.editMeta { meta ->
@@ -103,7 +127,6 @@ class PlayerJoinListener(private val plugin: Lobby, private val config: Config) 
                         "open_gym_bag"
                     )
                 }
-
                 val profile = ItemComponents.PROFILE.build()
                 profile.editMeta { meta ->
                     meta.persistentDataContainer.set(
@@ -121,7 +144,6 @@ class PlayerJoinListener(private val plugin: Lobby, private val config: Config) 
                         "open_party_invite"
                     )
                 }
-
                 pane.hotbar[0] = StaticElement(drawable(gameSelector))
                 pane.hotbar[1] = StaticElement(drawable(gymBag))
                 pane.hotbar[2] = StaticElement(drawable(profile))

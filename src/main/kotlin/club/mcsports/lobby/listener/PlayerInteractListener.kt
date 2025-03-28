@@ -3,6 +3,7 @@ package club.mcsports.lobby.listener
 import club.mcsports.lobby.gui.GuiGameSelector
 import club.mcsports.lobby.util.Party
 import com.noxcrew.interfaces.InterfacesConstants
+import com.noxcrew.interfaces.view.PlayerInterfaceView
 import kotlinx.coroutines.launch
 import org.bukkit.NamespacedKey
 import org.bukkit.event.EventHandler
@@ -23,15 +24,11 @@ class PlayerInteractListener(private val gameSelector: GuiGameSelector, private 
                         gameSelector.gui.open(event.player)
                     }
                 }
-
-                "open_next_party_page" -> {
-                    party.openNextPage(event.player.uniqueId)
+                "prev_party_arrow" -> {
+                    InterfacesConstants.SCOPE.launch {
+                        val result = PlayerJoinListener.playerInterfaces[event.player.uniqueId]
+                    }
                 }
-
-                "open_previous_party_page" -> {
-                    party.openPreviousPage(event.player.uniqueId)
-                }
-
                 else -> return
             }
         }
