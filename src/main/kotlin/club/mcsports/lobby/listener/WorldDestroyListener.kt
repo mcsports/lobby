@@ -10,7 +10,7 @@ import org.bukkit.event.player.PlayerInteractEvent
 
 class WorldDestroyListener : Listener {
 
-    @EventHandler(priority = EventPriority.LOWEST)
+    @EventHandler(priority = EventPriority.HIGHEST)
     fun onInteract(event: PlayerInteractEvent) {
         event.isCancelled = true
     }

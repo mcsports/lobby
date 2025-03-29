@@ -28,7 +28,6 @@ class PartyPaginationTransformation<P : Pane>(
         boundPage.max = pagination.size - 1
     }
 
-
     init {
         boundPage.max = pagination.size - 1
     }
@@ -62,6 +61,15 @@ class PartyPaginationTransformation<P : Pane>(
             grids.add(GridPoint(3, index + i))
         }
         return grids
+    }
+
+    override fun applyButton(pane: Pane, button: PaginationButton) {
+        val (point, drawable, increments) = button
+
+        pane[point] = StaticElement(drawable) { ctx ->
+            increments[ctx.type]?.let { increment -> page += increment }
+            button.clickHandler(ctx.player)
+        }
     }
 
     private fun createPartyElements(party: Party): Collection<Element> {

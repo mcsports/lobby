@@ -49,15 +49,12 @@ class PlayerJoinListener(private val plugin: Lobby, private val config: Config) 
             Component.empty()
         )
 
-        exampleParty.openPage(player.uniqueId, 0)
-
         player.addPotionEffect(PotionEffect(PotionEffectType.HUNGER, -1, 0, true, false, true))
         Bukkit.getScheduler().runTaskAsynchronously(
             plugin,
             Runnable {
                 runBlocking {
                     playerInterfaces[player.uniqueId] = playerInterface.open(player)
-                    exampleParty.openPage(player.uniqueId, 0)
                 }
             }
         )
@@ -83,30 +80,17 @@ class PlayerJoinListener(private val plugin: Lobby, private val config: Config) 
         @JvmStatic
         private val playerInterface = buildPlayerInterface {
             preventClickingEmptySlots = true
-            prioritiseBlockInteractions = true
             onlyCancelItemInteraction = true
             fillMenuWithAir = true
 
             val itemPrev = ItemComponents.ARROW_LEFT.build()
-            itemPrev.editMeta { meta ->
-                meta.persistentDataContainer.set(
-                    NamespacedKey("mcsports", "lobby/action"),
-                    PersistentDataType.STRING,
-                    "prev_party_arrow"
-                )
-            }
-            val itemNext = ItemComponents.ARROW_LEFT.build()
-            itemPrev.editMeta { meta ->
-                meta.persistentDataContainer.set(
-                    NamespacedKey("mcsports", "lobby/action"),
-                    PersistentDataType.STRING,
-                    "next_party_arrow"
-                )
-            }
+            val itemNext = ItemComponents.ARROW_RIGHT.build()
             val previous = drawable(itemPrev)
             val next = drawable(itemNext)
-            val previousButton = PaginationButton(GridPoint.at(3, 5), previous, mapOf(ClickType.LEFT to -1))
-            val nextButton = PaginationButton(GridPoint.at(3, 8), next, mapOf(ClickType.LEFT to 1))
+            val previousButton =
+                PaginationButton(GridPoint.at(3, 5), previous, mapOf(ClickType.LEFT to -1, ClickType.RIGHT to -1))
+            val nextButton =
+                PaginationButton(GridPoint.at(3, 8), next, mapOf(ClickType.LEFT to 1, ClickType.RIGHT to 1))
             addTransform(PartyPaginationTransformation(exampleParty, previousButton, nextButton))
             withTransform { pane, _ ->
 

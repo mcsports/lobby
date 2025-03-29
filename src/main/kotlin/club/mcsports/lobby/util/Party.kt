@@ -44,8 +44,6 @@ class Party(val smallestPage: Int = 2, val biggestPage: Int = smallestPage + 1) 
             if(page <= 0) player.inventory.setItem(5, null)
             else player.inventory.setItem(5, prev)
 
-            player.sendMessage("You are viewing page $page")
-
             this[page]?.forEachIndexed { index, partyMember ->
 
                 val wool = ItemStack(Material.entries[this.entries.indexOf(partyMember) + 5])
