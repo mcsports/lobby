@@ -54,7 +54,7 @@ class PlayerJoinListener(private val plugin: Lobby, private val config: Config) 
             plugin,
             Runnable {
                 runBlocking {
-                    playerInterfaces[player.uniqueId] = playerInterface.open(player)
+                    playerInterfaces[player.uniqueId] = playerInterface().open(player)
                 }
             }
         )
@@ -68,7 +68,7 @@ class PlayerJoinListener(private val plugin: Lobby, private val config: Config) 
 
     companion object {
 
-        val exampleParty = Party().also {
+        private val exampleParty = Party().also {
             for (i in 0 until 7) {
                 it.entries.add(UUID.randomUUID())
             }
@@ -78,11 +78,10 @@ class PlayerJoinListener(private val plugin: Lobby, private val config: Config) 
         val playerInterfaces = mutableMapOf<UUID, PlayerInterfaceView>()
 
         @JvmStatic
-        private val playerInterface = buildPlayerInterface {
+        private fun playerInterface() = buildPlayerInterface {
             preventClickingEmptySlots = true
             onlyCancelItemInteraction = true
             fillMenuWithAir = true
-
             val itemPrev = ItemComponents.ARROW_LEFT.build()
             val itemNext = ItemComponents.ARROW_RIGHT.build()
             val previous = drawable(itemPrev)
