@@ -31,7 +31,7 @@ dependencies {
     compileOnly(libs.kotlin.stdlib)
     testImplementation(libs.kotlin.test)
 
-    implementation("club.mcsports.generated:bindings:1.0-f0882ec") {
+    implementation("club.mcsports.generated:bindings:1.0-5997ba6") {
         exclude(group = "org.spongepowered")
     }
     implementation("com.noxcrew.interfaces:interfaces:1.3.2")

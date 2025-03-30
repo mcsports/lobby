@@ -1,6 +1,6 @@
 package club.mcsports.lobby.item
 
-import club.mcsports.generated.PackBindings
+import club.mcsports.generated.LobbyPackBindings
 import club.mcsports.lobby.extension.miniMessage
 import club.mcsports.lobby.extension.toMiniFont
 import net.kyori.adventure.text.Component
@@ -22,7 +22,7 @@ enum class GameModeItemComponents(
                 miniMessage("<color:#bee7fa>Try your best to get the ball into"),
                 miniMessage("<color:#bee7fa>the hole with the fewest strokes"),
             ),
-            model = PackBindings.GOLF_ICON_ITEM.model
+            model = LobbyPackBindings.GOLF_ICON_ITEM.model
         )
     ),
 
@@ -35,7 +35,7 @@ enum class GameModeItemComponents(
                 miniMessage("<color:#bee7fa>Fly through the map and score"),
                 miniMessage("<color:#bee7fa>the best time to win"),
             ),
-            model = PackBindings.GLIDE_ICON_ITEM.model
+            model = LobbyPackBindings.GLIDE_ICON_ITEM.model
         )
     ),
 
@@ -48,7 +48,7 @@ enum class GameModeItemComponents(
                 miniMessage("<color:#bee7fa>Knock down all the pins to win"),
                 miniMessage("<color:#bee7fa>and get the best score"),
             ),
-            model = PackBindings.BOWLING_ICON_ITEM.model
+            model = LobbyPackBindings.BOWLING_ICON_ITEM.model
         )
     ),
 
@@ -61,7 +61,7 @@ enum class GameModeItemComponents(
                 miniMessage("<color:#bee7fa>Hurry up and give the customers"),
                 miniMessage("<color:#bee7fa>their food in time to win"),
             ),
-            model = PackBindings.MASTERCHEFS_ICON_ITEM.model
+            model = LobbyPackBindings.MASTERCHEFS_ICON_ITEM.model
         )
     ),
 
@@ -74,7 +74,7 @@ enum class GameModeItemComponents(
                 miniMessage("<color:#bee7fa>Run through the map with insane speed"),
                 miniMessage("<color:#bee7fa>and be the first to finish."),
             ),
-            model = PackBindings.SPRINT_ICON_ITEM.model
+            model = LobbyPackBindings.SPRINT_ICON_ITEM.model
         )
     ),
 
