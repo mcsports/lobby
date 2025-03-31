@@ -48,6 +48,8 @@ class SetupCommand(val dataDirectory: Path, val config: Config) : BasicCommand {
     }
 
     override fun suggest(commandSourceStack: CommandSourceStack, args: Array<out String>): MutableCollection<String> {
+        if(!commandSourceStack.sender.hasPermission("mcsports.lobby.setup")) return mutableListOf()
+
         if(args.isEmpty()) return mutableListOf("spawnPoint")
         if(args.size == 2) return SpawnPoint.entries.map { it.name }.toMutableSet()
 
