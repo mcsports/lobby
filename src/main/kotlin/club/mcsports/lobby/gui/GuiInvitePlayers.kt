@@ -1,15 +1,14 @@
 package club.mcsports.lobby.gui
 
-import club.mcsports.lobby.extension.forEachInGridScissored
 import club.mcsports.lobby.extension.forEachInGridScissoredIndexed
 import club.mcsports.lobby.extension.miniMessage
 import club.mcsports.lobby.extension.toMiniFont
 import club.mcsports.lobby.item.ItemComponents
 import club.mcsports.lobby.util.Party
+import com.noxcrew.interfaces.InterfacesConstants
 import com.noxcrew.interfaces.drawable.Drawable.Companion.drawable
 import com.noxcrew.interfaces.element.StaticElement
 import com.noxcrew.interfaces.interfaces.buildCombinedInterface
-import com.noxcrew.interfaces.utilities.forEachInGrid
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -46,9 +45,12 @@ class GuiInvitePlayers(party: Party) {
                     meta.displayName(miniMessage("<white>Click to enter players"))
                 }
             })) {
+                view.player.sendMessage(miniMessage("䶵 <white>Please enter all players that you'd like to invite."))
+                view.player.sendMessage(miniMessage("    <white>Separate each player with a comma or space."))
+
                 view.runChatQuery { component ->
                     invites.addAll(
-                        LegacyComponentSerializer.legacyAmpersand().serialize(component).split(",", " ", ";", ":")
+                        LegacyComponentSerializer.legacyAmpersand().serialize(component).split(",", " ")
                             .filter { it.isNotBlank() && it.matches(nameRegex) }.toSet())
 
                     forEachInGridScissoredIndexed(5, 7, 0, 8) { x, y, index ->
@@ -90,9 +92,14 @@ class GuiInvitePlayers(party: Party) {
                 invites.forEach { inviteName ->
                     Bukkit.getPlayer(inviteName)?.let { invitePlayer ->
                         invitePlayer.sendMessage(miniMessage("䶵 <white>You have been invited to join <color:#0096E8>${view.player.name}</color>'s party!"))
-                        invitePlayer.sendMessage(miniMessage("䶵 <gray><color:#a3e635><click:run_command:'/party accept ${view.player.name}'><hover:show_text:'<gray>Click to <color:#a3e635>accept</color> the invite'>Accept</hover></click></color> | <color:#dc2626><click:run_command:'/party deny ${view.player.name}'><hover:show_text:'<gray>Click to <color:#dc2626>deny</color> the invite'>Deny</hover></click></color>"))
+                        invitePlayer.sendMessage(miniMessage("    <gray><color:#a3e635><click:run_command:'/party accept ${view.player.name}'><hover:show_text:'<gray>Click to <color:#a3e635>accept</color> the invite'>Accept</hover></click></color> | <color:#dc2626><click:run_command:'/party deny ${view.player.name}'><hover:show_text:'<gray>Click to <color:#dc2626>deny</color> the invite'>Deny</hover></click></color>"))
                     }
+                }
 
+                InterfacesConstants.SCOPE.launch {
+                    view.close(InventoryCloseEvent.Reason.PLAYER)
+                    view.player.sendMessage(miniMessage("䶵 <white>All players have been invited!"))
+                    party.entries.addAll(invites.mapNotNull { Bukkit.getPlayer(it)?.uniqueId })
                 }
             }
         }
