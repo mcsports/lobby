@@ -70,8 +70,12 @@ enum class ItemComponents(
         )
     ),
     ARROW_LEFT(ItemComponent(miniMessage("<white>Previous"), model = GenericPackBindings.CHEVRON_LEFT_ITEM.model)),
-    ARROW_RIGHT(ItemComponent(miniMessage("<white>Next"), model = GenericPackBindings.CHEVRON_RIGHT_ITEM.model));
+    ARROW_RIGHT(ItemComponent(miniMessage("<white>Next"), model = GenericPackBindings.CHEVRON_RIGHT_ITEM.model)),
 
+    CHECK_MARK(ItemComponent(miniMessage("<white>Confirm"), material = Material.LIME_DYE)),
+    QUESTION_MARK(ItemComponent(miniMessage("<white>???"), material = Material.FLOW_BANNER_PATTERN)),
+
+    ;
     fun build(): ItemStack {
         return component.build()
     }
