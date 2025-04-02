@@ -1,6 +1,8 @@
 package club.mcsports.lobby.listener
 
 import club.mcsports.lobby.gui.GuiGameSelector
+import club.mcsports.lobby.gui.GuiInvitePlayers
+import club.mcsports.lobby.util.Party
 import com.noxcrew.interfaces.InterfacesConstants
 import kotlinx.coroutines.launch
 import org.bukkit.NamespacedKey
@@ -20,6 +22,12 @@ class PlayerInteractListener(private val gameSelector: GuiGameSelector) : Listen
                 "open_game_selector" -> {
                     InterfacesConstants.SCOPE.launch {
                         gameSelector.gui.open(event.player)
+                    }
+                }
+
+                "open_party_invite" -> {
+                    InterfacesConstants.SCOPE.launch {
+                        GuiInvitePlayers(PlayerJoinListener.parties[event.player.uniqueId] ?: Party().also { party -> PlayerJoinListener.parties[event.player.uniqueId] = party }).gui.open(event.player)
                     }
                 }
 
