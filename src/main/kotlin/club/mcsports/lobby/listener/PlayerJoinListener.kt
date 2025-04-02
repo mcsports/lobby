@@ -13,6 +13,7 @@ import com.noxcrew.interfaces.drawable.Drawable.Companion.drawable
 import com.noxcrew.interfaces.element.StaticElement
 import com.noxcrew.interfaces.grid.GridPoint
 import com.noxcrew.interfaces.interfaces.buildPlayerInterface
+import com.noxcrew.interfaces.properties.interfaceProperty
 import com.noxcrew.interfaces.transform.builtin.PaginationButton
 import com.noxcrew.interfaces.view.PlayerInterfaceView
 import fr.mrmicky.fastboard.adventure.FastBoard
@@ -78,6 +79,7 @@ class PlayerJoinListener(private val plugin: Lobby, private val config: Config) 
             preventClickingEmptySlots = true
             onlyCancelItemInteraction = true
             fillMenuWithAir = true
+
             val itemPrev = ItemComponents.ARROW_LEFT.build()
             val itemNext = ItemComponents.ARROW_RIGHT.build()
             val previous = drawable(itemPrev)
@@ -86,7 +88,10 @@ class PlayerJoinListener(private val plugin: Lobby, private val config: Config) 
                 PaginationButton(GridPoint.at(3, 5), previous, mapOf(ClickType.LEFT to -1, ClickType.RIGHT to -1))
             val nextButton =
                 PaginationButton(GridPoint.at(3, 8), next, mapOf(ClickType.LEFT to 1, ClickType.RIGHT to 1))
-            addTransform(PartyPaginationTransformation(parties[uuid] ?: Party().also { parties[uuid] = it }, previousButton, nextButton))
+            val party = parties[uuid] ?: Party().also { parties[uuid] = it }
+
+            addTransform(PartyPaginationTransformation(party, previousButton, nextButton, arrayOf(interfaceProperty(party.entries))))
+
             withTransform { pane, _ ->
 
                 val gameSelector = ItemComponents.GAME_SELECTOR.build()
