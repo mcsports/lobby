@@ -54,7 +54,7 @@ class PlayerJoinListener(private val plugin: Lobby, private val config: Config) 
             plugin,
             Runnable {
                 runBlocking {
-                    playerInterfaces[player.uniqueId] = playerInterface().open(player)
+                    playerInterfaces[player.uniqueId] = playerInterface(player.uniqueId).open(player)
                 }
             }
         )
@@ -68,17 +68,13 @@ class PlayerJoinListener(private val plugin: Lobby, private val config: Config) 
 
     companion object {
 
-        private val exampleParty = Party().also {
-            for (i in 0 until 7) {
-                it.entries.add(UUID.randomUUID())
-            }
-        }
+        val parties = mutableMapOf<UUID, Party>()
 
         @JvmStatic
         val playerInterfaces = mutableMapOf<UUID, PlayerInterfaceView>()
 
         @JvmStatic
-        private fun playerInterface() = buildPlayerInterface {
+        private fun playerInterface(uuid: UUID) = buildPlayerInterface {
             preventClickingEmptySlots = true
             onlyCancelItemInteraction = true
             fillMenuWithAir = true
@@ -90,7 +86,7 @@ class PlayerJoinListener(private val plugin: Lobby, private val config: Config) 
                 PaginationButton(GridPoint.at(3, 5), previous, mapOf(ClickType.LEFT to -1, ClickType.RIGHT to -1))
             val nextButton =
                 PaginationButton(GridPoint.at(3, 8), next, mapOf(ClickType.LEFT to 1, ClickType.RIGHT to 1))
-            addTransform(PartyPaginationTransformation(exampleParty, previousButton, nextButton))
+            addTransform(PartyPaginationTransformation(parties[uuid] ?: Party().also { parties[uuid] = it }, previousButton, nextButton))
             withTransform { pane, _ ->
 
                 val gameSelector = ItemComponents.GAME_SELECTOR.build()
