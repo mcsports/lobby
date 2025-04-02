@@ -1,6 +1,7 @@
 package club.mcsports.lobby.transform
 
 import club.mcsports.lobby.extension.miniMessage
+import club.mcsports.lobby.extension.toMiniFont
 import club.mcsports.lobby.util.Party
 import com.noxcrew.interfaces.drawable.Drawable.Companion.drawable
 import com.noxcrew.interfaces.element.Element
@@ -11,8 +12,10 @@ import com.noxcrew.interfaces.properties.Trigger
 import com.noxcrew.interfaces.transform.builtin.PagedTransformation
 import com.noxcrew.interfaces.transform.builtin.PaginationButton
 import com.noxcrew.interfaces.view.InterfaceView
+import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
+import org.bukkit.inventory.meta.SkullMeta
 import kotlin.properties.Delegates
 
 class PartyPaginationTransformation<P : Pane>(
@@ -74,12 +77,15 @@ class PartyPaginationTransformation<P : Pane>(
 
     private fun createPartyElements(party: Party): Collection<Element> {
         return party.entries.mapIndexed { index, entry ->
-            val wool = ItemStack(Material.entries[index + 5])
-            wool.editMeta { meta ->
-                meta.displayName(miniMessage("<color:#bee7fa>Player $index"))
-                meta.lore(listOf(miniMessage("<gray><italic>UUID: $entry")))
+            val offlinePlayer = Bukkit.getOfflinePlayer(entry)
+            val skull = ItemStack(Material.PLAYER_HEAD)
+
+            skull.editMeta(SkullMeta::class.java) { meta ->
+                meta.displayName(miniMessage("<white>${offlinePlayer.name}"))
+                meta.lore(listOf(miniMessage("<gray>${"Click to remove".toMiniFont()}")))
+                meta.owningPlayer = offlinePlayer
             }
-            return@mapIndexed StaticElement(drawable(wool))
+            return@mapIndexed StaticElement(drawable(skull))
         }
     }
 }
