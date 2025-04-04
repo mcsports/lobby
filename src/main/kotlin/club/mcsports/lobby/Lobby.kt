@@ -18,7 +18,6 @@ class Lobby : JavaPlugin() {
     private val gameSelector = GuiGameSelector(playerApi, controllerApi)
     private val config = ConfigFactory.loadOrCreate(dataFolder.toPath())
 
-
     override fun onEnable() {
         InterfacesListeners.install(this)
 
