@@ -51,7 +51,14 @@ class GuiInvitePlayers(party: Party) {
                 view.runChatQuery { component ->
                     invites.addAll(
                         LegacyComponentSerializer.legacyAmpersand().serialize(component).split(",", " ")
-                            .filter { it.isNotBlank() && it.matches(nameRegex) }.toSet())
+                            .filter { it.isNotBlank() && it.matches(nameRegex) && Bukkit.getPlayerExact(it) != null}.toSet())
+
+                    if(invites.isEmpty()) {
+                        view.player.sendMessage(miniMessage("䶵 <white>There are <color:#dc2626>no valid players</color> to invite!"))
+                        // Close the inventory but doesn't restore the player hot bar inventory somehow
+                        view.close(InventoryCloseEvent.Reason.PLUGIN, true)
+                        return@runChatQuery false
+                    }
 
                     forEachInGridScissoredIndexed(5, 7, 0, 8) { x, y, index ->
                         if(index >= invites.size) return@forEachInGridScissoredIndexed
@@ -89,17 +96,24 @@ class GuiInvitePlayers(party: Party) {
                     meta.lore(listOf(miniMessage("<gray>${"Click to confirm".toMiniFont()}")))
                 }
             })) { _ ->
+                val offlinePlayers = mutableListOf<String>()
+
                 invites.forEach { inviteName ->
-                    Bukkit.getPlayer(inviteName)?.let { invitePlayer ->
+                    Bukkit.getPlayerExact(inviteName)?.let { invitePlayer ->
                         invitePlayer.sendMessage(miniMessage("䶵 <white>You have been invited to join <color:#0096E8>${view.player.name}</color>'s party!"))
                         invitePlayer.sendMessage(miniMessage("    <gray><color:#a3e635><click:run_command:'/party accept ${view.player.name}'><hover:show_text:'<gray>Click to <color:#a3e635>accept</color> the invite'>Accept</hover></click></color> | <color:#dc2626><click:run_command:'/party deny ${view.player.name}'><hover:show_text:'<gray>Click to <color:#dc2626>deny</color> the invite'>Deny</hover></click></color>"))
-                    }
+                    } ?: offlinePlayers.add(inviteName)
                 }
 
                 InterfacesConstants.SCOPE.launch {
                     view.close(InventoryCloseEvent.Reason.PLAYER)
-                    view.player.sendMessage(miniMessage("䶵 <white>All players have been invited!"))
+                    if(offlinePlayers.isNotEmpty()) view.player.sendMessage(miniMessage("䶵 <white>Some players are offline, they will not be invited: <color:#0096E8>${offlinePlayers.joinToString("<white>,</white> ")}"))
+                    else view.player.sendMessage(miniMessage("䶵 <white>All players have been invited!"))
+
                     party.entries.addAll(invites.mapNotNull { Bukkit.getPlayer(it)?.uniqueId })
+
+                    invites.clear()
+                    offlinePlayers.clear()
                 }
             }
         }
