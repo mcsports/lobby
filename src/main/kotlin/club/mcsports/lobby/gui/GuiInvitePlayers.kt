@@ -55,8 +55,7 @@ class GuiInvitePlayers(party: Party) {
 
                     if(invites.isEmpty()) {
                         view.player.sendMessage(miniMessage("䶵 <white>There are <color:#dc2626>no valid players</color> to invite!"))
-                        // Close the inventory but doesn't restore the player hot bar inventory somehow
-                        view.close(InventoryCloseEvent.Reason.PLUGIN, true)
+                        view.back()
                         return@runChatQuery false
                     }
 
