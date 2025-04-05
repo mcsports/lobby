@@ -100,7 +100,7 @@ class GuiInvitePlayers(party: Party) {
                 invites.forEach { inviteName ->
                     Bukkit.getPlayerExact(inviteName)?.let { invitePlayer ->
                         invitePlayer.sendMessage(miniMessage("䶵 <white>You have been invited to join <color:#0096E8>${view.player.name}</color>'s party!"))
-                        invitePlayer.sendMessage(miniMessage("    <gray><color:#a3e635><click:run_command:'/party accept ${view.player.name}'><hover:show_text:'<gray>Click to <color:#a3e635>accept</color> the invite'>Accept</hover></click></color> | <color:#dc2626><click:run_command:'/party deny ${view.player.name}'><hover:show_text:'<gray>Click to <color:#dc2626>deny</color> the invite'>Deny</hover></click></color>"))
+                        invitePlayer.sendMessage(miniMessage("    <gray><color:#a3e635><click:run_command:'/party accept ${view.player.name}'><hover:show_text:'<gray>Click to <color:#a3e635>accept</color> the invite'>✔ Accept</hover></click></color> | <color:#dc2626><click:run_command:'/party deny ${view.player.name}'><hover:show_text:'<gray>Click to <color:#dc2626>deny</color> the invite'>❌ Deny</hover></click></color>"))
                     } ?: offlinePlayers.add(inviteName)
                 }
 
