@@ -9,6 +9,7 @@ import com.noxcrew.interfaces.element.StaticElement
 import com.noxcrew.interfaces.grid.GridPoint
 import com.noxcrew.interfaces.pane.Pane
 import com.noxcrew.interfaces.properties.Trigger
+import com.noxcrew.interfaces.properties.interfaceProperty
 import com.noxcrew.interfaces.transform.builtin.PagedTransformation
 import com.noxcrew.interfaces.transform.builtin.PaginationButton
 import com.noxcrew.interfaces.view.InterfaceView
@@ -19,14 +20,14 @@ import org.bukkit.inventory.meta.SkullMeta
 import kotlin.properties.Delegates
 
 class PartyPaginationTransformation<P : Pane>(
-    party: Party,
+    private val party: Party,
     back: PaginationButton,
     forward: PaginationButton,
     extraTriggers: Array<Trigger> = emptyArray()
-) : PagedTransformation<P>(back, forward, extraTriggers) {
+) : PagedTransformation<P>(back, forward, extraTriggers.plus(interfaceProperty(party.entries))) {
 
     private var pagination = party.createPagination(2)
-    private val values by Delegates.observable(createPartyElements(party).toList()) { _, _, _ ->
+    private var values by Delegates.observable(createPartyElements(party).toList()) { _, _, _ ->
         pagination = party.createPagination(2)
         boundPage.max = pagination.size - 1
     }
@@ -36,6 +37,7 @@ class PartyPaginationTransformation<P : Pane>(
     }
 
     override suspend fun invoke(pane: P, view: InterfaceView) {
+        values = createPartyElements(party).toList()
         val positions = generate(page)
         val slots = positions.size
 

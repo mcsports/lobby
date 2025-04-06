@@ -9,6 +9,7 @@ import com.noxcrew.interfaces.InterfacesConstants
 import com.noxcrew.interfaces.drawable.Drawable.Companion.drawable
 import com.noxcrew.interfaces.element.StaticElement
 import com.noxcrew.interfaces.interfaces.buildCombinedInterface
+import com.noxcrew.interfaces.properties.interfaceProperty
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -31,7 +32,7 @@ class GuiInvitePlayers(party: Party) {
 
         rows = 5
 
-        withTransform { pane, view ->
+        withTransform(interfaceProperty(invites)) { pane, view ->
 
             pane[0, 8] = StaticElement(drawable(ItemComponents.CLOSE_MENU.build())) {
                 CoroutineScope(Dispatchers.IO).launch {
@@ -51,16 +52,18 @@ class GuiInvitePlayers(party: Party) {
                 view.runChatQuery { component ->
                     invites.addAll(
                         LegacyComponentSerializer.legacyAmpersand().serialize(component).split(",", " ")
-                            .filter { it.isNotBlank() && it.matches(nameRegex) && Bukkit.getPlayerExact(it) != null}.toSet())
+                            .filter { it.isNotBlank() && it.matches(nameRegex) && Bukkit.getPlayerExact(it) != null }
+                            .toSet()
+                    )
 
-                    if(invites.isEmpty()) {
+                    if (invites.isEmpty()) {
                         view.player.sendMessage(miniMessage("䶵 <white>There are <color:#dc2626>no valid players</color> to invite!"))
                         view.back()
                         return@runChatQuery false
                     }
 
                     forEachInGridScissoredIndexed(5, 7, 0, 8) { x, y, index ->
-                        if(index >= invites.size) return@forEachInGridScissoredIndexed
+                        if (index >= invites.size) return@forEachInGridScissoredIndexed
 
                         pane[x, y] = StaticElement(drawable(ItemComponents.PARTY_MEMBER.build().also { item ->
                             item.editMeta { meta ->
@@ -68,13 +71,23 @@ class GuiInvitePlayers(party: Party) {
                                     it.matchLiteral("<player_name>").replacement(invites.elementAt(index))
                                 })
 
-                                meta.lore(listOf(
-                                    miniMessage("<gray>${"Click to remove".toMiniFont()}")
-                                ))
+                                meta.lore(
+                                    listOf(
+                                        miniMessage("<gray>${"Click to remove".toMiniFont()}")
+                                    )
+                                )
 
                                 meta.persistentDataContainer.let { container ->
-                                    container.set(NamespacedKey("mcsports", "lobby/player"), PersistentDataType.STRING, invites.elementAt(index))
-                                    container.set(NamespacedKey("mcsports", "lobby/action"), PersistentDataType.STRING, "remove_member_from_invites")
+                                    container.set(
+                                        NamespacedKey("mcsports", "lobby/player"),
+                                        PersistentDataType.STRING,
+                                        invites.elementAt(index)
+                                    )
+                                    container.set(
+                                        NamespacedKey("mcsports", "lobby/action"),
+                                        PersistentDataType.STRING,
+                                        "remove_member_from_invites"
+                                    )
                                 }
 
                             }
@@ -106,7 +119,15 @@ class GuiInvitePlayers(party: Party) {
 
                 InterfacesConstants.SCOPE.launch {
                     view.close(InventoryCloseEvent.Reason.PLAYER)
-                    if(offlinePlayers.isNotEmpty()) view.player.sendMessage(miniMessage("䶵 <white>Some players are offline, they will not be invited: <color:#0096E8>${offlinePlayers.joinToString("<white>,</white> ")}"))
+                    if (offlinePlayers.isNotEmpty()) view.player.sendMessage(
+                        miniMessage(
+                            "䶵 <white>Some players are offline, they will not be invited: <color:#0096E8>${
+                                offlinePlayers.joinToString(
+                                    "<white>,</white> "
+                                )
+                            }"
+                        )
+                    )
                     else view.player.sendMessage(miniMessage("䶵 <white>All players have been invited!"))
 
                     party.entries.addAll(invites.mapNotNull { Bukkit.getPlayer(it)?.uniqueId })
