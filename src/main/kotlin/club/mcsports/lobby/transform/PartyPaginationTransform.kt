@@ -15,8 +15,10 @@ import com.noxcrew.interfaces.transform.builtin.PaginationButton
 import com.noxcrew.interfaces.view.InterfaceView
 import org.bukkit.Bukkit
 import org.bukkit.Material
+import org.bukkit.NamespacedKey
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.SkullMeta
+import org.bukkit.persistence.PersistentDataType
 import kotlin.properties.Delegates
 
 class PartyPaginationTransformation<P : Pane>(
@@ -79,13 +81,25 @@ class PartyPaginationTransformation<P : Pane>(
 
     private fun createPartyElements(party: Party): Collection<Element> {
         return party.entries.mapIndexed { index, entry ->
-            val offlinePlayer = Bukkit.getOfflinePlayer(entry)
+            val offlinePlayer = Bukkit.getOfflinePlayer(entry.name)
             val skull = ItemStack(Material.PLAYER_HEAD)
 
             skull.editMeta(SkullMeta::class.java) { meta ->
-                meta.displayName(miniMessage("<white>${offlinePlayer.name}"))
-                meta.lore(listOf(miniMessage("<gray>${"Click to remove".toMiniFont()}")))
+                meta.displayName(miniMessage("<white>${entry.name}"))
+                meta.lore(listOf(miniMessage("<gray>${"Click to manage".toMiniFont()}")))
                 meta.owningPlayer = offlinePlayer
+
+                meta.persistentDataContainer.set(
+                    NamespacedKey("mcsports", "lobby/player_uuid"),
+                    PersistentDataType.STRING,
+                    entry.name
+                )
+
+                meta.persistentDataContainer.set(
+                    NamespacedKey("mcsports", "lobby/action"),
+                    PersistentDataType.STRING,
+                    "manage_party_member"
+                )
             }
             return@mapIndexed StaticElement(drawable(skull))
         }
