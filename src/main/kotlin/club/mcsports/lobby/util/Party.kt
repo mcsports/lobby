@@ -9,13 +9,13 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
 import java.util.UUID
 
-class Party(val smallestPage: Int = 2, val biggestPage: Int = smallestPage + 1) : Paginator<UUID>() {
+class Party(val smallestPage: Int = 2, val biggestPage: Int = smallestPage + 1) : Paginator<PartyMember>() {
 
-    override fun createPagination(smallestPage: Int, biggestPage: Int): Map<Int, List<UUID>> {
+    override fun createPagination(smallestPage: Int, biggestPage: Int): Map<Int, List<PartyMember>> {
         return super.createPagination(this.smallestPage, this.biggestPage)
     }
 
-    override fun openPage(uuid: UUID, page: Int): List<UUID>? {
+    override fun openPage(uuid: UUID, page: Int): List<PartyMember>? {
         if(page < 0) return null
         if(page >= pages.size) return null
 
@@ -48,8 +48,8 @@ class Party(val smallestPage: Int = 2, val biggestPage: Int = smallestPage + 1) 
 
                 val wool = ItemStack(Material.entries[this.entries.indexOf(partyMember) + 5])
                 wool.editMeta { meta ->
-                    meta.displayName(miniMessage("<color:#bee7fa>Player $index"))
-                    meta.lore(listOf(miniMessage("<gray><italic>UUID: $partyMember")))
+                    meta.displayName(miniMessage("<color:#bee7fa>Player ${partyMember.name}"))
+                    meta.lore(listOf(miniMessage("<gray><italic>Role: ${partyMember.role}")))
                 }
 
                 val slotShifter = if(page == 0) 5 else 6
