@@ -1,7 +1,7 @@
 package club.mcsports.lobby.listener
 
 import club.mcsports.lobby.gui.GuiGameSelector
-import club.mcsports.lobby.gui.GuiInvitePlayers
+import club.mcsports.lobby.gui.GuiManageParty
 import club.mcsports.lobby.util.Party
 import com.noxcrew.interfaces.InterfacesConstants
 import kotlinx.coroutines.launch
@@ -25,9 +25,9 @@ class PlayerInteractListener(private val gameSelector: GuiGameSelector) : Listen
                     }
                 }
 
-                "open_party_invite" -> {
+                "open_party_menu" -> {
                     InterfacesConstants.SCOPE.launch {
-                        GuiInvitePlayers(PlayerJoinListener.parties[event.player.uniqueId] ?: Party().also { party -> PlayerJoinListener.parties[event.player.uniqueId] = party }).gui.open(event.player)
+                        GuiManageParty(PlayerJoinListener.parties[event.player.uniqueId] ?: Party().also { party -> PlayerJoinListener.parties[event.player.uniqueId] = party }).gui.open(event.player)
                     }
                 }
 

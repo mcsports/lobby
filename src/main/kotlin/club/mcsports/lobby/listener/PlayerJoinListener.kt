@@ -119,18 +119,18 @@ class PlayerJoinListener(private val plugin: Lobby, private val config: Config) 
                     )
                 }
 
-                val partyInvite = ItemComponents.PARTY_INVITE.build()
-                partyInvite.editMeta { meta ->
+                val manageParty = ItemComponents.MANAGE_PARTY.build()
+                manageParty.editMeta { meta ->
                     meta.persistentDataContainer.set(
                         NamespacedKey("mcsports", "lobby/action"),
                         PersistentDataType.STRING,
-                        "open_party_invite"
+                        "open_party_menu"
                     )
                 }
                 pane.hotbar[0] = StaticElement(drawable(gameSelector))
                 pane.hotbar[1] = StaticElement(drawable(gymBag))
                 pane.hotbar[2] = StaticElement(drawable(profile))
-                pane.hotbar[4] = StaticElement(drawable(partyInvite))
+                pane.hotbar[4] = StaticElement(drawable(manageParty))
 
                 val armor = ItemStack(Material.AIR)
                 pane.armor.helmet = StaticElement(drawable(armor))
