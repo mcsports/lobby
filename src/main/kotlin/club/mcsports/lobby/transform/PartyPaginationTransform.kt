@@ -80,7 +80,7 @@ class PartyPaginationTransformation<P : Pane>(
     }
 
     private fun createPartyElements(party: Party): Collection<Element> {
-        return party.entries.mapIndexed { index, entry ->
+        return party.entries.map { entry ->
             val offlinePlayer = Bukkit.getOfflinePlayer(entry.name)
             val skull = ItemStack(Material.PLAYER_HEAD)
 
@@ -101,7 +101,7 @@ class PartyPaginationTransformation<P : Pane>(
                     "manage_party_member"
                 )
             }
-            return@mapIndexed StaticElement(drawable(skull))
+            return@map StaticElement(drawable(skull))
         }
     }
 }
