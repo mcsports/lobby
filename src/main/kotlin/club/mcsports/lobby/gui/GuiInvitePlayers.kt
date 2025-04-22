@@ -20,7 +20,7 @@ class GuiInvitePlayers(party: Party) {
 
         allowClickingOwnInventoryIfClickingEmptySlotsIsPrevented = false
         preventClickingEmptySlots = true
-        initialTitle = miniMessage("<white>Invite Players")
+        initialTitle = miniMessage("<white>⡝⡝⡝⡝⡝⡝⡝⡝⡝⮉")
 
         rows = 5
 
