@@ -1,4 +1,4 @@
-package club.mcsports.lobby.item
+package club.mcsports.lobby.extension
 
 import net.kyori.adventure.key.Key
 import org.bukkit.Material

@@ -1,5 +1,6 @@
 package club.mcsports.lobby.item
 
+import club.mcsports.lobby.extension.toMaterial
 import io.github.solid.resourcepack.api.link.ModelLink
 import net.kyori.adventure.text.Component
 import org.bukkit.Material
