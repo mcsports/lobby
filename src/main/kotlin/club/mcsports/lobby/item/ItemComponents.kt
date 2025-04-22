@@ -23,17 +23,16 @@ enum class ItemComponents(
     ),
     GYM_BAG(ItemComponent(miniMessage("<white>Gym Bag"), model = LobbyPackBindings.GYM_BAG_ITEM.model)),
     PROFILE(ItemComponent(miniMessage("<white>Profile"), model = LobbyPackBindings.PROFILE_ITEM.model)),
-    PARTY_INVITE(
+    MANAGE_PARTY(
         ItemComponent(
-            miniMessage("<white>Invite Player"),
-            model = LobbyPackBindings.INVITE_TO_PARTY_ITEM.model
+            miniMessage("<white>Manage Party")
         )
     ),
     PARTY_MEMBER(ItemComponent(miniMessage("<white><player_name>"), material = Material.PLAYER_HEAD)),
     CLOSE_MENU(ItemComponent(miniMessage("<red>Close Menu"), model = GenericPackBindings.CLOSE_BUTTON_ITEM.model)),
     LOBBY_SERVER(
         ItemComponent(
-            miniMessage("<color:#58cbed>${"Lobby".toMiniFont()} <service_number>"), lore = listOf(
+            miniMessage("<white>Lobby <service_number>"), lore = listOf(
                 miniMessage("<gray><italic>${"Click to connect".toMiniFont()}"),
                 miniMessage("<white>Online: <color:#bee7fa><online_player_count>")
             ), model = LobbyPackBindings.LOBBY_ISLAND_ITEM.model
@@ -72,8 +71,11 @@ enum class ItemComponents(
     ARROW_LEFT(ItemComponent(miniMessage("<white>Previous"), model = GenericPackBindings.CHEVRON_LEFT_ITEM.model)),
     ARROW_RIGHT(ItemComponent(miniMessage("<white>Next"), model = GenericPackBindings.CHEVRON_RIGHT_ITEM.model)),
 
-    CHECK_MARK(ItemComponent(miniMessage("<white>Confirm"), material = Material.LIME_DYE)),
-    QUESTION_MARK(ItemComponent(miniMessage("<white>???"), material = Material.FLOW_BANNER_PATTERN)),
+    PADLOCK_LOCKED(ItemComponent(miniMessage("<white>Padlock Locked"), model = GenericPackBindings.PADLOCK_LOCKED_ITEM.model)),
+    PADLOCK_UNLOCKED(ItemComponent(miniMessage("<white>Padlock Unlocked"), model = GenericPackBindings.PADLOCK_UNLOCKED_ITEM.model)),
+
+    DOCUMENT_HOLDER(ItemComponent(miniMessage("<white>Document Holder"), model = GenericPackBindings.DOCUMENT_HOLDER_ITEM.model)),
+    TRASH_BIN(ItemComponent(miniMessage("<white>Trash Bin"), model = GenericPackBindings.TRASH_BIN_ITEM.model))
 
     ;
     fun build(): ItemStack {
