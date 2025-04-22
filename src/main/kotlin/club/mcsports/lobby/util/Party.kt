@@ -11,6 +11,9 @@ import java.util.UUID
 
 class Party(val smallestPage: Int = 2, val biggestPage: Int = smallestPage + 1) : Paginator<PartyMember>() {
 
+    var isPrivate = true
+    var canInvite = true
+
     override fun createPagination(smallestPage: Int, biggestPage: Int): Map<Int, List<PartyMember>> {
         return super.createPagination(this.smallestPage, this.biggestPage)
     }
