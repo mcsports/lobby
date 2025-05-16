@@ -25,8 +25,9 @@ enum class ItemComponents(
     PROFILE(ItemComponent(miniMessage("<white>Profile"), model = LobbyPackBindings.PROFILE_ITEM.model)),
     MANAGE_PARTY(
         ItemComponent(
-            miniMessage("<white>Manage Party")
-        )
+            miniMessage("<white>Manage Party"),
+            model = LobbyPackBindings.BALLOONS_ITEM.model
+        ),
     ),
     PARTY_MEMBER(ItemComponent(miniMessage("<white><player_name>"), material = Material.PLAYER_HEAD)),
     CLOSE_MENU(ItemComponent(miniMessage("<red>Close Menu"), model = GenericPackBindings.CLOSE_BUTTON_ITEM.model)),
@@ -75,8 +76,13 @@ enum class ItemComponents(
     PADLOCK_UNLOCKED(ItemComponent(miniMessage("<white>Padlock Unlocked"), model = GenericPackBindings.PADLOCK_UNLOCKED_ITEM.model)),
 
     DOCUMENT_HOLDER(ItemComponent(miniMessage("<white>Document Holder"), model = GenericPackBindings.DOCUMENT_HOLDER_ITEM.model)),
-    TRASH_BIN(ItemComponent(miniMessage("<white>Trash Bin"), model = GenericPackBindings.TRASH_BIN_ITEM.model))
+    TRASH_BIN(ItemComponent(miniMessage("<white>Trash Bin"), model = GenericPackBindings.TRASH_BIN_ITEM.model)),
 
+    MEDIUM_ARROW_RIGHT(ItemComponent(miniMessage(""), material = Material.SNOWBALL /* TODO: Replace with arrow model*/)),
+    MEDIUM_ARROW_LEFT(ItemComponent(miniMessage(""), material = Material.SNOWBALL /* TODO: Replace with arrow model*/)),
+
+    BIG_ARROW_RIGHT(ItemComponent(miniMessage(""), material = Material.SNOWBALL /* TODO: Replace with arrow model*/)),
+    BIG_ARROW_LEFT(ItemComponent(miniMessage(""), material = Material.SNOWBALL /* TODO: Replace with arrow model*/)),
     ;
     fun build(): ItemStack {
         return component.build()
