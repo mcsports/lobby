@@ -11,9 +11,7 @@ import club.mcsports.lobby.item.ItemComponents
 import com.noxcrew.interfaces.drawable.Drawable.Companion.drawable
 import com.noxcrew.interfaces.element.StaticElement
 import com.noxcrew.interfaces.interfaces.buildCombinedInterface
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import org.bukkit.event.inventory.InventoryCloseEvent
 
 class GuiGameSelector(private val playerApi: PlayerApi.Coroutine, private val controllerApi: ControllerApi.Coroutine) {
@@ -56,35 +54,38 @@ class GuiGameSelector(private val playerApi: PlayerApi.Coroutine, private val co
             pane[5, 6] = gameModeDrawables[GameModeItemComponents.BOWLING]!!
 
             pane[3, 4] = StaticElement(drawable(ItemComponents.CLUB_HOUSE.build()))
+            pane[7, 5] = StaticElement(drawable(ItemComponents.POOL.build()))
 
+        }
 
+        withTransform { pane, view ->
             val uuid = view.player.uniqueId
             val currentServer = controllerApi.getServers().getServerById(System.getenv("SIMPLECLOUD_UNIQUE_ID"))
             val currentServerGroup = currentServer.group
             val lobbyServerDrawables = controllerApi.getServers().getServersByGroup(currentServerGroup)
                 .filter { it.state == ServerState.AVAILABLE }.map { server ->
 
-                StaticElement(drawable((if (server.uniqueId == currentServer.uniqueId) ItemComponents.LOBBY_SERVER_UNAVAILABLE.build() else ItemComponents.LOBBY_SERVER.build()).also { itemStack ->
-                    itemStack.editMeta { meta ->
-                        meta.displayName(meta.displayName()?.replaceText { config ->
-                            config.matchLiteral("<service_number>")
-                                .replacement(server.numericalId.toString().toMiniFont())
-                        })
+                    StaticElement(drawable((if (server.uniqueId == currentServer.uniqueId) ItemComponents.LOBBY_SERVER_UNAVAILABLE.build() else ItemComponents.LOBBY_SERVER.build()).also { itemStack ->
+                        itemStack.editMeta { meta ->
+                            meta.displayName(meta.displayName()?.replaceText { config ->
+                                config.matchLiteral("<service_number>")
+                                    .replacement(server.numericalId.toString().toMiniFont())
+                            })
 
-                        meta.lore(meta.lore()?.map { lore ->
-                            lore.replaceText { config ->
-                                config.matchLiteral("<online_player_count>").replacement(server.playerCount.toString())
-                            }
-                        })
-                    }
-                })) {
-                    if (server.uniqueId == currentServer.uniqueId) return@StaticElement
-                    CoroutineScope(Dispatchers.IO).launch {
-                        val serverName = "${server.group}-${server.numericalId}"
-                        playerApi.connectPlayer(uuid, serverName)
+                            meta.lore(meta.lore()?.map { lore ->
+                                lore.replaceText { config ->
+                                    config.matchLiteral("<online_player_count>").replacement(server.playerCount.toString())
+                                }
+                            })
+                        }
+                    })) {
+                        if (server.uniqueId == currentServer.uniqueId) return@StaticElement
+                        CoroutineScope(Dispatchers.IO).launch {
+                            val serverName = "${server.group}-${server.numericalId}"
+                            playerApi.connectPlayer(uuid, serverName)
+                        }
                     }
                 }
-            }
 
 
             forEachInGridScissoredIndexed(7, 7, 1, 3) { row, column, index ->
@@ -95,10 +96,6 @@ class GuiGameSelector(private val playerApi: PlayerApi.Coroutine, private val co
                 pane[row, column] = lobbyServerDrawables[index]
             }
 
-            pane[7, 5] = StaticElement(drawable(ItemComponents.POOL.build()))
-
-
         }
     }
-
 }
