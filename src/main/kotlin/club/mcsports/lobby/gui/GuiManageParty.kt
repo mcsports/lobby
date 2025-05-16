@@ -30,6 +30,19 @@ class GuiManageParty(party: Party) {
 
         rows = 6
 
+        // Pagination buttons only there to provide the texture via pixel/texture offset
+        withTransform { pane, view ->
+
+            pane[3, 7] = StaticElement(drawable(ItemComponents.MEDIUM_ARROW_RIGHT.build()))
+            pane[3, 1] = StaticElement(drawable(ItemComponents.MEDIUM_ARROW_LEFT.build()))
+
+            /**
+             * Problem with these buttons is either they're still on the medium arrow or they're on the big arrow area, but they should be on top of the big arrow area
+             */
+//            pane[5, 7] = StaticElement(drawable(ItemComponents.BIG_ARROW_RIGHT.build()))
+//            pane[5, 1] = StaticElement(drawable(ItemComponents.BIG_ARROW_LEFT.build()))
+        }
+
         withTransform { pane, view ->
 
             pane[0, 8] = StaticElement(drawable(ItemComponents.CLOSE_MENU.build())) {
@@ -38,17 +51,7 @@ class GuiManageParty(party: Party) {
                 }
             }
 
-            //Update this item later!
-            pane[2, 4] = StaticElement(drawable(ItemComponents.DOCUMENT_HOLDER.build().also { item ->
-                item.editMeta {
-                    it.displayName(miniMessage("<white>Manage Invites"))
-                    it.lore(listOf(
-                        miniMessage("<gray>${"Click to view".toMiniFont()}"), miniMessage("<white>Invites: <color:#bee7fa>${(0..12).random()}")
-                    ))
-                }
-            }))
-
-            pane[2, 6] = StaticElement(drawable(ItemComponents.TRASH_BIN.build().also { item ->
+            pane[2, 5] = StaticElement(drawable(ItemComponents.TRASH_BIN.build().also { item ->
                 item.editMeta { meta ->
                     meta.displayName(miniMessage("<white>Delete Party"))
                     meta.lore(listOf(miniMessage("<gray>${"Click to delete".toMiniFont()}")))
@@ -59,7 +62,7 @@ class GuiManageParty(party: Party) {
                 }
 
                 PlayerJoinListener.parties.remove(view.player.uniqueId)
-                view.player.sendMessage("䶵 <white>You've <color:#dc2626>deleted</color> your party.")
+                view.player.sendMessage(miniMessage("䶵 <white>You've <color:#dc2626>deleted</color> your party."))
             }
         }
 
@@ -92,7 +95,7 @@ class GuiManageParty(party: Party) {
         }
 
         withTransform(interfaceProperty(party.isPrivate)) { pane, view ->
-            pane[2, 5] =
+            pane[2, 4] =
                 StaticElement(drawable(((if (party.isPrivate) ItemComponents.PADLOCK_LOCKED else ItemComponents.PADLOCK_UNLOCKED).build()).also { item ->
                     item.editMeta {
                         it.displayName(miniMessage("<white>Visibility"))
