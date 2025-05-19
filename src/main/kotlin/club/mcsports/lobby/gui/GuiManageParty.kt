@@ -33,14 +33,12 @@ class GuiManageParty(party: Party) {
         // Pagination buttons only there to provide the texture via pixel/texture offset
         withTransform { pane, view ->
 
-            pane[3, 7] = StaticElement(drawable(ItemComponents.MEDIUM_ARROW_RIGHT.build()))
-            pane[3, 1] = StaticElement(drawable(ItemComponents.MEDIUM_ARROW_LEFT.build()))
+            pane[1, 7] = StaticElement(drawable(ItemComponents.BIG_ARROW_RIGHT.build()))
+            pane[1, 1] = StaticElement(drawable(ItemComponents.BIG_ARROW_LEFT.build()))
 
-            /**
-             * Problem with these buttons is either they're still on the medium arrow or they're on the big arrow area, but they should be on top of the big arrow area
-             */
-//            pane[5, 7] = StaticElement(drawable(ItemComponents.BIG_ARROW_RIGHT.build()))
-//            pane[5, 1] = StaticElement(drawable(ItemComponents.BIG_ARROW_LEFT.build()))
+            pane[2, 7] = StaticElement(drawable(ItemComponents.MEDIUM_ARROW_RIGHT.build()))
+            pane[2, 1] = StaticElement(drawable(ItemComponents.MEDIUM_ARROW_LEFT.build()))
+
         }
 
         withTransform { pane, view ->
