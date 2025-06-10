@@ -21,6 +21,7 @@ java {
 repositories {
     mavenCentral()
     maven("https://repo.mcsports.club/releases")
+    maven("https://repo.mcsports.club/snapshots")
     maven("https://repo.papermc.io/repository/maven-public/")
     maven("https://maven.noxcrew.com/public")
     maven("https://repo.simplecloud.app/snapshots")
@@ -40,7 +41,7 @@ dependencies {
     implementation("fr.mrmicky:fastboard:2.1.3")
     compileOnly("app.simplecloud.controller:controller-api:0.0.30-dev.e6c9f03")
     compileOnly("app.simplecloud.droplet.player:player-api:0.0.1-dev.d1b6e59")
-
+    implementation("club.mcsports.droplet.queue:api-lite:1.0.0")
 }
 
 tasks {
@@ -48,6 +49,9 @@ tasks {
         mergeServiceFiles()
         exclude("kotlin/**")
         exclude("kotlinx/**")
+        relocate("io.grpc", "club.mcsports.lobby.relocate.io.grpc")
+        relocate("com.google.protobuf", "club.mcsports.lobby.relocate.google.protobuf")
+        relocate("com.google.common", "club.mcsports.lobby.relocate.google.common")
         archiveFileName = "${project.name}.jar"
     }
     assemble {

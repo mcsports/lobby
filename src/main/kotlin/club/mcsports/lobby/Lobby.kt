@@ -2,6 +2,7 @@ package club.mcsports.lobby
 
 import app.simplecloud.controller.api.ControllerApi
 import app.simplecloud.droplet.player.api.PlayerApi
+import club.mcsports.droplet.queue.api.QueueApi
 import club.mcsports.lobby.command.SetupCommand
 import club.mcsports.lobby.config.ConfigFactory
 import club.mcsports.lobby.gui.GuiGameSelector
@@ -15,7 +16,8 @@ class Lobby : JavaPlugin() {
     private val controllerApi = ControllerApi.createCoroutineApi()
 
     private val playerApi = PlayerApi.createCoroutineApi()
-    private val gameSelector = GuiGameSelector(playerApi, controllerApi)
+    private val queueApi = QueueApi.createCoroutineApi()
+    private val gameSelector = GuiGameSelector(playerApi, controllerApi, queueApi)
     private val config = ConfigFactory.loadOrCreate(dataFolder.toPath())
 
     override fun onEnable() {
