@@ -1,5 +1,6 @@
 package club.mcsports.lobby.listener
 
+import club.mcsports.droplet.party.api.PartyApi
 import club.mcsports.lobby.Lobby
 import club.mcsports.lobby.config.Config
 import club.mcsports.lobby.extension.miniMessage
@@ -8,7 +9,6 @@ import club.mcsports.lobby.item.ItemComponents
 import club.mcsports.lobby.location.SpawnPoint
 import club.mcsports.lobby.scoreboard.ScoreboardService
 import club.mcsports.lobby.transform.PartyPaginationTransformation
-import club.mcsports.lobby.util.Party
 import com.noxcrew.interfaces.drawable.Drawable.Companion.drawable
 import com.noxcrew.interfaces.element.StaticElement
 import com.noxcrew.interfaces.grid.GridPoint
@@ -32,8 +32,13 @@ import org.bukkit.persistence.PersistentDataType
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 import java.util.*
+import kotlin.text.set
 
-class PlayerJoinListener(private val plugin: Lobby, private val config: Config) : Listener {
+class PlayerJoinListener(
+    private val plugin: Lobby,
+    private val config: Config,
+    private val partyApi: PartyApi.Coroutine
+) : Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     fun handlePlayerJoin(event: PlayerJoinEvent) {
@@ -54,7 +59,7 @@ class PlayerJoinListener(private val plugin: Lobby, private val config: Config) 
             plugin,
             Runnable {
                 runBlocking {
-                    playerInterfaces[player.uniqueId] = playerInterface(player.uniqueId).open(player)
+                    playerInterfaces[player.uniqueId] = playerInterface(player.uniqueId, partyApi).open(player)
                 }
             }
         )
@@ -67,14 +72,11 @@ class PlayerJoinListener(private val plugin: Lobby, private val config: Config) 
     }
 
     companion object {
-
-        val parties = mutableMapOf<UUID, Party>()
-
         @JvmStatic
         val playerInterfaces = mutableMapOf<UUID, PlayerInterfaceView>()
 
         @JvmStatic
-        private fun playerInterface(uuid: UUID) = buildPlayerInterface {
+        private suspend fun playerInterface(uuid: UUID, partyApi: PartyApi.Coroutine) = buildPlayerInterface {
             preventClickingEmptySlots = true
             onlyCancelItemInteraction = true
             fillMenuWithAir = true
@@ -87,7 +89,11 @@ class PlayerJoinListener(private val plugin: Lobby, private val config: Config) 
                 PaginationButton(GridPoint.at(3, 5), previous, mapOf(ClickType.LEFT to -1, ClickType.RIGHT to -1))
             val nextButton =
                 PaginationButton(GridPoint.at(3, 8), next, mapOf(ClickType.LEFT to 1, ClickType.RIGHT to 1))
-            val party = parties[uuid] ?: Party().also { parties[uuid] = it }
+            val party = try {
+                partyApi.getData().getParty(uuid)
+            } catch (e: Exception) {
+                null
+            }
 
             addTransform(PartyPaginationTransformation(party, previousButton, nextButton))
 

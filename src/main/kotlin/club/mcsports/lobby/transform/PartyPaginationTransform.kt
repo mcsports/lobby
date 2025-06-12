@@ -2,7 +2,8 @@ package club.mcsports.lobby.transform
 
 import club.mcsports.lobby.extension.miniMessage
 import club.mcsports.lobby.extension.toMiniFont
-import club.mcsports.lobby.util.Party
+import club.mcsports.lobby.util.Paginator
+import com.mcsports.party.v1.Party
 import com.noxcrew.interfaces.drawable.Drawable.Companion.drawable
 import com.noxcrew.interfaces.element.Element
 import com.noxcrew.interfaces.element.StaticElement
@@ -22,23 +23,33 @@ import org.bukkit.persistence.PersistentDataType
 import kotlin.properties.Delegates
 
 class PartyPaginationTransformation<P : Pane>(
-    private val party: Party,
+    private val party: Party?,
     back: PaginationButton,
     forward: PaginationButton,
     extraTriggers: Array<Trigger> = emptyArray()
-) : PagedTransformation<P>(back, forward, extraTriggers.plus(interfaceProperty(party.entries))) {
+) : PagedTransformation<P>(back, forward, extraTriggers.plus(interfaceProperty(party?.membersList ?: emptyList()))) {
 
-    private var pagination = party.createPagination(2)
-    private var values by Delegates.observable(createPartyElements(party).toList()) { _, _, _ ->
-        pagination = party.createPagination(2)
+    private var paginator = Paginator(party?.membersList ?: emptyList())
+    private var pagination = paginator.createPagination(2)
+    private var values by Delegates.observable(
+        if (party != null) createPartyElements(party).toList() else emptyList()
+    ) { _, _, _ ->
+        paginator = Paginator(party?.membersList ?: emptyList())
+        pagination = paginator.createPagination(2)
         boundPage.max = pagination.size - 1
     }
 
     init {
-        boundPage.max = pagination.size - 1
+        println("DEBUG: PartyPaginationTransformation constructed, party is null? ${party == null}")
+        if (party != null) {
+            println("DEBUG: PartyPaginationTransformation initialized with party members: ${party.membersList.joinToString { it.name }}")
+            boundPage.max = pagination.size - 1
+        }
     }
 
     override suspend fun invoke(pane: P, view: InterfaceView) {
+        if (party == null) return
+        println("DEBUG: invoke called")
         values = createPartyElements(party).toList()
         val positions = generate(page)
         val slots = positions.size
@@ -80,7 +91,8 @@ class PartyPaginationTransformation<P : Pane>(
     }
 
     private fun createPartyElements(party: Party): Collection<Element> {
-        return party.entries.map { entry ->
+        println("DEBUG: Current party members: ${party.membersList.joinToString { it.name }}")
+        return party.membersList.map { entry ->
             val offlinePlayer = Bukkit.getOfflinePlayer(entry.name)
             val skull = ItemStack(Material.PLAYER_HEAD)
 

@@ -42,6 +42,7 @@ dependencies {
     compileOnly("app.simplecloud.controller:controller-api:0.0.30-dev.e6c9f03")
     compileOnly("app.simplecloud.droplet.player:player-api:0.0.1-dev.d1b6e59")
     implementation("club.mcsports.droplet.queue:api-lite:1.0.0")
+    implementation("club.mcsports.droplet.party:api-lite:1.0.0")
 }
 
 tasks {
