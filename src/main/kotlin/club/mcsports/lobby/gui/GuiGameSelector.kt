@@ -12,8 +12,8 @@ import club.mcsports.lobby.item.ItemComponents
 import com.noxcrew.interfaces.drawable.Drawable.Companion.drawable
 import com.noxcrew.interfaces.element.StaticElement
 import com.noxcrew.interfaces.interfaces.buildCombinedInterface
+import io.grpc.StatusException
 import kotlinx.coroutines.*
-import net.minecraft.stats.Stat
 import org.bukkit.event.inventory.InventoryCloseEvent
 
 class GuiGameSelector(private val playerApi: PlayerApi.Coroutine, private val controllerApi: ControllerApi.Coroutine, private val queueApi: QueueApi.Coroutine) {
@@ -52,10 +52,9 @@ class GuiGameSelector(private val playerApi: PlayerApi.Coroutine, private val co
                 CoroutineScope(Dispatchers.IO).launch {
                     try {
                         queueApi.getInteraction().enqueue("master-chefs", view.player.uniqueId)
-                    } catch (ex: Exception) {
-                        view.close(InventoryCloseEvent.Reason.PLAYER)
-                        view.player.sendMessage(miniMessage("<red>Error while trying to queue for Master-Chefs"))
-                    }
+                    } catch (_: StatusException) {}
+
+                    view.close(InventoryCloseEvent.Reason.PLAYER)
                 }
             }
 
@@ -63,10 +62,9 @@ class GuiGameSelector(private val playerApi: PlayerApi.Coroutine, private val co
                 CoroutineScope(Dispatchers.IO).launch {
                     try {
                         queueApi.getInteraction().enqueue("golf", view.player.uniqueId)
-                    } catch (ex: Exception) {
-                        view.close(InventoryCloseEvent.Reason.PLAYER)
-                        view.player.sendMessage(miniMessage("<red>Error while trying to queue for Power-Golf"))
-                    }
+                    } catch (_: StatusException) {}
+
+                    view.close(InventoryCloseEvent.Reason.PLAYER)
                 }
             }
 
@@ -74,10 +72,9 @@ class GuiGameSelector(private val playerApi: PlayerApi.Coroutine, private val co
                 CoroutineScope(Dispatchers.IO).launch {
                     try {
                         queueApi.getInteraction().enqueue("sprint", view.player.uniqueId)
-                    } catch (ex: Exception) {
-                        view.close(InventoryCloseEvent.Reason.PLAYER)
-                        view.player.sendMessage(miniMessage("<red>Error while trying to queue for Sprint"))
-                    }
+                    } catch (_: StatusException) {}
+
+                    view.close(InventoryCloseEvent.Reason.PLAYER)
                 }
             }
 
@@ -85,10 +82,9 @@ class GuiGameSelector(private val playerApi: PlayerApi.Coroutine, private val co
                 CoroutineScope(Dispatchers.IO).launch {
                     try {
                         queueApi.getInteraction().enqueue("glide", view.player.uniqueId)
-                    } catch (ex: Exception) {
-                        view.close(InventoryCloseEvent.Reason.PLAYER)
-                        view.player.sendMessage(miniMessage("<red>Error while trying to queue for Glide"))
-                    }
+                    } catch (_: StatusException) {}
+
+                    view.close(InventoryCloseEvent.Reason.PLAYER)
                 }
             }
 
@@ -96,16 +92,14 @@ class GuiGameSelector(private val playerApi: PlayerApi.Coroutine, private val co
                 CoroutineScope(Dispatchers.IO).launch {
                     try {
                         queueApi.getInteraction().enqueue("bowling", view.player.uniqueId)
-                    } catch (ex: Exception) {
-                        view.close(InventoryCloseEvent.Reason.PLAYER)
-                        view.player.sendMessage(miniMessage("<red>Error while trying to queue for bowling"))
-                    }
+                    } catch (_: StatusException) {}
+
+                    view.close(InventoryCloseEvent.Reason.PLAYER)
                 }
             }
 
             pane[3, 4] = StaticElement(drawable(ItemComponents.CLUB_HOUSE.build()))
             pane[7, 5] = StaticElement(drawable(ItemComponents.POOL.build()))
-
         }
 
         withTransform { pane, view ->
