@@ -5,11 +5,11 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerQuitEvent
 
-class PlayerQuitListener : Listener {
+class PlayerQuitListener(val scoreboardService: ScoreboardService) : Listener {
 
     @EventHandler
     fun onPlayerQuit(event: PlayerQuitEvent) {
         event.quitMessage(null)
-        ScoreboardService.scoreboardStorage.remove(event.player.uniqueId)
+        scoreboardService.quit(event.player.uniqueId)
     }
 }

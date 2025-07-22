@@ -1,7 +1,10 @@
 package club.mcsports.lobby.listener
 
+import app.simplecloud.droplet.player.api.PlayerApi
 import club.mcsports.lobby.Lobby
 import club.mcsports.lobby.config.Config
+import club.mcsports.lobby.extension.extendBottom
+import club.mcsports.lobby.extension.formatTime
 import club.mcsports.lobby.extension.miniMessage
 import club.mcsports.lobby.extension.toMiniFont
 import club.mcsports.lobby.item.ItemComponents
@@ -16,8 +19,13 @@ import com.noxcrew.interfaces.interfaces.buildPlayerInterface
 import com.noxcrew.interfaces.transform.builtin.PaginationButton
 import com.noxcrew.interfaces.view.PlayerInterfaceView
 import fr.mrmicky.fastboard.adventure.FastBoard
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import net.kyori.adventure.text.Component
+import net.luckperms.api.LuckPerms
+import net.luckperms.api.node.NodeType
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
@@ -33,21 +41,14 @@ import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 import java.util.*
 
-class PlayerJoinListener(private val plugin: Lobby, private val config: Config) : Listener {
+class PlayerJoinListener(private val plugin: Lobby, private val config: Config, private val scoreboardService: ScoreboardService) : Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     fun handlePlayerJoin(event: PlayerJoinEvent) {
         val player = event.player
         event.joinMessage(null)
 
-        val scoreboard = ScoreboardService.scoreboardStorage[player.uniqueId]
-            ?: FastBoard(player).also { ScoreboardService.scoreboardStorage[player.uniqueId] = it }
-        scoreboard.updateTitle(miniMessage("<color:#bee7fa>\uD83C\uDFC5 <color:#58cbed>${"mcsports".toMiniFont()} <color:#bee7fa>\uD83C\uDFC5"))
-        scoreboard.updateLines(
-            miniMessage(" ".repeat(18)),
-            miniMessage("<color:#bee7fa>Test Text!"),
-            Component.empty()
-        )
+        scoreboardService.create(player)
 
         player.addPotionEffect(PotionEffect(PotionEffectType.HUNGER, -1, 0, true, false, true))
         Bukkit.getScheduler().runTaskAsynchronously(
