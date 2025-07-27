@@ -17,11 +17,15 @@ class Lobby : JavaPlugin() {
     companion object {
         lateinit var playerApiSingleton: PlayerApi.Coroutine
             private set
+        lateinit var controllerApiSingleton: ControllerApi.Coroutine
+            private set
+        lateinit var queueApiSingleton: QueueApi.Coroutine
+            private set
     }
-    private val controllerApi = ControllerApi.createCoroutineApi()
 
+    private val controllerApi = ControllerApi.createCoroutineApi().also { controllerApiSingleton = it }
     private val playerApi = PlayerApi.createCoroutineApi().also { playerApiSingleton = it }
-    private val queueApi = QueueApi.createCoroutineApi()
+    private val queueApi = QueueApi.createCoroutineApi().also { queueApiSingleton = it }
     private val gameSelector = GuiGameSelector(playerApi, controllerApi, queueApi)
     private val config = ConfigFactory.loadOrCreate(dataFolder.toPath())
 

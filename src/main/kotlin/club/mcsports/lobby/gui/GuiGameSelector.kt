@@ -7,12 +7,11 @@ import club.mcsports.droplet.queue.api.QueueApi
 import club.mcsports.lobby.extension.forEachInGridScissoredIndexed
 import club.mcsports.lobby.extension.miniMessage
 import club.mcsports.lobby.extension.toMiniFont
-import club.mcsports.lobby.item.GameModeItemComponents
+import club.mcsports.lobby.gui.helper.GuiGameModes
 import club.mcsports.lobby.item.ItemComponents
 import com.noxcrew.interfaces.drawable.Drawable.Companion.drawable
 import com.noxcrew.interfaces.element.StaticElement
 import com.noxcrew.interfaces.interfaces.buildCombinedInterface
-import io.grpc.StatusException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -38,64 +37,8 @@ class GuiGameSelector(
                 }
             }
 
-            val gameModeDrawables = GameModeItemComponents.entries.associateWith { drawable ->
-                StaticElement(drawable(drawable.build()))
-            }
-
-
-            pane[2, 2] = StaticElement(gameModeDrawables[GameModeItemComponents.MASTER_CHEFS]!!.drawable()) {
-                CoroutineScope(Dispatchers.IO).launch {
-                    try {
-                        queueApi.getInteraction().enqueue("master-chefs", view.player.uniqueId)
-                    } catch (_: StatusException) {
-                    }
-
-                    view.close(InventoryCloseEvent.Reason.PLAYER)
-                }
-            }
-
-            pane[2, 6] = StaticElement(gameModeDrawables[GameModeItemComponents.POWER_GOLF]!!.drawable()) {
-                CoroutineScope(Dispatchers.IO).launch {
-                    try {
-                        queueApi.getInteraction().enqueue("golf", view.player.uniqueId)
-                    } catch (_: StatusException) {
-                    }
-
-                    view.close(InventoryCloseEvent.Reason.PLAYER)
-                }
-            }
-
-            pane[4, 1] = StaticElement(gameModeDrawables[GameModeItemComponents.SPRINT]!!.drawable()) {
-                CoroutineScope(Dispatchers.IO).launch {
-                    try {
-                        queueApi.getInteraction().enqueue("sprint", view.player.uniqueId)
-                    } catch (_: StatusException) {
-                    }
-
-                    view.close(InventoryCloseEvent.Reason.PLAYER)
-                }
-            }
-
-            pane[5, 3] = StaticElement(gameModeDrawables[GameModeItemComponents.GLIDE]!!.drawable()) {
-                CoroutineScope(Dispatchers.IO).launch {
-                    try {
-                        queueApi.getInteraction().enqueue("glide", view.player.uniqueId)
-                    } catch (_: StatusException) {
-                    }
-
-                    view.close(InventoryCloseEvent.Reason.PLAYER)
-                }
-            }
-
-            pane[5, 6] = StaticElement(gameModeDrawables[GameModeItemComponents.BOWLING]!!.drawable()) {
-                CoroutineScope(Dispatchers.IO).launch {
-                    try {
-                        queueApi.getInteraction().enqueue("bowling", view.player.uniqueId)
-                    } catch (_: StatusException) {
-                    }
-
-                    view.close(InventoryCloseEvent.Reason.PLAYER)
-                }
+            GuiGameModes.entries.forEach { mode ->
+                pane[mode.slotX, mode.slotY] = mode.asElement(view)
             }
 
             pane[3, 4] = StaticElement(drawable(ItemComponents.CLUB_HOUSE.build()))
