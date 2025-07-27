@@ -13,10 +13,16 @@ import com.noxcrew.interfaces.drawable.Drawable.Companion.drawable
 import com.noxcrew.interfaces.element.StaticElement
 import com.noxcrew.interfaces.interfaces.buildCombinedInterface
 import io.grpc.StatusException
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import org.bukkit.event.inventory.InventoryCloseEvent
 
-class GuiGameSelector(private val playerApi: PlayerApi.Coroutine, private val controllerApi: ControllerApi.Coroutine, private val queueApi: QueueApi.Coroutine) {
+class GuiGameSelector(
+    private val playerApi: PlayerApi.Coroutine,
+    private val controllerApi: ControllerApi.Coroutine,
+    private val queueApi: QueueApi.Coroutine,
+) {
 
     val gui = buildCombinedInterface {
         allowClickingOwnInventoryIfClickingEmptySlotsIsPrevented = false
@@ -32,27 +38,17 @@ class GuiGameSelector(private val playerApi: PlayerApi.Coroutine, private val co
                 }
             }
 
-            val gameModeDrawables = GameModeItemComponents.entries.associateWith {
-                StaticElement(drawable(
-
-                    it.build().also { itemStack ->
-                        itemStack.editMeta { meta ->
-                            meta.lore(meta.lore()?.map { lore ->
-                                lore.replaceText { config ->
-                                    config.matchLiteral("<online_player_count>").replacement((0..5).random().toString())
-                                }
-                            })
-                        }
-                    }
-
-                ))
+            val gameModeDrawables = GameModeItemComponents.entries.associateWith { drawable ->
+                StaticElement(drawable(drawable.build()))
             }
+
 
             pane[2, 2] = StaticElement(gameModeDrawables[GameModeItemComponents.MASTER_CHEFS]!!.drawable()) {
                 CoroutineScope(Dispatchers.IO).launch {
                     try {
                         queueApi.getInteraction().enqueue("master-chefs", view.player.uniqueId)
-                    } catch (_: StatusException) {}
+                    } catch (_: StatusException) {
+                    }
 
                     view.close(InventoryCloseEvent.Reason.PLAYER)
                 }
@@ -62,7 +58,8 @@ class GuiGameSelector(private val playerApi: PlayerApi.Coroutine, private val co
                 CoroutineScope(Dispatchers.IO).launch {
                     try {
                         queueApi.getInteraction().enqueue("golf", view.player.uniqueId)
-                    } catch (_: StatusException) {}
+                    } catch (_: StatusException) {
+                    }
 
                     view.close(InventoryCloseEvent.Reason.PLAYER)
                 }
@@ -72,7 +69,8 @@ class GuiGameSelector(private val playerApi: PlayerApi.Coroutine, private val co
                 CoroutineScope(Dispatchers.IO).launch {
                     try {
                         queueApi.getInteraction().enqueue("sprint", view.player.uniqueId)
-                    } catch (_: StatusException) {}
+                    } catch (_: StatusException) {
+                    }
 
                     view.close(InventoryCloseEvent.Reason.PLAYER)
                 }
@@ -82,7 +80,8 @@ class GuiGameSelector(private val playerApi: PlayerApi.Coroutine, private val co
                 CoroutineScope(Dispatchers.IO).launch {
                     try {
                         queueApi.getInteraction().enqueue("glide", view.player.uniqueId)
-                    } catch (_: StatusException) {}
+                    } catch (_: StatusException) {
+                    }
 
                     view.close(InventoryCloseEvent.Reason.PLAYER)
                 }
@@ -92,7 +91,8 @@ class GuiGameSelector(private val playerApi: PlayerApi.Coroutine, private val co
                 CoroutineScope(Dispatchers.IO).launch {
                     try {
                         queueApi.getInteraction().enqueue("bowling", view.player.uniqueId)
-                    } catch (_: StatusException) {}
+                    } catch (_: StatusException) {
+                    }
 
                     view.close(InventoryCloseEvent.Reason.PLAYER)
                 }
@@ -118,7 +118,8 @@ class GuiGameSelector(private val playerApi: PlayerApi.Coroutine, private val co
 
                             meta.lore(meta.lore()?.map { lore ->
                                 lore.replaceText { config ->
-                                    config.matchLiteral("<online_player_count>").replacement(server.playerCount.toString())
+                                    config.matchLiteral("<online_player_count>")
+                                        .replacement(server.playerCount.toString())
                                 }
                             })
                         }

@@ -10,7 +10,8 @@ import org.bukkit.inventory.ItemStack
  * General item components used in the lobby
  */
 enum class GameModeItemComponents(
-    private val component: ItemComponent
+    private val component: ItemComponent,
+    val group: String
 ) {
 
     POWER_GOLF(
@@ -23,7 +24,8 @@ enum class GameModeItemComponents(
                 miniMessage("<color:#bee7fa>the hole with the fewest strokes"),
             ),
             model = LobbyPackBindings.GOLF_ICON_ITEM.model
-        )
+        ),
+        "golf"
     ),
 
     GLIDE(
@@ -36,7 +38,8 @@ enum class GameModeItemComponents(
                 miniMessage("<color:#bee7fa>the best time to win"),
             ),
             model = LobbyPackBindings.GLIDE_ICON_ITEM.model
-        )
+        ),
+        "glide"
     ),
 
     BOWLING(
@@ -49,7 +52,8 @@ enum class GameModeItemComponents(
                 miniMessage("<color:#bee7fa>and get the best score"),
             ),
             model = LobbyPackBindings.BOWLING_ICON_ITEM.model
-        )
+        ),
+        "bowling"
     ),
 
     MASTER_CHEFS(
@@ -62,7 +66,8 @@ enum class GameModeItemComponents(
                 miniMessage("<color:#bee7fa>their food in time to win"),
             ),
             model = LobbyPackBindings.MASTERCHEFS_ICON_ITEM.model
-        )
+        ),
+        "masterchefs"
     ),
 
     SPRINT(
@@ -75,7 +80,8 @@ enum class GameModeItemComponents(
                 miniMessage("<color:#bee7fa>and be the first to finish."),
             ),
             model = LobbyPackBindings.SPRINT_ICON_ITEM.model
-        )
+        ),
+        "sprint"
     ),
 
     BOAT_RUN(
@@ -87,7 +93,8 @@ enum class GameModeItemComponents(
                 miniMessage("<color:#bee7fa>Lorem ipsum dolor sit amet,"),
                 miniMessage("<color:#bee7fa>consectetur adipiscing elit."),
             )
-        )
+        ),
+        "boatrun"
     ),
 
     SUMO(
@@ -99,7 +106,8 @@ enum class GameModeItemComponents(
                 miniMessage("<color:#bee7fa>Lorem ipsum dolor sit amet,"),
                 miniMessage("<color:#bee7fa>consectetur adipiscing elit."),
             )
-        )
+        ),
+        "sumo"
     ),
 
     DODGEBALL(
@@ -111,7 +119,8 @@ enum class GameModeItemComponents(
                 miniMessage("<color:#bee7fa>Lorem ipsum dolor sit amet,"),
                 miniMessage("<color:#bee7fa>consectetur adipiscing elit."),
             )
-        )
+        ),
+        "dodgeball"
     );
 
     fun build(): ItemStack {
