@@ -20,7 +20,7 @@ enum class GuiGameModes(
     val group: String,
     val queueType: String,
     val component: GameModeItemComponents,
-    val disabledComponent: ItemStack? = null,
+    val disabledComponent: GameModeItemComponents? = null,
 ) {
     POWER_GOLF(
         slotX = 2,
@@ -28,34 +28,39 @@ enum class GuiGameModes(
         group = "golf",
         queueType = "golf",
         component = GameModeItemComponents.POWER_GOLF,
+        disabledComponent = GameModeItemComponents.POWER_GOLF_UNAVAILABLE,
     ),
     MASTER_CHEFS(
         slotX = 2,
         slotY = 2,
         group = "master-chefs",
         queueType = "master-chefs",
-        component = GameModeItemComponents.MASTER_CHEFS
+        component = GameModeItemComponents.MASTER_CHEFS,
+        disabledComponent = GameModeItemComponents.MASTER_CHEFS_UNAVAILABLE,
     ),
     SPRINT(
         slotX = 4,
         slotY = 1,
         group = "sprint",
         queueType = "sprint",
-        component = GameModeItemComponents.SPRINT
+        component = GameModeItemComponents.SPRINT,
+        disabledComponent = GameModeItemComponents.SPRINT_UNAVAILABLE,
     ),
     GLIDE(
         slotX = 5,
         slotY = 3,
         group = "glide",
         queueType = "glide",
-        component = GameModeItemComponents.GLIDE
+        component = GameModeItemComponents.GLIDE,
+        disabledComponent = GameModeItemComponents.GLIDE_UNAVAILABLE,
     ),
     BOWLING(
         slotX = 5,
         slotY = 6,
         group = "bowling",
         queueType = "bowling",
-        component = GameModeItemComponents.BOWLING
+        component = GameModeItemComponents.BOWLING,
+        disabledComponent = GameModeItemComponents.BOWLING_UNAVAILABLE,
     );
 
     suspend fun asElement(view: InterfaceView): StaticElement {
@@ -91,7 +96,7 @@ enum class GuiGameModes(
         var stack: ItemStack = component.build()
 
         if (!canQueue) {
-            val newStack = disabledComponent ?: ItemStack(Material.BARRIER)
+            val newStack = disabledComponent?.build() ?: ItemStack(Material.BARRIER)
             newStack.editMeta { stackMeta ->
                 stackMeta.customName(stack.itemMeta.displayName())
             }

@@ -55,7 +55,7 @@ enum class ItemComponents(
                 miniMessage("<color:#bee7fa>Drink, gamble, play pool, meet"),
                 miniMessage("<color:#bee7fa>others - a perfectly normal clubhouse."),
             ),
-            model = LobbyPackBindings.CLUBHOUSE_ITEM.model
+            model = LobbyPackBindings.CLUBHOUSE_GRAYED_OUT_GAME_ITEM.model
         )
     ),
     POOL(
@@ -66,7 +66,7 @@ enum class ItemComponents(
                 miniMessage("<color:#bee7fa>Play with others - and with your own rules."),
                 miniMessage("<color:#bee7fa>Only at the clubhouse."),
             ),
-            model = LobbyPackBindings.POOL_ICON_ITEM.model
+            model = LobbyPackBindings.POOL_ICON_GRAYED_OUT_GAME_ITEM.model
         )
     ),
     ARROW_LEFT(ItemComponent(miniMessage("<white>Previous"), model = GenericPackBindings.CHEVRON_LEFT_ITEM.model)),
