@@ -11,31 +11,33 @@ data class ItemComponent(
     val component: Component,
     val lore: List<Component> = listOf(),
     val model: ModelLink? = null,
+    val fallbackModel: ModelLink? = null,
     val material: Material = Material.FLOW_BANNER_PATTERN
 ) {
 
     fun build(): ItemStack {
-        val itemStack: ItemStack
-        if (model != null) {
-            itemStack = ItemStack(model.parent?.toMaterial() ?: material)
-            itemStack.editMeta { meta ->
-                model.itemModel?.let { itemModel ->
-                    meta.itemModel = NamespacedKey.fromString(itemModel.toString())
-                }
-
-                model.predicates?.let { predicates ->
-                    predicates.filter { predicate -> predicate.key == "custom_model_data" }.toList()
-                        .firstOrNull()?.second.toString().toIntOrNull()
-                        ?.let { customModelData -> meta.setCustomModelData(customModelData) }
-                }
-            }
-        } else {
-            itemStack = ItemStack(material)
-        }
+        val itemStack = model?.createItemStack() ?: (fallbackModel?.createItemStack() ?: ItemStack(material))
 
         itemStack.editMeta { meta ->
             meta.displayName(this.component)
             meta.lore(this.lore)
+        }
+
+        return itemStack
+    }
+
+    private fun ModelLink.createItemStack(): ItemStack {
+        val itemStack = ItemStack(parent?.toMaterial() ?: material)
+        itemStack.editMeta { meta ->
+            itemModel?.let { itemModel ->
+                meta.itemModel = NamespacedKey.fromString(itemModel.toString())
+            }
+
+            predicates?.let { predicates ->
+                predicates.filter { predicate -> predicate.key == "custom_model_data" }.toList()
+                    .firstOrNull()?.second.toString().toIntOrNull()
+                    ?.let { customModelData -> meta.setCustomModelData(customModelData) }
+            }
         }
 
         return itemStack
