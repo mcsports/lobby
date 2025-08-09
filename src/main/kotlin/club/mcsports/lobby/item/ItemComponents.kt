@@ -84,8 +84,8 @@ enum class ItemComponents(
     BIG_ARROW_RIGHT(ItemComponent(miniMessage(""), material = Material.SNOWBALL /* TODO: Replace with arrow model*/)),
     BIG_ARROW_LEFT(ItemComponent(miniMessage(""), material = Material.SNOWBALL /* TODO: Replace with arrow model*/)),
     ;
-    fun build(): ItemStack {
-        return component.build()
+    fun build(forceFallback: Boolean = false): ItemStack {
+        return component.build(forceFallback)
     }
 
 }

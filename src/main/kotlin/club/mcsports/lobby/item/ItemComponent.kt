@@ -15,8 +15,8 @@ data class ItemComponent(
     val material: Material = Material.FLOW_BANNER_PATTERN
 ) {
 
-    fun build(): ItemStack {
-        val itemStack = model?.createItemStack() ?: (fallbackModel?.createItemStack() ?: ItemStack(material))
+    fun build(forceFallback: Boolean = false): ItemStack {
+        val itemStack = if(forceFallback) fallbackModel?.createItemStack() ?: ItemStack(material) else model?.createItemStack() ?: (fallbackModel?.createItemStack() ?: ItemStack(material))
 
         itemStack.editMeta { meta ->
             meta.displayName(this.component)

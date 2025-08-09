@@ -20,8 +20,8 @@ enum class PartyItemComponents(
 
     ;
 
-    fun build(): ItemStack {
-        return component.build()
+    fun build(forceFallback: Boolean = false): ItemStack {
+        return component.build(forceFallback)
     }
 
 }
