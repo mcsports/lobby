@@ -37,7 +37,7 @@ class ScoreboardService(private val plugin: Lobby) {
     }
 
     fun quit(uuid: UUID) {
-        scoreboardStorage.remove(uuid)
+        scoreboardStorage.remove(uuid)?.delete()
     }
 
     fun update() {
