@@ -6,13 +6,15 @@ import net.kyori.adventure.text.Component
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.inventory.ItemStack
+import org.bukkit.persistence.PersistentDataType
 
 data class ItemComponent(
     val component: Component,
     val lore: List<Component> = listOf(),
     val model: ModelLink? = null,
     val fallbackModel: ModelLink? = null,
-    val material: Material = Material.FLOW_BANNER_PATTERN
+    val material: Material = Material.FLOW_BANNER_PATTERN,
+    val hideTooltip: Boolean = false,
 ) {
 
     fun build(forceFallback: Boolean = false): ItemStack {
@@ -21,6 +23,7 @@ data class ItemComponent(
         itemStack.editMeta { meta ->
             meta.displayName(this.component)
             meta.lore(this.lore)
+            meta.persistentDataContainer.set(NamespacedKey("noxesium", "immovable"), PersistentDataType.BOOLEAN, true)
         }
 
         return itemStack
@@ -32,6 +35,8 @@ data class ItemComponent(
             itemModel?.let { itemModel ->
                 meta.itemModel = NamespacedKey.fromString(itemModel.toString())
             }
+
+            meta.isHideTooltip = hideTooltip
 
             predicates?.let { predicates ->
                 predicates.filter { predicate -> predicate.key == "custom_model_data" }.toList()

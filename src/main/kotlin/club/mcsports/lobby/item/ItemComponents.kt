@@ -4,6 +4,8 @@ import club.mcsports.generated.GenericPackBindings
 import club.mcsports.generated.LobbyPackBindings
 import club.mcsports.lobby.extension.miniMessage
 import club.mcsports.lobby.extension.toMiniFont
+import io.github.solid.resourcepack.api.link.ModelLink
+import net.kyori.adventure.key.Key
 import net.kyori.adventure.text.Component
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
@@ -83,6 +85,20 @@ enum class ItemComponents(
 
     BIG_ARROW_RIGHT(ItemComponent(miniMessage(""), material = Material.SNOWBALL /* TODO: Replace with arrow model*/)),
     BIG_ARROW_LEFT(ItemComponent(miniMessage(""), material = Material.SNOWBALL /* TODO: Replace with arrow model*/)),
+    SELECTION_FRAME(
+        ItemComponent(
+            miniMessage(""),
+            model = GenericPackBindings.SLOT_SELECTION_ITEM.model,
+            hideTooltip = true
+        )
+    ),
+    FRIENDS(
+        ItemComponent(
+            miniMessage("<white>Friends"),
+            model = LobbyPackBindings.FRIENDS_ITEM.model
+        )
+    ),
+
     ;
     fun build(forceFallback: Boolean = false): ItemStack {
         return component.build(forceFallback)

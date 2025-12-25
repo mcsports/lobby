@@ -10,8 +10,7 @@ import club.mcsports.lobby.extension.toMiniFont
 import club.mcsports.lobby.item.ItemComponents
 import club.mcsports.lobby.location.SpawnPoint
 import club.mcsports.lobby.scoreboard.ScoreboardService
-import club.mcsports.lobby.transform.PartyPaginationTransformation
-import club.mcsports.lobby.util.Party
+//import club.mcsports.lobby.transform.PartyPaginationTransformation
 import com.noxcrew.interfaces.drawable.Drawable.Companion.drawable
 import com.noxcrew.interfaces.element.StaticElement
 import com.noxcrew.interfaces.grid.GridPoint
@@ -69,7 +68,6 @@ class PlayerJoinListener(private val plugin: Lobby, private val config: Config, 
 
     companion object {
 
-        val parties = mutableMapOf<UUID, Party>()
 
         @JvmStatic
         val playerInterfaces = mutableMapOf<UUID, PlayerInterfaceView>()
@@ -88,9 +86,8 @@ class PlayerJoinListener(private val plugin: Lobby, private val config: Config, 
                 PaginationButton(GridPoint.at(3, 5), previous, mapOf(ClickType.LEFT to -1, ClickType.RIGHT to -1))
             val nextButton =
                 PaginationButton(GridPoint.at(3, 8), next, mapOf(ClickType.LEFT to 1, ClickType.RIGHT to 1))
-            val party = parties[uuid] ?: Party().also { parties[uuid] = it }
 
-            addTransform(PartyPaginationTransformation(party, previousButton, nextButton))
+//            addTransform(PartyPaginationTransformation(party, previousButton, nextButton))
 
             withTransform { pane, _ ->
 

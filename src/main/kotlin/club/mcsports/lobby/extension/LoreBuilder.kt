@@ -8,11 +8,8 @@ fun loreBuilder(predicates: List<LorePredicate>): List<Component> {
     val lore = mutableListOf<Component>()
 
     predicates.forEach { predicate ->
-        if (predicate.predicate()) {
-            lore.add(predicate.matchDisplayLine)
-        } else {
-            lore.add(predicate.initialDisplayLine)
-        }
+        if (predicate.predicate()) lore.add(predicate.matchDisplayLine)
+        else lore.add(predicate.initialDisplayLine)
     }
 
     return lore

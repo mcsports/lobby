@@ -1,8 +1,7 @@
 package club.mcsports.lobby.listener
 
 import club.mcsports.lobby.gui.GuiGameSelector
-import club.mcsports.lobby.gui.GuiManageParty
-import club.mcsports.lobby.util.Party
+import club.mcsports.lobby.gui.GuiTest
 import com.noxcrew.interfaces.InterfacesConstants
 import kotlinx.coroutines.launch
 import org.bukkit.NamespacedKey
@@ -10,15 +9,18 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.persistence.PersistentDataType
+import java.util.*
 
 class PlayerInteractListener(private val gameSelector: GuiGameSelector) : Listener {
+
+    private val testGui = GuiTest()
 
     @EventHandler
     fun handlePlayerInteract(event: PlayerInteractEvent) {
         val meta = event.item?.itemMeta ?: return
-        meta.persistentDataContainer.get(NamespacedKey("mcsports", "lobby/action"), PersistentDataType.STRING)?.let {
+        meta.persistentDataContainer.get(NamespacedKey("mcsports", "lobby/action"), PersistentDataType.STRING)?.let { itemClickType ->
 
-            when (it) {
+            when (itemClickType) {
                 "open_game_selector" -> {
                     InterfacesConstants.SCOPE.launch {
                         gameSelector.gui.open(event.player)
@@ -27,7 +29,7 @@ class PlayerInteractListener(private val gameSelector: GuiGameSelector) : Listen
 
                 "open_party_menu" -> {
                     InterfacesConstants.SCOPE.launch {
-                        GuiManageParty(PlayerJoinListener.parties[event.player.uniqueId] ?: Party().also { party -> PlayerJoinListener.parties[event.player.uniqueId] = party }).gui.open(event.player)
+                        testGui.open(event.player, GuiTest.Tab.PROFILE)
                     }
                 }
 
