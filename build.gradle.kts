@@ -47,6 +47,7 @@ dependencies {
 
 tasks {
     shadowJar {
+        duplicatesStrategy = DuplicatesStrategy.INCLUDE
         mergeServiceFiles()
         exclude("kotlin/**")
         exclude("kotlinx/**")
