@@ -49,7 +49,7 @@ class PlayerJoinListener(private val plugin: Lobby, private val config: Config, 
 
         scoreboardService.create(player)
 
-        player.addPotionEffect(PotionEffect(PotionEffectType.HUNGER, -1, 0, true, false, true))
+        player.addPotionEffect(PotionEffect(PotionEffectType.HUNGER, -1, 0, true, false, false))
         Bukkit.getScheduler().runTaskAsynchronously(
             plugin,
             Runnable {
