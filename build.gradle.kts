@@ -35,14 +35,17 @@ dependencies {
     implementation("club.mcsports.generated:bindings:1.0-9c172dd") {
         exclude(group = "org.spongepowered")
     }
-    implementation("com.noxcrew.interfaces:interfaces:1.3.2")
-    paperweight.paperDevBundle("1.21.4-R0.1-SNAPSHOT")
-    implementation("org.jooq:jooq:3.20.1")
-    implementation("fr.mrmicky:fastboard:2.1.3")
-    compileOnly("app.simplecloud.controller:controller-api:0.0.30-dev.e6c9f03")
-    compileOnly("app.simplecloud.droplet.player:player-api:0.0.1-dev.d1b6e59")
-    implementation("club.mcsports.droplet.queue:api-lite:1.0.1-510b6d3")
-    compileOnly("net.luckperms:api:5.5")
+
+    paperweight.paperDevBundle(libs.versions.paper.api.get())
+
+    implementation(libs.interfaces)
+    implementation(libs.jooq)
+    implementation(libs.fastboard)
+    implementation(libs.mcsports.queue)
+
+    compileOnly(libs.simplecloud.controller)
+    compileOnly(libs.simplecloud.player)
+    compileOnly(libs.luckperms)
 }
 
 tasks {

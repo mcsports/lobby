@@ -7,12 +7,28 @@ kotlin = "2.3.0"
 shadow = "9.3.0"
 paper-api = "1.21.4-R0.1-SNAPSHOT"
 paperweight = "2.0.0-beta.12"
+jooq = "3.20.11"
+fastboard = "2.1.5"
+simplecloud-controller = "0.0.30-dev.e6c9f03"
+simplecloud-player = "0.0.1-dev.d1b6e59"
+mcsports-queue = "1.0.1-510b6d3"
+luckperms = "5.5"
+interfaces = "1.3.2"
 
 [libraries]
 guava = { module = "com.google.guava:guava", version.ref = "guava" }
 kotlin-stdlib = { module = "org.jetbrains.kotlin:kotlin-stdlib", version.ref = "kotlin" }
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
+jooq = { module = "org.jooq:jooq", version.ref = "jooq"}
+fastboard = { module = "fr.mrmicky:fastboard", version.ref = "fastboard"}
+luckperms = { module = "net.luckperms:api", version.ref = "luckperms" }
+interfaces = { module = "com.noxcrew.interfaces:interfaces", version.ref = "interfaces" }
+
+simplecloud-controller = { module = "app.simplecloud.controller:controller-api", version.ref = "simplecloud-controller" }
+simplecloud-player = { module = "app.simplecloud.droplet.player:player-api", version.ref = "simplecloud-player" }
+
+mcsports-queue = { module = "club.mcsports.droplet.queue:api-lite", version.ref = "mcsports-queue" }
 
 [plugins]
 paperweight-userdev = { id = "io.papermc.paperweight.userdev", version.ref = "paperweight" }
