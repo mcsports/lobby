@@ -7,7 +7,7 @@ import club.mcsports.lobby.command.SetupCommand
 import club.mcsports.lobby.config.ConfigFactory
 import club.mcsports.lobby.gui.GuiGameSelector
 import club.mcsports.lobby.listener.*
-import club.mcsports.lobby.scoreboard.ScoreboardService
+import club.mcsports.lobby.util.LobbyScoreboard
 import com.noxcrew.interfaces.InterfacesListeners
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
@@ -29,21 +29,21 @@ class Lobby : JavaPlugin() {
     private val gameSelector = GuiGameSelector(playerApi, controllerApi, queueApi)
     private val config = ConfigFactory.loadOrCreate(dataFolder.toPath())
 
-    private val scoreboardService = ScoreboardService(this)
+    private val lobbyScoreboard = LobbyScoreboard(this)
 
     override fun onEnable() {
         InterfacesListeners.install(this)
 
         with(Bukkit.getPluginManager()) {
-            registerEvents(PlayerJoinListener(this@Lobby, config, scoreboardService), this@Lobby)
-            registerEvents(PlayerQuitListener(scoreboardService), this@Lobby)
+            registerEvents(PlayerJoinListener(this@Lobby, config, lobbyScoreboard), this@Lobby)
+            registerEvents(PlayerQuitListener(lobbyScoreboard), this@Lobby)
             registerEvents(PlayerListener(), this@Lobby)
             registerEvents(WorldDestroyListener(), this@Lobby)
             registerEvents(PlayerInteractListener(gameSelector), this@Lobby)
         }
         registerCommand("setup", SetupCommand(dataFolder.toPath(), config))
 
-        scoreboardService.update()
+        lobbyScoreboard.update()
     }
 
     override fun onDisable() {

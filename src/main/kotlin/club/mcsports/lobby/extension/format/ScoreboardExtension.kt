@@ -1,4 +1,4 @@
-package club.mcsports.lobby.extension
+package club.mcsports.lobby.extension.format
 
 import fr.mrmicky.fastboard.adventure.FastBoard
 import net.kyori.adventure.text.Component

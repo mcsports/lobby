@@ -1,4 +1,4 @@
-package club.mcsports.lobby.extension
+package club.mcsports.lobby.extension.format
 
 fun Long.formatTime(zeroSecondsDisplay: Boolean): String {
     val days = this / 86400000

@@ -1,53 +1,40 @@
 package club.mcsports.lobby.listener
 
-import app.simplecloud.droplet.player.api.PlayerApi
 import club.mcsports.lobby.Lobby
 import club.mcsports.lobby.config.Config
-import club.mcsports.lobby.extension.extendBottom
-import club.mcsports.lobby.extension.formatTime
-import club.mcsports.lobby.extension.miniMessage
-import club.mcsports.lobby.extension.toMiniFont
-import club.mcsports.lobby.item.ItemComponents
-import club.mcsports.lobby.location.SpawnPoint
-import club.mcsports.lobby.scoreboard.ScoreboardService
+import club.mcsports.lobby.extension.gui.set
+import club.mcsports.lobby.item.HotbarItem
+import club.mcsports.lobby.item.LobbyItem
+import club.mcsports.lobby.util.ItemInteraction
+import club.mcsports.lobby.util.SpawnPoint
+import club.mcsports.lobby.util.LobbyScoreboard
 //import club.mcsports.lobby.transform.PartyPaginationTransformation
 import com.noxcrew.interfaces.drawable.Drawable.Companion.drawable
 import com.noxcrew.interfaces.element.StaticElement
-import com.noxcrew.interfaces.grid.GridPoint
 import com.noxcrew.interfaces.interfaces.buildPlayerInterface
-import com.noxcrew.interfaces.transform.builtin.PaginationButton
 import com.noxcrew.interfaces.view.PlayerInterfaceView
-import fr.mrmicky.fastboard.adventure.FastBoard
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
-import net.kyori.adventure.text.Component
-import net.luckperms.api.LuckPerms
-import net.luckperms.api.node.NodeType
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
-import org.bukkit.event.inventory.ClickType
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.inventory.ItemStack
-import org.bukkit.persistence.PersistentDataType
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 import java.util.*
 
-class PlayerJoinListener(private val plugin: Lobby, private val config: Config, private val scoreboardService: ScoreboardService) : Listener {
+class PlayerJoinListener(private val plugin: Lobby, private val config: Config, private val lobbyScoreboard: LobbyScoreboard) : Listener {
 
     @EventHandler(priority = EventPriority.LOWEST)
     fun handlePlayerJoin(event: PlayerJoinEvent) {
         val player = event.player
         event.joinMessage(null)
 
-        scoreboardService.create(player)
+        lobbyScoreboard.create(player)
 
         player.addPotionEffect(PotionEffect(PotionEffectType.HUNGER, -1, 0, true, false, false))
         Bukkit.getScheduler().runTaskAsynchronously(
@@ -68,7 +55,6 @@ class PlayerJoinListener(private val plugin: Lobby, private val config: Config, 
 
     companion object {
 
-
         @JvmStatic
         val playerInterfaces = mutableMapOf<UUID, PlayerInterfaceView>()
 
@@ -78,63 +64,43 @@ class PlayerJoinListener(private val plugin: Lobby, private val config: Config, 
             onlyCancelItemInteraction = true
             fillMenuWithAir = true
 
-            val itemPrev = ItemComponents.ARROW_LEFT.build()
-            val itemNext = ItemComponents.ARROW_RIGHT.build()
-            val previous = drawable(itemPrev)
-            val next = drawable(itemNext)
-            val previousButton =
-                PaginationButton(GridPoint.at(3, 5), previous, mapOf(ClickType.LEFT to -1, ClickType.RIGHT to -1))
-            val nextButton =
-                PaginationButton(GridPoint.at(3, 8), next, mapOf(ClickType.LEFT to 1, ClickType.RIGHT to 1))
-
-//            addTransform(PartyPaginationTransformation(party, previousButton, nextButton))
-
             withTransform { pane, _ ->
+                val actionKey = NamespacedKey("mcsports", "lobby/action")
 
-                val gameSelector = ItemComponents.GAME_SELECTOR.build()
+                val gameSelector = HotbarItem.GAME_SELECTOR.build()
                 gameSelector.editMeta { meta ->
                     meta.persistentDataContainer.set(
-                        NamespacedKey("mcsports", "lobby/action"),
-                        PersistentDataType.STRING,
-                        "open_game_selector"
+                        actionKey,
+                        ItemInteraction.OPEN_GAME_SELECTOR
                     )
                 }
 
-                val gymBag = ItemComponents.GYM_BAG.build()
+                val gymBag = HotbarItem.GYM_BAG.build()
+
                 gymBag.editMeta { meta ->
                     meta.persistentDataContainer.set(
-                        NamespacedKey("mcsports", "lobby/action"),
-                        PersistentDataType.STRING,
-                        "open_gym_bag"
+                        actionKey,
+                        ItemInteraction.OPEN_GYM_BAG
                     )
                 }
-                val profile = ItemComponents.PROFILE.build()
+
+                val profile = HotbarItem.PROFILE.build()
                 profile.editMeta { meta ->
                     meta.persistentDataContainer.set(
-                        NamespacedKey("mcsports", "lobby/action"),
-                        PersistentDataType.STRING,
-                        "open_profile"
+                        actionKey,
+                        ItemInteraction.OPEN_PROFILE
                     )
                 }
 
-                val manageParty = ItemComponents.MANAGE_PARTY.build()
-                manageParty.editMeta { meta ->
-                    meta.persistentDataContainer.set(
-                        NamespacedKey("mcsports", "lobby/action"),
-                        PersistentDataType.STRING,
-                        "open_party_menu"
-                    )
-                }
                 pane.hotbar[0] = StaticElement(drawable(gameSelector))
                 pane.hotbar[1] = StaticElement(drawable(gymBag))
-                pane.hotbar[2] = StaticElement(drawable(profile))
-                pane.hotbar[4] = StaticElement(drawable(manageParty))
+                pane.hotbar[8] = StaticElement(drawable(profile))
 
-                val armor = ItemStack(Material.AIR)
-                pane.armor.helmet = StaticElement(drawable(armor))
-                pane.armor.chest = StaticElement(drawable(armor))
-                pane.armor.leggings = StaticElement(drawable(armor))
-                pane.armor.boots = StaticElement(drawable(armor))
+                val armor = StaticElement(drawable(ItemStack(Material.AIR)))
+                pane.armor.helmet = armor
+                pane.armor.chest = armor
+                pane.armor.leggings = armor
+                pane.armor.boots = armor
             }
         }
     }

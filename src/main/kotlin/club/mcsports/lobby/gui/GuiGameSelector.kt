@@ -4,11 +4,12 @@ import app.simplecloud.controller.api.ControllerApi
 import app.simplecloud.droplet.player.api.PlayerApi
 import build.buf.gen.simplecloud.controller.v1.ServerState
 import club.mcsports.droplet.queue.api.QueueApi
-import club.mcsports.lobby.extension.forEachInGridScissoredIndexed
-import club.mcsports.lobby.extension.miniMessage
-import club.mcsports.lobby.extension.toMiniFont
+import club.mcsports.lobby.extension.gui.forEachInGridScissoredIndexed
+import club.mcsports.lobby.extension.format.miniMessage
+import club.mcsports.lobby.extension.format.toMiniFont
 import club.mcsports.lobby.gui.helper.GuiGameModes
-import club.mcsports.lobby.item.ItemComponents
+import club.mcsports.lobby.item.GameSelectorItem
+import club.mcsports.lobby.item.LobbyItem
 import com.noxcrew.interfaces.drawable.Drawable.Companion.drawable
 import com.noxcrew.interfaces.element.StaticElement
 import com.noxcrew.interfaces.interfaces.buildCombinedInterface
@@ -31,7 +32,7 @@ class GuiGameSelector(
 
         withTransform { pane, view ->
 
-            pane[0, 8] = StaticElement(drawable(ItemComponents.CLOSE_MENU.build())) {
+            pane[0, 8] = StaticElement(drawable(LobbyItem.CLOSE_MENU.build())) {
                 CoroutineScope(Dispatchers.IO).launch {
                     view.close(InventoryCloseEvent.Reason.PLAYER)
                 }
@@ -41,8 +42,8 @@ class GuiGameSelector(
                 pane[mode.slotX, mode.slotY] = mode.asElement(view)
             }
 
-            pane[3, 4] = StaticElement(drawable(ItemComponents.CLUB_HOUSE.build()))
-            pane[7, 5] = StaticElement(drawable(ItemComponents.POOL.build()))
+            pane[3, 4] = StaticElement(drawable(GameSelectorItem.CLUB_HOUSE.build()))
+            pane[7, 5] = StaticElement(drawable(GameSelectorItem.POOL.build()))
         }
 
         withTransform { pane, view ->
@@ -52,11 +53,11 @@ class GuiGameSelector(
             val lobbyServerDrawables = controllerApi.getServers().getServersByGroup(currentServerGroup)
                 .filter { it.state == ServerState.AVAILABLE }.map { server ->
 
-                    StaticElement(drawable((if (server.uniqueId == currentServer.uniqueId) ItemComponents.LOBBY_SERVER_UNAVAILABLE.build() else ItemComponents.LOBBY_SERVER.build()).also { itemStack ->
+                    StaticElement(drawable((GameSelectorItem.LOBBY_SERVER.build(server.uniqueId == currentServer.uniqueId)).also { itemStack ->
                         itemStack.editMeta { meta ->
                             meta.displayName(meta.displayName()?.replaceText { config ->
                                 config.matchLiteral("<service_number>")
-                                    .replacement(server.numericalId.toString().toMiniFont())
+                                    .replacement(server.numericalId.toString())
                             })
 
                             meta.lore(meta.lore()?.map { lore ->

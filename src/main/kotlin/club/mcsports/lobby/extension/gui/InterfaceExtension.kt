@@ -1,4 +1,4 @@
-package club.mcsports.lobby.extension
+package club.mcsports.lobby.extension.gui
 
 fun forEachInGridScissored(
     startRow: Int,

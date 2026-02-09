@@ -8,8 +8,8 @@ import org.bukkit.NamespacedKey
 import org.bukkit.inventory.ItemStack
 import org.bukkit.persistence.PersistentDataType
 
-data class ItemComponent(
-    val component: Component,
+data class CustomItem(
+    val displayName: Component,
     val lore: List<Component> = listOf(),
     val model: ModelLink? = null,
     val fallbackModel: ModelLink? = null,
@@ -21,7 +21,7 @@ data class ItemComponent(
         val itemStack = if(forceFallback) fallbackModel?.createItemStack() ?: ItemStack(material) else model?.createItemStack() ?: (fallbackModel?.createItemStack() ?: ItemStack(material))
 
         itemStack.editMeta { meta ->
-            meta.displayName(this.component)
+            meta.displayName(this.displayName)
             meta.lore(this.lore)
             meta.persistentDataContainer.set(NamespacedKey("noxesium", "immovable"), PersistentDataType.BOOLEAN, true)
         }

@@ -1,9 +1,9 @@
 package club.mcsports.lobby.gui.helper
 
 import club.mcsports.lobby.Lobby
-import club.mcsports.lobby.extension.miniMessage
-import club.mcsports.lobby.extension.toMiniFont
-import club.mcsports.lobby.item.GameModeItemComponents
+import club.mcsports.lobby.extension.format.miniMessage
+import club.mcsports.lobby.extension.format.toMiniFont
+import club.mcsports.lobby.item.GameSelectorItem
 import com.noxcrew.interfaces.drawable.Drawable.Companion.drawable
 import com.noxcrew.interfaces.element.StaticElement
 import com.noxcrew.interfaces.view.InterfaceView
@@ -11,7 +11,6 @@ import io.grpc.StatusException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import org.bukkit.Material
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.inventory.ItemStack
 
@@ -20,42 +19,42 @@ enum class GuiGameModes(
     val slotY: Int,
     val group: String,
     val queueType: String,
-    val component: GameModeItemComponents,
+    val component: GameSelectorItem,
 ) {
     POWER_GOLF(
         slotX = 2,
         slotY = 6,
         group = "golf",
         queueType = "golf",
-        component = GameModeItemComponents.POWER_GOLF,
+        component = GameSelectorItem.POWER_GOLF,
     ),
     MASTER_CHEFS(
         slotX = 2,
         slotY = 2,
         group = "master-chefs",
         queueType = "master-chefs",
-        component = GameModeItemComponents.MASTER_CHEFS,
+        component = GameSelectorItem.MASTER_CHEFS,
     ),
     SPRINT(
         slotX = 4,
         slotY = 1,
         group = "sprint",
         queueType = "sprint",
-        component = GameModeItemComponents.SPRINT,
+        component = GameSelectorItem.SPRINT,
     ),
     GLIDE(
         slotX = 5,
         slotY = 3,
         group = "glide",
         queueType = "glide",
-        component = GameModeItemComponents.GLIDE,
+        component = GameSelectorItem.GLIDE,
     ),
     BOWLING(
         slotX = 5,
         slotY = 6,
         group = "bowling",
         queueType = "bowling",
-        component = GameModeItemComponents.BOWLING,
+        component = GameSelectorItem.BOWLING,
     );
 
     suspend fun asElement(view: InterfaceView): StaticElement {

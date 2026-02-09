@@ -2,8 +2,8 @@ package club.mcsports.lobby.command
 
 import club.mcsports.lobby.config.Config
 import club.mcsports.lobby.config.ConfigFactory
-import club.mcsports.lobby.extension.miniMessage
-import club.mcsports.lobby.location.SpawnPoint
+import club.mcsports.lobby.extension.format.miniMessage
+import club.mcsports.lobby.util.SpawnPoint
 import io.papermc.paper.command.brigadier.BasicCommand
 import io.papermc.paper.command.brigadier.CommandSourceStack
 import org.bukkit.entity.Player

@@ -1,6 +1,6 @@
 package club.mcsports.lobby.config
 
-import club.mcsports.lobby.location.SpawnPoint
+import club.mcsports.lobby.util.SpawnPoint
 import org.bukkit.Location
 import org.spongepowered.configurate.objectmapping.ConfigSerializable
 

@@ -1,20 +1,19 @@
 package club.mcsports.lobby.item
 
 import club.mcsports.generated.LobbyPackBindings
-import club.mcsports.lobby.extension.miniMessage
-import club.mcsports.lobby.extension.toMiniFont
+import club.mcsports.lobby.extension.format.miniMessage
+import club.mcsports.lobby.extension.format.toMiniFont
 import net.kyori.adventure.text.Component
-import org.bukkit.inventory.ItemStack
 
 /**
- * General item components used in the lobby
+ * Items used in the game selector
  */
-enum class GameModeItemComponents(
-    private val component: ItemComponent,
+enum class GameSelectorItem(
+    private val component: CustomItem,
 ) {
 
     POWER_GOLF(
-        ItemComponent(
+        CustomItem(
             miniMessage("Power-Golf"), lore = listOf(
                 miniMessage("<gray><italic><click_action>"),
                 miniMessage("<white>Online: <color:#bee7fa><online_player_count>"),
@@ -28,7 +27,7 @@ enum class GameModeItemComponents(
     ),
 
     GLIDE(
-        ItemComponent(
+        CustomItem(
             miniMessage("Glide"), lore = listOf(
                 miniMessage("<gray><italic><click_action>"),
                 miniMessage("<white>Online: <color:#bee7fa><online_player_count>"),
@@ -42,7 +41,7 @@ enum class GameModeItemComponents(
     ),
 
     BOWLING(
-        ItemComponent(
+        CustomItem(
             miniMessage("Bowling"), lore = listOf(
                 miniMessage("<gray><italic><click_action>"),
                 miniMessage("<white>Online: <color:#bee7fa><online_player_count>"),
@@ -56,7 +55,7 @@ enum class GameModeItemComponents(
     ),
 
     MASTER_CHEFS(
-        ItemComponent(
+        CustomItem(
             miniMessage("Master-Chefs"), lore = listOf(
                 miniMessage("<gray><italic><click_action>"),
                 miniMessage("<white>Online: <color:#bee7fa><online_player_count>"),
@@ -70,7 +69,7 @@ enum class GameModeItemComponents(
     ),
 
     SPRINT(
-        ItemComponent(
+        CustomItem(
             miniMessage("Sprint"), lore = listOf(
                 miniMessage("<gray><italic><click_action>"),
                 miniMessage("<white>Online: <color:#bee7fa><online_player_count>"),
@@ -84,7 +83,7 @@ enum class GameModeItemComponents(
     ),
 
     BOAT_RUN(
-        ItemComponent(
+        CustomItem(
             miniMessage("Boat-Run"), lore = listOf(
                 miniMessage("<red><italic><click_action>"),
                 miniMessage("<white>Online: <color:#bee7fa><online_player_count>"),
@@ -96,7 +95,7 @@ enum class GameModeItemComponents(
     ),
 
     SUMO(
-        ItemComponent(
+        CustomItem(
             miniMessage("Sumo"), lore = listOf(
                 miniMessage("<red><italic><click_action>"),
                 miniMessage("<white>Online: <color:#bee7fa><online_player_count>"),
@@ -108,7 +107,7 @@ enum class GameModeItemComponents(
     ),
 
     DODGEBALL(
-        ItemComponent(
+        CustomItem(
             miniMessage("Dodgeball"), lore = listOf(
                 miniMessage("<red><italic><click_action>"),
                 miniMessage("<white>Online: <color:#bee7fa><online_player_count>"),
@@ -117,10 +116,41 @@ enum class GameModeItemComponents(
                 miniMessage("<color:#bee7fa>consectetur adipiscing elit."),
             )
         ),
-    );
+    ),
 
-    fun build(forceFallback: Boolean = false): ItemStack {
-        return component.build(forceFallback)
-    }
+    CLUB_HOUSE(
+        CustomItem(
+            miniMessage("Clubhouse"), lore = listOf(
+                miniMessage("<red><italic>${"Currently closed".toMiniFont()}"),
+                Component.empty(),
+                miniMessage("<color:#bee7fa>Drink, gamble, play pool, meet"),
+                miniMessage("<color:#bee7fa>others - a perfectly normal clubhouse."),
+            ),
+            model = LobbyPackBindings.CLUBHOUSE_GRAYED_OUT_GAME_ITEM.model //TODO: Update item because it's permanently closed atm
+        )
+    ),
 
+    POOL(
+        CustomItem(
+            miniMessage("Pool"), lore = listOf(
+                miniMessage("<red><italic>${"Currently closed".toMiniFont()}"),
+                Component.empty(),
+                miniMessage("<color:#bee7fa>Play with others - and with your own rules."),
+                miniMessage("<color:#bee7fa>Only at the clubhouse."),
+            ),
+            model = LobbyPackBindings.POOL_ICON_GRAYED_OUT_GAME_ITEM.model //TODO: Update item because it's permanently closed atm
+        )
+    ),
+
+    LOBBY_SERVER(
+        CustomItem(
+            miniMessage("Lobby <service_number>"), lore = listOf(
+                miniMessage("<gray><italic><click_action>"),
+                miniMessage("<white>Online: <color:#bee7fa><online_player_count>")
+            ), model = LobbyPackBindings.LOBBY_ISLAND_ITEM.model, fallbackModel = LobbyPackBindings.CURRENT_LOBBY_ISLAND_ITEM.model
+        )
+    ),
+
+    ;
+    fun build(forceFallback: Boolean = false) = component.build(forceFallback)
 }

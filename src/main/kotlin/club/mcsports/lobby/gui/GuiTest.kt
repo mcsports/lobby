@@ -1,28 +1,21 @@
 package club.mcsports.lobby.gui
 
-import club.mcsports.lobby.extension.forEachInGridScissored
-import club.mcsports.lobby.extension.miniMessage
-import club.mcsports.lobby.item.ItemComponents
+import club.mcsports.lobby.item.HotbarItem
+import club.mcsports.lobby.item.LobbyItem
 import com.noxcrew.interfaces.InterfacesConstants
 import com.noxcrew.interfaces.drawable.Drawable
 import com.noxcrew.interfaces.drawable.Drawable.Companion.drawable
 import com.noxcrew.interfaces.element.StaticElement
-import com.noxcrew.interfaces.interfaces.CombinedInterface
 import com.noxcrew.interfaces.interfaces.CombinedInterfaceBuilder
 import com.noxcrew.interfaces.interfaces.buildCombinedInterface
-import com.noxcrew.interfaces.properties.interfaceProperty
-import com.noxcrew.interfaces.utilities.forEachInGrid
-import com.noxcrew.interfaces.view.CombinedInterfaceView
-import com.noxcrew.interfaces.view.InterfaceView
 import kotlinx.coroutines.launch
 import net.kyori.adventure.text.Component
 import org.bukkit.entity.Player
-import java.util.UUID
 
 class GuiTest {
 
     private val selectionFrameDrawable =
-        StaticElement(drawable(ItemComponents.SELECTION_FRAME.build()))
+        StaticElement(drawable(LobbyItem.SELECTION_FRAME.build()))
 
     fun open(player: Player, tab: Tab) {
         InterfacesConstants.SCOPE.launch {
@@ -50,10 +43,10 @@ class GuiTest {
         }
     }
     enum class Tab(val row: Int, val column: Int, val drawable: Drawable) {
-        PROFILE(8, 2, drawable(ItemComponents.PROFILE.build(false))),
-        PARTY(8, 3, drawable(ItemComponents.MANAGE_PARTY.build(false))),
-        FRIENDS(8, 4, drawable(ItemComponents.FRIENDS.build(false))),
-        GYM_BAG(8, 5, drawable(ItemComponents.GYM_BAG.build(false))),
-        SETTINGS(8, 6, drawable(ItemComponents.PADLOCK_LOCKED.build(false)));
+        PROFILE(8, 2, drawable(HotbarItem.PROFILE.build(false))),
+        PARTY(8, 3, drawable(HotbarItem.PROFILE.build(false))),
+        FRIENDS(8, 4, drawable(LobbyItem.FRIENDS.build(false))),
+        GYM_BAG(8, 5, drawable(HotbarItem.GYM_BAG.build(false))),
+        SETTINGS(8, 6, drawable(LobbyItem.PADLOCK_LOCKED.build(false)));
     }
 }

@@ -1,15 +1,15 @@
 package club.mcsports.lobby.listener
 
-import club.mcsports.lobby.scoreboard.ScoreboardService
+import club.mcsports.lobby.util.LobbyScoreboard
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerQuitEvent
 
-class PlayerQuitListener(val scoreboardService: ScoreboardService) : Listener {
+class PlayerQuitListener(val lobbyScoreboard: LobbyScoreboard) : Listener {
 
     @EventHandler
     fun onPlayerQuit(event: PlayerQuitEvent) {
         event.quitMessage(null)
-        scoreboardService.quit(event.player.uniqueId)
+        lobbyScoreboard.quit(event.player.uniqueId)
     }
 }

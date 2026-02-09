@@ -1,4 +1,4 @@
-package club.mcsports.lobby.extension
+package club.mcsports.lobby.extension.format
 
 import club.mcsports.lobby.util.LorePredicate
 import net.kyori.adventure.text.Component

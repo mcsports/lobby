@@ -1,4 +1,4 @@
-package club.mcsports.lobby.extension
+package club.mcsports.lobby.extension.format
 
 import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.format.TextDecoration

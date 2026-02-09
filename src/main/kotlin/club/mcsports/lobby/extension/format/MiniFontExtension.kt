@@ -1,4 +1,4 @@
-package club.mcsports.lobby.extension
+package club.mcsports.lobby.extension.format
 
 private val characters = mutableMapOf(
     'a' to 'ᴀ',

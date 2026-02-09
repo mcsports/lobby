@@ -1,4 +1,4 @@
-package club.mcsports.lobby.location
+package club.mcsports.lobby.util
 
 enum class SpawnPoint {
 
