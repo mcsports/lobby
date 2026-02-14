@@ -144,7 +144,7 @@ enum class GameSelectorItem(
 
     LOBBY_SERVER(
         CustomItem(
-            miniMessage("Lobby <service_number>"), lore = listOf(
+            miniMessage("<aqua>Lobby <service_number>"), lore = listOf(
                 miniMessage("<click_action>"),
                 miniMessage("<white>Online: <color:#bee7fa><online_player_count>")
             ), model = LobbyPackBindings.LOBBY_ISLAND_ITEM.model, fallbackModel = LobbyPackBindings.CURRENT_LOBBY_ISLAND_ITEM.model
