@@ -5,7 +5,7 @@ import app.simplecloud.droplet.player.api.PlayerApi
 import club.mcsports.droplet.queue.api.QueueApi
 import club.mcsports.lobby.command.SetupCommand
 import club.mcsports.lobby.config.ConfigFactory
-import club.mcsports.lobby.gui.GuiGameSelector
+import club.mcsports.lobby.gui.menu.GuiGameSelector
 import club.mcsports.lobby.gui.player.GuiHotbar
 import club.mcsports.lobby.listener.*
 import club.mcsports.lobby.util.LobbyScoreboard

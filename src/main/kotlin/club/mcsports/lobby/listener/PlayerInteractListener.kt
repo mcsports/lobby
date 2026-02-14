@@ -1,6 +1,6 @@
 package club.mcsports.lobby.listener
 
-import club.mcsports.lobby.gui.GuiGameSelector
+import club.mcsports.lobby.gui.menu.GuiGameSelector
 import club.mcsports.lobby.gui.GuiTest
 import club.mcsports.lobby.util.ItemInteraction
 import com.noxcrew.interfaces.InterfacesConstants
