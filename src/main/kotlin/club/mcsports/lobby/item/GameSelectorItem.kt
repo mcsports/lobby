@@ -15,7 +15,7 @@ enum class GameSelectorItem(
     POWER_GOLF(
         CustomItem(
             miniMessage("Power-Golf"), lore = listOf(
-                miniMessage("<gray><italic><click_action>"),
+                miniMessage("<click_action>"),
                 miniMessage("<white>Online: <color:#bee7fa><online_player_count>"),
                 Component.empty(),
                 miniMessage("<color:#bee7fa>Try your best to get the ball into"),
@@ -29,7 +29,7 @@ enum class GameSelectorItem(
     GLIDE(
         CustomItem(
             miniMessage("Glide"), lore = listOf(
-                miniMessage("<gray><italic><click_action>"),
+                miniMessage("<click_action>"),
                 miniMessage("<white>Online: <color:#bee7fa><online_player_count>"),
                 Component.empty(),
                 miniMessage("<color:#bee7fa>Fly through the map and score"),
@@ -43,7 +43,7 @@ enum class GameSelectorItem(
     BOWLING(
         CustomItem(
             miniMessage("Bowling"), lore = listOf(
-                miniMessage("<gray><italic><click_action>"),
+                miniMessage("<click_action>"),
                 miniMessage("<white>Online: <color:#bee7fa><online_player_count>"),
                 Component.empty(),
                 miniMessage("<color:#bee7fa>Knock down all the pins to win"),
@@ -57,7 +57,7 @@ enum class GameSelectorItem(
     MASTER_CHEFS(
         CustomItem(
             miniMessage("Master-Chefs"), lore = listOf(
-                miniMessage("<gray><italic><click_action>"),
+                miniMessage("<click_action>"),
                 miniMessage("<white>Online: <color:#bee7fa><online_player_count>"),
                 Component.empty(),
                 miniMessage("<color:#bee7fa>Hurry up and give the customers"),
@@ -71,7 +71,7 @@ enum class GameSelectorItem(
     SPRINT(
         CustomItem(
             miniMessage("Sprint"), lore = listOf(
-                miniMessage("<gray><italic><click_action>"),
+                miniMessage("<click_action>"),
                 miniMessage("<white>Online: <color:#bee7fa><online_player_count>"),
                 Component.empty(),
                 miniMessage("<color:#bee7fa>Run through the map with insane speed"),
@@ -145,7 +145,7 @@ enum class GameSelectorItem(
     LOBBY_SERVER(
         CustomItem(
             miniMessage("Lobby <service_number>"), lore = listOf(
-                miniMessage("<gray><italic><click_action>"),
+                miniMessage("<click_action>"),
                 miniMessage("<white>Online: <color:#bee7fa><online_player_count>")
             ), model = LobbyPackBindings.LOBBY_ISLAND_ITEM.model, fallbackModel = LobbyPackBindings.CURRENT_LOBBY_ISLAND_ITEM.model
         )
