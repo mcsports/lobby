@@ -1,16 +1,16 @@
-package club.mcsports.lobby.gui
+package club.mcsports.lobby.gui.menu
 
 import app.simplecloud.controller.api.ControllerApi
 import app.simplecloud.droplet.player.api.PlayerApi
 import build.buf.gen.simplecloud.controller.v1.ServerState
 import club.mcsports.droplet.queue.api.QueueApi
-import club.mcsports.lobby.extension.gui.forEachInGridScissoredIndexed
 import club.mcsports.lobby.extension.format.miniMessage
 import club.mcsports.lobby.extension.format.toMiniFont
+import club.mcsports.lobby.extension.gui.forEachInGridScissoredIndexed
 import club.mcsports.lobby.gui.helper.GuiGameModes
 import club.mcsports.lobby.item.GameSelectorItem
 import club.mcsports.lobby.item.LobbyItem
-import com.noxcrew.interfaces.drawable.Drawable.Companion.drawable
+import com.noxcrew.interfaces.drawable.Drawable
 import com.noxcrew.interfaces.element.StaticElement
 import com.noxcrew.interfaces.interfaces.buildCombinedInterface
 import kotlinx.coroutines.CoroutineScope
@@ -32,7 +32,7 @@ class GuiGameSelector(
 
         withTransform { pane, view ->
 
-            pane[0, 8] = StaticElement(drawable(LobbyItem.CLOSE_MENU.build())) {
+            pane[0, 8] = StaticElement(Drawable.drawable(LobbyItem.CLOSE_MENU.build())) {
                 CoroutineScope(Dispatchers.IO).launch {
                     view.close(InventoryCloseEvent.Reason.PLAYER)
                 }
@@ -42,8 +42,8 @@ class GuiGameSelector(
                 pane[mode.slotX, mode.slotY] = mode.asElement(view)
             }
 
-            pane[3, 4] = StaticElement(drawable(GameSelectorItem.CLUB_HOUSE.build()))
-            pane[7, 5] = StaticElement(drawable(GameSelectorItem.POOL.build()))
+            pane[3, 4] = StaticElement(Drawable.drawable(GameSelectorItem.CLUB_HOUSE.build()))
+            pane[7, 5] = StaticElement(Drawable.drawable(GameSelectorItem.POOL.build()))
         }
 
         withTransform { pane, view ->
@@ -53,7 +53,7 @@ class GuiGameSelector(
             val lobbyServerDrawables = controllerApi.getServers().getServersByGroup(currentServerGroup)
                 .filter { it.state == ServerState.AVAILABLE }.map { server ->
 
-                    StaticElement(drawable((GameSelectorItem.LOBBY_SERVER.build(server.uniqueId == currentServer.uniqueId)).also { itemStack ->
+                    StaticElement(Drawable.drawable((GameSelectorItem.LOBBY_SERVER.build(server.uniqueId == currentServer.uniqueId)).also { itemStack ->
                         itemStack.editMeta { meta ->
                             meta.displayName(meta.displayName()?.replaceText { config ->
                                 config.matchLiteral("<service_number>")
@@ -64,6 +64,9 @@ class GuiGameSelector(
                                 lore.replaceText { config ->
                                     config.matchLiteral("<online_player_count>")
                                         .replacement(server.playerCount.toString())
+                                }.replaceText { config ->
+                                    config.matchLiteral("<click_action>")
+                                        .replacement(miniMessage(if(server.uniqueId == currentServer.uniqueId) "<red>${"Already on this server".toMiniFont()}" else "<gray>${"Click to join".toMiniFont()}"))
                                 }
                             })
                         }
