@@ -29,21 +29,21 @@ class Lobby : JavaPlugin() {
     private val queueApi = QueueApi.createCoroutineApi().also { queueApiSingleton = it }
     private val gameSelector = GuiGameSelector(playerApi, controllerApi, queueApi)
     private val config = ConfigFactory.loadOrCreate(dataFolder.toPath())
-    private val hotbar = GuiHotbar()
 
     private val lobbyScoreboard = LobbyScoreboard(this)
+    private val hotbar = GuiHotbar()
 
     override fun onEnable() {
         InterfacesListeners.install(this)
 
         with(Bukkit.getPluginManager()) {
-            registerEvents(hotbar, this@Lobby)
             registerEvents(PlayerJoinListener(this@Lobby, config, lobbyScoreboard, hotbar), this@Lobby)
-            registerEvents(PlayerQuitListener(lobbyScoreboard), this@Lobby)
+            registerEvents(PlayerQuitListener(lobbyScoreboard, hotbar), this@Lobby)
             registerEvents(PlayerListener(), this@Lobby)
             registerEvents(WorldDestroyListener(), this@Lobby)
             registerEvents(PlayerInteractListener(gameSelector), this@Lobby)
         }
+
         registerCommand("setup", SetupCommand(dataFolder.toPath(), config))
 
         lobbyScoreboard.update()
