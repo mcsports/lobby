@@ -9,13 +9,10 @@ import com.noxcrew.interfaces.interfaces.buildPlayerInterface
 import com.noxcrew.interfaces.view.PlayerInterfaceView
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
-import org.bukkit.event.EventHandler
-import org.bukkit.event.Listener
-import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.inventory.ItemStack
 import java.util.UUID
 
-class GuiHotbar : Listener {
+class GuiHotbar {
 
     private val interfaces = mutableMapOf<UUID, PlayerInterfaceView>()
 
@@ -64,9 +61,8 @@ class GuiHotbar : Listener {
         }
     }
 
-    @EventHandler
-    fun handlePlayerQuit(event: PlayerQuitEvent) {
-        interfaces.remove(event.player.uniqueId)
+    fun quit(uuid: UUID) {
+        interfaces.remove(uuid)
     }
 
 }
