@@ -9,6 +9,7 @@ import com.noxcrew.interfaces.interfaces.buildPlayerInterface
 import com.noxcrew.interfaces.view.PlayerInterfaceView
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
+import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import java.util.UUID
 
@@ -16,7 +17,7 @@ class GuiHotbar {
 
     private val interfaces = mutableMapOf<UUID, PlayerInterfaceView>()
 
-    val gui = buildPlayerInterface {
+    private val gui = buildPlayerInterface {
         preventClickingEmptySlots = true
         onlyCancelItemInteraction = true
         fillMenuWithAir = true
@@ -61,8 +62,7 @@ class GuiHotbar {
         }
     }
 
-    fun quit(uuid: UUID) {
-        interfaces.remove(uuid)
-    }
+    suspend fun set(player: Player) = gui.open(player).also { interfaces[player.uniqueId] = it }
+    fun quit(uuid: UUID) = interfaces.remove(uuid)
 
 }

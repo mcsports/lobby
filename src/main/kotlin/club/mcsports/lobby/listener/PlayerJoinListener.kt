@@ -33,7 +33,7 @@ class PlayerJoinListener(
             plugin,
             Runnable {
                 runBlocking {
-                    hotbar.gui.open(player)
+                    hotbar.set(player)
                 }
             }
         )
