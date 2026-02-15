@@ -39,9 +39,7 @@ class LobbyScoreboard(private val plugin: Lobby) {
         return scoreboard
     }
 
-    fun quit(uuid: UUID) {
-        scoreboardStorage.remove(uuid)?.delete()
-    }
+    fun quit(uuid: UUID) = scoreboardStorage.remove(uuid)?.delete()
 
     fun update() {
         Bukkit.getAsyncScheduler().runAtFixedRate(plugin, {
