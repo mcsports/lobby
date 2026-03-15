@@ -2,6 +2,8 @@ package club.mcsports.lobby
 
 import app.simplecloud.controller.api.ControllerApi
 import app.simplecloud.droplet.player.api.PlayerApi
+import club.mcsports.droplet.friends.api.FriendsApi
+import club.mcsports.droplet.party.api.PartyApi
 import club.mcsports.droplet.queue.api.QueueApi
 import club.mcsports.lobby.command.SetupCommand
 import club.mcsports.lobby.config.ConfigFactory
@@ -27,6 +29,8 @@ class Lobby : JavaPlugin() {
     private val controllerApi = ControllerApi.createCoroutineApi().also { controllerApiSingleton = it }
     private val playerApi = PlayerApi.createCoroutineApi().also { playerApiSingleton = it }
     private val queueApi = QueueApi.createCoroutineApi().also { queueApiSingleton = it }
+    private val partyApi = PartyApi.createCoroutineApi()
+    private val friendsApi = FriendsApi.createCoroutineApi()
     private val gameSelector = GuiGameSelector(playerApi, controllerApi, queueApi)
     private val config = ConfigFactory.loadOrCreate(dataFolder.toPath())
 
@@ -41,7 +45,7 @@ class Lobby : JavaPlugin() {
             registerEvents(PlayerQuitListener(lobbyScoreboard, hotbar), this@Lobby)
             registerEvents(PlayerListener(), this@Lobby)
             registerEvents(WorldDestroyListener(), this@Lobby)
-            registerEvents(PlayerInteractListener(gameSelector), this@Lobby)
+            registerEvents(PlayerInteractListener(gameSelector, partyApi, friendsApi), this@Lobby)
         }
 
         registerCommand("setup", SetupCommand(dataFolder.toPath(), config))

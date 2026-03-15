@@ -27,7 +27,7 @@ class GuiGameSelector(
     val gui = buildCombinedInterface {
         allowClickingOwnInventoryIfClickingEmptySlotsIsPrevented = false
         preventClickingEmptySlots = true
-        initialTitle = miniMessage("<white>⡝⡝⡝⡝⡝⡝⡝⡝⡝圝")
+        titleSupplier = { miniMessage("<white>⡝⡝⡝⡝⡝⡝⡝⡝⡝圝") }
         rows = 6
 
         withTransform { pane, view ->

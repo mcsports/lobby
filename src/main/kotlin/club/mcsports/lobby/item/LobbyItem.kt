@@ -14,6 +14,7 @@ import org.bukkit.inventory.ItemStack
 enum class LobbyItem(
     private val component: CustomItem,
 ) {
+
     ARROW_LEFT(CustomItem(miniMessage("<white>Previous"), model = GenericPackBindings.CHEVRON_LEFT_ITEM.model)),
     ARROW_RIGHT(CustomItem(miniMessage("<white>Next"), model = GenericPackBindings.CHEVRON_RIGHT_ITEM.model)),
 
@@ -28,13 +29,6 @@ enum class LobbyItem(
             miniMessage(""),
             model = GenericPackBindings.SLOT_SELECTION_ITEM.model,
             hideTooltip = true
-        )
-    ),
-
-    FRIENDS(
-        CustomItem(
-            miniMessage("<white>Friends"),
-            model = LobbyPackBindings.FRIENDS_ITEM.model
         )
     ),
 

@@ -32,7 +32,7 @@ dependencies {
     compileOnly(libs.kotlin.stdlib)
     testImplementation(libs.kotlin.test)
 
-    implementation("club.mcsports.generated:bindings:1.0-9c172dd") {
+    implementation("club.mcsports.generated:bindings:1.0-59ab61f") {
         exclude(group = "org.spongepowered")
     }
 
@@ -42,6 +42,8 @@ dependencies {
     implementation(libs.jooq)
     implementation(libs.fastboard)
     implementation(libs.mcsports.queue)
+    implementation(libs.mcsports.party)
+    implementation(libs.mcsports.friends)
 
     compileOnly(libs.simplecloud.controller)
     compileOnly(libs.simplecloud.player)
