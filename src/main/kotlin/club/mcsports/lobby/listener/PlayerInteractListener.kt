@@ -14,8 +14,8 @@ import org.bukkit.event.player.PlayerInteractEvent
 
 class PlayerInteractListener(
     private val gameSelector: GuiGameSelector,
-    private val partyApi: PartyApi.Coroutine,
-    private val friendsApi: FriendsApi.Coroutine
+    private val partyApi: PartyApi.Future,
+    private val friendsApi: FriendsApi.Future
 ) : Listener {
 
     private val testGui = GuiProfile(partyApi, friendsApi)

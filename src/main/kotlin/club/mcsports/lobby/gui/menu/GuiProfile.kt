@@ -14,6 +14,7 @@ import com.noxcrew.interfaces.interfaces.CombinedInterfaceBuilder
 import com.noxcrew.interfaces.interfaces.buildCombinedInterface
 import com.noxcrew.interfaces.view.InterfaceView
 import io.grpc.StatusException
+import kotlinx.coroutines.future.await
 import kotlinx.coroutines.launch
 import net.kyori.adventure.text.Component
 import org.bukkit.entity.Player
@@ -21,8 +22,8 @@ import org.bukkit.inventory.ItemStack
 import java.util.UUID
 
 class GuiProfile(
-    private val partyApi: PartyApi.Coroutine,
-    private val friendsApi: FriendsApi.Coroutine
+    private val partyApi: PartyApi.Future,
+    private val friendsApi: FriendsApi.Future
 ) {
 
     private val selectionFrameDrawable =
@@ -63,13 +64,13 @@ class GuiProfile(
         PARTY(8, 4),
         SETTINGS(8, 5);
 
-        suspend fun asElement(partyApi: PartyApi.Coroutine, friendsApi: FriendsApi.Coroutine, view: InterfaceView, clickHandler: ClickHandler): StaticElement {
+        suspend fun asElement(partyApi: PartyApi.Future, friendsApi: FriendsApi.Future, view: InterfaceView, clickHandler: ClickHandler): StaticElement {
             var itemStack: ItemStack
 
             when (this) {
                 FRIENDS -> {
                     val requests = try {
-                        friendsApi.getData().getRequests(view.player.uniqueId, 0, 0).totalRequests
+                        friendsApi.getData().getRequests(view.player.uniqueId, 0, 0).await().totalRequests
                     } catch(_: StatusException) { 0 }
 
                     itemStack = ProfileTabItem.FRIENDS.build()
@@ -86,7 +87,7 @@ class GuiProfile(
 
                 PARTY -> {
                     val party = try {
-                        partyApi.getData().getParty(view.player.uniqueId)
+                        partyApi.getData().getParty(view.player.uniqueId).await()
                     } catch(_: StatusException) { null }
 
                     itemStack = ProfileTabItem.PARTY.build()

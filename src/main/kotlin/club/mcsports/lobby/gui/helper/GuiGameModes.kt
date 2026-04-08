@@ -10,6 +10,7 @@ import com.noxcrew.interfaces.view.InterfaceView
 import io.grpc.StatusException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.future.await
 import kotlinx.coroutines.launch
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.inventory.ItemStack
@@ -70,7 +71,7 @@ enum class GuiGameModes(
         var text: String? = null
 
         try {
-            val queue = Lobby.queueApiSingleton.getData().getQueueByPlayer(view.player.uniqueId)
+            val queue = Lobby.queueApiSingleton.getData().getQueueByPlayer(view.player.uniqueId).await()
             if (queue != null) {
                 canQueue = false
                 text = "<red>" + "Already enqueued".toMiniFont()
@@ -79,7 +80,7 @@ enum class GuiGameModes(
 
         if (canQueue) {
             try {
-                if (!Lobby.queueApiSingleton.getData().getAllQueueTypes().any { it.name == this.queueType }) {
+                if (!Lobby.queueApiSingleton.getData().getAllQueueTypes().await().any { it.name == this.queueType }) {
                     canQueue = false
                     text = "<red>" + "Currently disabled".toMiniFont()
                 }

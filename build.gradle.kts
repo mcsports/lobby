@@ -41,6 +41,7 @@ dependencies {
     implementation(libs.interfaces)
     implementation(libs.jooq)
     implementation(libs.fastboard)
+
     implementation(libs.mcsports.queue)
     implementation(libs.mcsports.party)
     implementation(libs.mcsports.friends)
@@ -56,7 +57,7 @@ tasks {
         mergeServiceFiles()
         exclude("kotlin/**")
         exclude("kotlinx/**")
-        relocate("io.grpc", "club.mcsports.lobby.relocate.io.grpc")
+//        relocate("io.grpc", "club.mcsports.lobby.relocate.io.grpc")
         relocate("com.google.protobuf", "club.mcsports.lobby.relocate.google.protobuf")
         relocate("com.google.common", "club.mcsports.lobby.relocate.google.common")
         archiveFileName = "${project.name}.jar"

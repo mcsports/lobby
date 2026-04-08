@@ -18,19 +18,19 @@ import org.bukkit.plugin.java.JavaPlugin
 class Lobby : JavaPlugin() {
 
     companion object {
-        lateinit var playerApiSingleton: PlayerApi.Coroutine
-            private set
         lateinit var controllerApiSingleton: ControllerApi.Coroutine
             private set
-        lateinit var queueApiSingleton: QueueApi.Coroutine
+        lateinit var playerApiSingleton: PlayerApi.Future
+                private set
+        lateinit var queueApiSingleton: QueueApi.Future
             private set
     }
 
     private val controllerApi = ControllerApi.createCoroutineApi().also { controllerApiSingleton = it }
-    private val playerApi = PlayerApi.createCoroutineApi().also { playerApiSingleton = it }
-    private val queueApi = QueueApi.createCoroutineApi().also { queueApiSingleton = it }
-    private val partyApi = PartyApi.createCoroutineApi()
-    private val friendsApi = FriendsApi.createCoroutineApi()
+    private val playerApi = PlayerApi.createFutureApi().also { playerApiSingleton = it }
+    private val queueApi = QueueApi.createFutureApi("this string does absolutely nothing :p").also { queueApiSingleton = it }
+    private val partyApi = PartyApi.createFutureApi()
+    private val friendsApi = FriendsApi.createFutureApi()
     private val gameSelector = GuiGameSelector(playerApi, controllerApi, queueApi)
     private val config = ConfigFactory.loadOrCreate(dataFolder.toPath())
 

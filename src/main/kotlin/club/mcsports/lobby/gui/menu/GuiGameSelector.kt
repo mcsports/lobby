@@ -19,9 +19,9 @@ import kotlinx.coroutines.launch
 import org.bukkit.event.inventory.InventoryCloseEvent
 
 class GuiGameSelector(
-    private val playerApi: PlayerApi.Coroutine,
+    private val playerApi: PlayerApi.Future,
     private val controllerApi: ControllerApi.Coroutine,
-    private val queueApi: QueueApi.Coroutine,
+    private val queueApi: QueueApi.Future,
 ) {
 
     val gui = buildCombinedInterface {

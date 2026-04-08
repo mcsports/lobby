@@ -1,8 +1,8 @@
 package club.mcsports.lobby.util
 
 import club.mcsports.lobby.Lobby
-import club.mcsports.lobby.extension.formattedRank
 import club.mcsports.lobby.extension.format.getPlayTime
+import club.mcsports.lobby.extension.formattedRank
 import club.mcsports.lobby.extension.format.miniMessage
 import club.mcsports.lobby.extension.format.toMiniFont
 import fr.mrmicky.fastboard.adventure.FastBoard
